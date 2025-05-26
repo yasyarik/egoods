@@ -1,0 +1,359 @@
+{% assign firstArticle = "" %}
+{%- for article in blog.articles -%}
+  {% if forloop.first %}
+    {% assign firstArticle = article %}
+    {% break %}
+  {% endif %}
+{%- endfor -%}
+{% assign postPerPage = section.settings.post_per_page %}
+{%- paginate blog.articles by postPerPage -%}
+  <section class="blog pt-25 py-lg-20 pt-md-50">
+    <div class="container">
+        <div class="pure-g">
+            <div class="pure-u-1">
+              {% if section.settings.title != blank %}
+                <div class="blog__head text-center">
+                    <h1 class="title mb-md-30">{{section.settings.title}}</h1>
+                </div>
+              {% endif %}
+              {%- if section.settings.enable_tag_categories and blog.all_tags.size > 0 -%}
+                <div class="tabs blog__tab mb-15 mb-md-30">  
+                    <ul class="tab__list blog__tab-list">
+                        <li>
+                            <a href="/blogs/{{ blog.handle }}" class="tab__item {% if current_tags == blank %}active{% endif %}">{{ section.settings.all_blogs_title}}</a>
+                        </li>
+                        {%- for tag in blog.all_tags -%}
+                          <li>
+                              <a href="/blogs/{{ blog.handle }}/tagged/{{ tag | handle }}" class="tab__item {% if current_tags contains tag %}active{% endif %}">{{ tag }}</a>
+                          </li>
+                        {%- endfor -%}
+                    </ul>
+                </div>
+              {% endif %}
+            </div>
+        </div>
+        
+        {% if firstArticle.title != blank  %}
+          <div class="pure-g">
+              <div class="pure-u-1">
+                  <div class="article article--featured bg-info-scale-1 xs-full-width">
+                      <figure class="article__img pure-u-1 pure-u-lg-1-2">
+                          <a href="{{ firstArticle.url }}" class="ratio4by2">
+                              {% if firstArticle.image != blank %}
+                                <img data-src="{{ firstArticle.image | img_url: 'master' }}" class="pure-img lazyload svg__thumb" alt="{{ article.title }}"/>
+                              {% else %}
+                                <img data-src="{{ thumb.svg | asset_url }}" class="pure-img lazyload svg__thumb" alt="{{ article.title }}"/>
+                              {% endif %}
+                          </a>
+                      </figure>
+                      <div class="article__content pure-u-1 pure-u-lg-1-3">
+                          {% if section.settings.show_date != blank or section.settings.show_author != blank %}
+                              <div class="article__meta d-none d-lg-block">
+                                  <div class="article__author">
+                                      <span class="text-2 text-grey">{% if section.settings.show_date != blank %}{{- firstArticle.published_at | time_tag: format: 'date' -}}{% endif %}{% if section.settings.show_author != blank %} by {{ firstArticle.author -}}{% endif %}</span>
+                                  </div>
+                              </div>
+                          {% endif %}
+                          <a href="{{ firstArticle.url }}" class="article__title">{{ firstArticle.title | escape }}</a>
+                          {% if section.settings.show_date != blank or section.settings.show_author != blank %}
+                            <div class="article__meta d-block d-lg-none">
+                                <div class="article__author">
+                                    <span class="text-2 text-grey">{% if section.settings.show_date != blank %}{{ firstArticle.published_at | date: "%b %d, %y" }}{% endif %}{% if section.settings.show_author != blank %} by {{ firstArticle.author -}}{% endif %}</span>
+                                </div>
+                            </div>
+                          {% endif %}
+                          {% if firstArticle.excerpt.size > 0 %}
+                          <div class="article__desc">
+                              {{firstArticle.excerpt}}
+                          </div>
+                          {% endif %}
+                          <a href="{{ firstArticle.url }}" class="article__link text-2 fw-700 td-none">{{ section.settings.read_more_text}}</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        {% endif %}
+        <div class="pure-g gutter-xl-45">
+          {%- for article in blog.articles -%}
+            {% assign blogLoopCounter = forloop.index %}
+            {% if forloop.first %}
+            {% else %}
+              {%- render 'article-card', article: article, show_date: section.settings.show_date, show_author: section.settings.show_author -%}
+            {% endif %}
+            {% if section.blocks.size > 0 %}
+              {% for block in section.blocks %}
+                {% if block.settings.title != blank and block.settings.after_post_number != blank %}
+                  {% if block.settings.after_post_number == blogLoopCounter %}
+                    {% if block.settings.size == "small" %}
+                      <div class="pure-u-1 pure-u-lg-1-3">
+                        <div class="highlight higlight--small xs-full-width">
+                            <div class="bg-info highlight__inner" {% if block.settings.background_color != blank %} style="background-color: {{block.settings.background_color}};"{% endif %}>
+                                <div class="highlight__info px-25 px-md-40 py-60 text-center">
+                                    {% if block.settings.sub_title != blank %}
+                                      <h4 class="subtitle">{{block.settings.sub_title}}</h4>
+                                    {% endif %}
+                                    {% if block.settings.title != blank %}
+                                      <h2 class="title text-11">{{block.settings.title}}</h2>
+                                    {% endif %}
+                                    {% if block.settings.button_link != blank %}
+                                      <a href="{{block.settings.button_link}}" class="btn btn--icon-hand">{{block.settings.button_text}}</a>
+                                    {% endif %}
+                                    {% if block.settings.show_payment_icons != blank %}
+                                      {% if shop.enabled_payment_types != blank %}
+                                        <ul class="list list__payment justify-content-center">
+                                            {% for type in shop.enabled_payment_types %}
+                                              <li class="icon--payment">
+                                                {{ type | payment_type_svg_tag: class:'icon icon--full-color' }}
+                                              </li>
+                                            {% endfor %}
+                                        </ul>
+                                      {% else %}
+                                        {% if settings.payment_icon_1 != blank or settings.payment_icon_2 != blank or settings.payment_icon_3 != blank or settings.payment_icon_4 != blank or settings.payment_icon_5 != blank or settings.payment_icon_6 != blank %}
+                                          <ul class="list list__payment justify-content-center">
+                                              {% if settings.payment_icon_1 != blank %}
+                                                <li><img data-src="{{ settings.payment_icon_1 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                              {% endif %}
+                                              {% if settings.payment_icon_2 != blank %}
+                                                <li><img data-src="{{ settings.payment_icon_2 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                              {% endif %}
+                                              {% if settings.payment_icon_3 != blank %}
+                                                <li><img data-src="{{ settings.payment_icon_3 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                              {% endif %}
+                                              {% if settings.payment_icon_4 != blank %}
+                                                <li><img data-src="{{ settings.payment_icon_4 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                              {% endif %}
+                                              {% if settings.payment_icon_5 != blank %}
+                                                <li><img data-src="{{ settings.payment_icon_5 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                              {% endif %}
+                                              {% if settings.payment_icon_6 != blank %}
+                                                <li><img data-src="{{ settings.payment_icon_6 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                              {% endif %}
+                                          </ul>
+                                        {% endif %}
+                                      {% endif %}
+                                    {% endif %}
+                                    {% if block.settings.show_reviews != blank %}
+                                      {% if settings.reviews_ratings != blank or settings.reviews_text != blank %}
+                                        <div class="rating justify-content-center mb-0">
+                                          {% if settings.reviews_ratings != blank %}
+                                              <span class="rating__star">
+                                                  <img src="{{ settings.reviews_ratings | img_url: 'master' }}" alt="" loading="lazy" />
+                                              </span>
+                                          {% endif %}
+                                          {% if settings.reviews_text != blank %}
+                                              <span class="rating__text">{{settings.reviews_text}}</span>
+                                          {% endif %}
+                                        </div>
+                                      {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    {% elsif block.settings.size == "large" %}
+                      <!-- Highlight -->
+                      <div class="pure-u-1 d-none d-lg-block">
+                          <div class="highlight mb-md-60">
+                              <div class="bg-info" {% if block.settings.background_color != blank %} style="background-color: {{block.settings.background_color}};"{% endif %}>
+                                  <div class="pure-g justify-content-center">
+                                      <div class="pure-u-1 pure-u-md-5-8 pure-u-xl-1-2">
+                                          <div class="highlight__info px-25 px-md-0 py-90 text-center">
+                                              {% if block.settings.sub_title != blank %}
+                                                <h4 class="subtitle">{{block.settings.sub_title}}</h4>
+                                              {% endif %}
+                                              {% if block.settings.title != blank %}
+                                                <h2 class="title">{{block.settings.title}}</h2>
+                                              {% endif %}
+                                              {% if block.settings.button_link != blank %}
+                                                <a href="{{block.settings.button_link}}" class="btn btn--icon-hand">{{block.settings.button_text}}</a>
+                                              {% endif %}
+                                              {% if block.settings.show_payment_icons != blank %}
+                                                {% if shop.enabled_payment_types != blank %}
+                                                  <ul class="list list__payment justify-content-center">
+                                                      {% for type in shop.enabled_payment_types %}
+                                                        <li class="icon--payment">
+                                                          {{ type | payment_type_svg_tag: class:'icon icon--full-color' }}
+                                                        </li>
+                                                      {% endfor %}
+                                                  </ul>
+                                                {% else %}
+                                                  {% if settings.payment_icon_1 != blank or settings.payment_icon_2 != blank or settings.payment_icon_3 != blank or settings.payment_icon_4 != blank or settings.payment_icon_5 != blank or settings.payment_icon_6 != blank %}
+                                                    <ul class="list list__payment justify-content-center">
+                                                        {% if settings.payment_icon_1 != blank %}
+                                                          <li><img data-src="{{ settings.payment_icon_1 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                                        {% endif %}
+                                                        {% if settings.payment_icon_2 != blank %}
+                                                          <li><img data-src="{{ settings.payment_icon_2 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                                        {% endif %}
+                                                        {% if settings.payment_icon_3 != blank %}
+                                                          <li><img data-src="{{ settings.payment_icon_3 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                                        {% endif %}
+                                                        {% if settings.payment_icon_4 != blank %}
+                                                          <li><img data-src="{{ settings.payment_icon_4 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                                        {% endif %}
+                                                        {% if settings.payment_icon_5 != blank %}
+                                                          <li><img data-src="{{ settings.payment_icon_5 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                                        {% endif %}
+                                                        {% if settings.payment_icon_6 != blank %}
+                                                          <li><img data-src="{{ settings.payment_icon_6 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                                        {% endif %}
+                                                    </ul>
+                                                  {% endif %}
+                                                {% endif %}
+                                              {% endif %}
+                                              {% if block.settings.show_reviews != blank %}
+                                                {% if settings.reviews_ratings != blank or settings.reviews_text != blank %}
+                                                  <div class="rating justify-content-center">
+                                                    {% if settings.reviews_ratings != blank %}
+                                                        <span class="rating__star">
+                                                            <img src="{{ settings.reviews_ratings | img_url: 'master' }}" alt="" loading="lazy" />
+                                                        </span>
+                                                    {% endif %}
+                                                    {% if settings.reviews_text != blank %}
+                                                        <span class="rating__text">{{settings.reviews_text}}</span>
+                                                    {% endif %}
+                                                  </div>
+                                                {% endif %}
+                                              {% endif %}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- Highlight -->
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {%- endfor -%}
+        </div>
+    </div>
+</section>
+{%- if paginate.pages > 1 -%}
+  {%- render 'pagination', paginate: paginate -%}
+{%- endif -%}
+
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-blog.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "all_blogs_title",
+      "label": "All blogs title",
+      "default": "Show all"
+    },
+    {
+      "type": "text",
+      "id": "read_more_text",
+      "label": "Read more text",
+      "default": "Continue reading"
+    },
+    {
+      "type": "text",
+      "id": "posted_on_text",
+      "label": "Posted on text",
+      "default": "Posted on"
+    },
+    {
+      "type": "number",
+      "id": "post_per_page",
+      "label": "Post per page",
+      "default": 15
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_tag_categories",
+      "label": "Enable tag categories",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "t:sections.main-blog.settings.show_date.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": false,
+      "label": "t:sections.main-blog.settings.show_author.label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner",
+      "settings": [
+        {
+          "type": "number",
+          "id": "after_post_number",
+          "label": "After post number",
+          "info": "Show banner after which post number"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color"
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "options": [
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            }
+          ],
+          "label": "Size",
+          "default": "small"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "sub_title",
+          "label": "Sub title"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_payment_icons",
+          "label": "Show payment icons"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_reviews",
+          "label": "Show Flash",
+          "default": true
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

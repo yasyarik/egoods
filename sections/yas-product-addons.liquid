@@ -1,0 +1,186 @@
+{% schema %}
+{
+  "name": "Product Addons",
+  "settings": [
+     {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Addon"
+    },
+        {
+        "type": "header",
+          "content": "Cards Settings"
+        },
+        { "type": "select", "id": "container_styling", "label": "Container Styling", "options": [{ "value": "no_card", "label": "No Card" }, { "value": "card", "label": "Card" }, { "value": "shadow", "label": "Shadow" }], "default": "card" },
+        {
+          "type": "range",
+          "id": "box_shadow_offset",
+          "label": "Box shadow offset",  
+          "min": -10,
+          "max": 10,
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "box_shadow_blur",
+          "label": "Box shadow blur",  
+          "min": 0,
+          "max": 15,
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "box_shadow_spread",
+          "label": "Box shadow spread",  
+          "min": 0,
+          "max": 15,
+          "default": 1
+        },
+        { "type": "color", "id": "box_shadow_color", "label": "Box shadow color", "default": "#000000" },   
+        {
+          "type": "range",
+          "id": "card_border",
+          "label": "Card border",
+          "info": "Container Styling Card",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 1
+        },
+        { "type": "color", "id": "card_border_color", "label": "Card border color", "default": "#000" },
+        { "type": "range", "id": "container_radius", "label": "Container Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 },
+    {
+      "type": "range",
+      "id": "padding_x_desk",
+      "label": "Horizontal Padding",
+      "info": "for desktop",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_y_desk",
+      "label": "Vertical Padding",
+      "info": "for desktop",   
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_x_mob",
+      "label": "Horizontal Padding",
+      "info": "for mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_y_mob",
+      "label": "Vertical Padding",
+      "info": "for mobile",   
+      "min": 0,
+      "max": 100,
+      "default": 0
+    },
+  ],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "addon",
+      "name": "Addon Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select addon product"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom title (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Addons",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
+<div class="content-section product-addon-section" data-section-type="content">
+<style>
+    .product-addon-section .product-addons__item{
+      border-radius: {{ section.settings.container_radius }}px;
+      box-shadow: {% if section.settings.container_styling == "shadow" %}{{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_blur }}px {{ section.settings.box_shadow_spread }}px {{ section.settings.box_shadow_color }}{% else %}none{% endif %};
+      border: {% if section.settings.container_styling == "card" %} {{ section.settings.card_border }}px solid {{ section.settings.card_border_color }}{% else %}none{% endif %};
+      padding: {{ section.settings.padding_y_desk }}px {{ section.settings.padding_x_desk }}px;
+    }
+    @media (max-width: 768px) {
+      .product-addon-section .product-addons__item{
+        padding: {{ section.settings.padding_y_mob }}px {{ section.settings.padding_x_mob }}px;
+      }
+    }
+</style> 
+  {% if section.settings.title != blank %}
+    <h3>{{ section.settings.title | default: "Addon" }}</h3>
+  {% endif %}
+<div class="product-addons">
+  {% for block in section.blocks %}
+    {% assign addon_product = block.settings.product %}
+    {% if addon_product != blank %}
+      <div class="product-addons__item" data-variant-id="{{ addon_product.variants.first.id }}">
+        <div class="product-addons__image">
+          <img src="{{ addon_product.featured_image | image_url: width: 100 }}" alt="{{ addon_product.title }}" loading="lazy">
+        </div>
+        <div class="product-addons__info">
+          <strong>{{ block.settings.custom_title | default: addon_product.title }}</strong>
+        </div>
+        <div class="product-addons__price-toggle">
+          <div class="product-addons__price">
+            <span class="product-addons__current">{{ addon_product.price | money }}</span>
+            {% if addon_product.compare_at_price > addon_product.price %}
+              <span class="product-addons__compare">{{ addon_product.compare_at_price | money }}</span>
+            {% endif %}
+          </div>
+          <label class="product-addons__switch">
+            <input type="checkbox" class="product-addons__toggle">
+            <span class="product-addons__slider"></span>
+          </label>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+</div>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const addonForm = document.querySelector('form[action^="/cart"]');
+
+    if (addonForm) {
+      addonForm.addEventListener('submit', function (e) {
+        const selectedAddons = document.querySelectorAll('.product-addons__toggle:checked');
+        selectedAddons.forEach((checkbox) => {
+          const variantId = checkbox.closest('.product-addons__item').dataset.variantId;
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = 'items[]';
+          input.value = variantId;
+          addonForm.appendChild(input);
+        });
+      });
+    }
+  });
+</script>

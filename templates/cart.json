@@ -1,0 +1,50 @@
+{
+  "wrapper": "div.page__cart",
+  "sections": {
+    "featured-box": {
+      "type": "01-featured-box",
+      "settings": {}
+    },
+    "cart-items": {
+      "type": "main-cart-items",
+      "settings": {
+        "step_1_title": "Your Cart",
+        "limited_time_text": "Hurry! We can only hold your items for a limited time.",
+        "timer_minutes": 15,
+        "free_shipping_price": 100,
+        "not_qualified_free_shipping_title": "<b>Wait!<\/b> Don’t pay for shipping…",
+        "not_qualified_free_shipping_sub_title": "Add another <b>%remaning_price%<\/b> worth of products to get <b>FREE UK Shipping!<\/b>",
+        "not_qualified_free_shipping_link": "",
+        "qualified_free_shipping_title": "<b>Free Shipping Activated!<\/b>",
+        "qualified_free_shipping_sub_title": "Amazing! You spent over <span>%remaning_price%<\/span> which means you’ve qualified for <b>FREE EXPEDITED SHIPPING!<\/b>",
+        "cart_save_text": "You've Saved",
+        "price_text": "Price",
+        "show_vendor": false,
+        "cart_checkout_button_text": "Continue To Checkout",
+        "enable_payment_icons": true,
+        "ssl_checkout_icon_image": "",
+        "step_2_title": "Suggestions",
+        "step_2_sub_title": "We've noticed that you're missing some essential items..",
+        "related_product_add_to_cart_button_text": "Add to cart",
+        "enable_discount_code": false,
+        "discount_code_label": "Discount code",
+        "discount_code_button_text": "Apply disocunt",
+        "cart_notes_enable": false,
+        "sub_total_text": "Subtotal",
+        "total_text": "Total Price",
+        "step_2_checkout_button_text": "Continue To Checkout",
+        "step_3_title": "Secure",
+        "step_4_title": "Confirmation"
+      }
+    },
+    "163533250238dbf471": {
+      "type": "12-featured-box-bottom",
+      "settings": {}
+    }
+  },
+  "order": [
+    "featured-box",
+    "cart-items",
+    "163533250238dbf471"
+  ]
+}

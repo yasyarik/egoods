@@ -1,0 +1,448 @@
+<!-- 1. Inline CSS in your section -->
+<style>
+  /* Custom font-face if using a custom font variant */
+  {% if section.settings.font_variant == 'custom' %}
+    {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+    {{ section.settings.title_font | font_face: font_display: 'swap' }}
+    {{ body_font_bold | font_face: font_display: 'swap' }}
+    {{ body_font_italic | font_face: font_display: 'swap' }}
+    {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+    {{ settings.type_header_font | font_face: font_display: 'swap' }}
+    #shopify-section-{{section.id}} * {
+      font-family: {{ section.settings.title_font.family }};
+    }
+  {% endif %}
+
+  /* Section title typography */
+  .contact-section .section-title {
+    font-size:
+      {% case section.settings.heading_size %}
+        {% when 'small' %}36px
+        {% when 'medium' %}45px
+        {% when 'large' %}60px
+      {% endcase %};
+    font-weight: 700;
+    text-transform: {{ section.settings.headline_typography }};
+    color: {{ section.settings.text_color }};
+  }
+
+  /* Section container dynamic display, padding, background & text color */
+  .contact-section {
+    display:
+      {% case section.settings.display_on %}
+        {% when 'all' %}block
+        {% when 'mobile_only' %}none
+        {% when 'desktop_only' %}block
+      {% endcase %};
+    padding: {{ section.settings.padding_tb_desk }}px {{ section.settings.padding_lr_desk }}px;
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .contact-section {
+      display:
+        {% case section.settings.display_on %}
+          {% when 'all' %}block
+          {% when 'mobile_only' %}block
+          {% when 'desktop_only' %}none
+        {% endcase %};
+      padding: {{ section.settings.padding_tb_mob }}px {{ section.settings.padding_lr_mob }}px;
+    }
+  }
+
+  /* Inherit text color & line-height */
+  .contact-section * {
+    color: {{ section.settings.text_color }};
+    line-height: 100%;
+  }
+
+  /* Inner max-width wrapper */
+  .contact-section .contact-section-container {
+    max-width: {% if section.settings.section_width == 'full' %}100%{% else %}{{ settings.page_width }}px{% endif %};
+    margin: 0 auto;
+  }
+
+  /* Contact header title */
+  .contact-section .contact-header .title * {
+    font-weight: 700;
+    font-size:
+      {% case section.settings.heading_size %}
+        {% when 'small' %}36px
+        {% when 'medium' %}45px
+        {% when 'large' %}60px
+      {% endcase %};
+    text-transform: {{ section.settings.headline_typography }};
+    line-height: 100%;
+  }
+
+  /* Submit button styles */
+  .contact-section .submit-button {
+    color: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+    background: {% if section.settings.button_color != 'transparent' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
+    border: none;
+    border-radius: {{ section.settings.button_radius }}px;
+    cursor: pointer;
+    padding: 18px 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    gap: 16px;
+  }
+  .contact-section .submit-button svg path {
+    fill: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+  }
+
+  /* Form field text & border colors */
+  .contact-section input,
+  .contact-section textarea {
+    color: {{ section.settings.input_color }};
+  }
+  .contact-section .contact-form textarea,
+  .contact-section .contact-form input,
+  .contact-section .contact-form input:focus-visible {
+    border-color: {{ section.settings.input_border_color }};
+  }
+
+  /* Placeholder text styling */
+  .contact-form ::-webkit-input-placeholder {
+     color: {{ section.settings.input_color }};
+     font-size: 24px;
+  }
+  .contact-form :-moz-placeholder {
+      color: {{ section.settings.input_color }};
+      font-size: 24px;
+  }
+  .contact-form ::-moz-placeholder {
+      color: {{ section.settings.input_color }};
+      font-size: 24px;
+  }
+  .contact-form :-ms-input-placeholder {
+      color: {{ section.settings.input_color }};
+      font-size: 24px;
+  }
+  .contact-form ::-ms-input-placeholder {
+      color: {{ section.settings.input_color }};
+      font-size: 24px;
+  }
+  .contact-form ::placeholder {
+      color: {{ section.settings.input_color }};
+      font-size: 24px;
+  }
+</style>
+
+
+<div class="contact-section-container">
+    <div class="contact-header">
+      {% if section.settings.title != blank or section.settings.before_title != blank %}
+      <div class="contact-header-w">
+        <div class="subtitle">
+        {% if section.settings.before_title != blank %}
+        {{ section.settings.before_title }}
+        {% endif %}
+        </div>
+        <div class="title">
+        {% if section.settings.title != blank %}
+        {{ section.settings.title }}
+        {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      <div class="social-icons">
+        {% if section.settings.social_facebook != blank %}
+          <a href="{{ section.settings.social_facebook }}" target="_blank">
+            {%- if section.settings.social_facebook_icon == blank -%}
+              {% render 'icon_fb' %}
+            {%- else -%}
+              <img src="{{ section.settings.social_facebook_icon | img_url: '24x24' }}" alt="Facebook">
+            {%- endif -%}
+          </a>
+        {% endif %}
+        {% if section.settings.social_instagram != blank %}
+          <a href="{{ section.settings.social_instagram }}" target="_blank">
+            {%- if section.settings.social_instagram_icon == blank -%}
+              {% render 'icon_inst' %}
+            {%- else -%}
+              <img src="{{ section.settings.social_instagram_icon | img_url: '24x24' }}" alt="Instagram">
+            {%- endif -%} 
+          </a>
+        {% endif %}
+        {% if section.settings.social_twitter != blank %}
+          <a href="{{ section.settings.social_twitter }}" target="_blank">
+            {%- if section.settings.social_twitter_icon == blank -%}
+              {% render 'icon_twit' %}
+            {%- else -%}
+              <img src="{{ section.settings.social_twitter_icon | img_url: '24x24' }}" alt="Twitter">
+            {%- endif -%}      
+          </a>
+        {% endif %}
+      </div>
+    </div>
+     {%- form 'contact', id: 'ContactForm', class: 'contact-form' -%}
+
+      {%- if form.posted_successfully? -%}
+         <div class="form-row form-status-success">
+          <div class="form-status form__message"  autofocus>
+            {{ section.settings.success_form }}
+          </div>
+         </div>
+        {% else %}
+ 
+        <div class="form-row">
+            <input type="text" placeholder="Your Name"  name="contact[name]">
+            <input type="email" placeholder="Email Address"  name="contact[email]">
+            <input type="tel" placeholder="Phone Number (optional)"  name="contact[phone]">
+        </div>
+        <textarea placeholder="Message"  name="contact[message]"></textarea>
+        <button class="submit-button">{{ section.settings.btn_text }} {% render 'icon-arrow-submit' %}</button>
+      {%- endif -%}
+       
+     
+    {%- endform -%}
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Contact Us",
+  "class": "contact-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<h2>GET IN TOUCH WITH US.<br> WE'RE HERE TO ASSIST YOU.</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "before_title",
+      "label": "Subtitle",
+      "default": "<h3>Get Started</h3>"
+    },
+    {
+      "type": "header",
+      "content": "Form setting"
+    },
+    {
+      "type": "richtext",
+      "id": "success_form",
+      "label": "Text success form",
+      "default": "<h2>Thanks for contacting us. We'll get back to you as soon as possible.</h2>"
+    },
+    {
+      "type": "header",
+      "content": "General settings"
+    }, 
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+     {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+      {
+      "type": "select",
+      "id": "headline_typography",
+      "label": "Headline Typography",
+      "options": [
+        { "value": "uppercase", "label": "AA" },
+        { "value": "capitalize", "label": "Aa" },
+        { "value": "lowercase", "label": "aa" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "select",
+      "id": "font_variant",
+      "label": "Font Family",
+      "options": [
+        { "value": "default", "label": "Default by theme" },
+        { "value": "custom", "label": "Own choice" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "font_picker",
+       "label": "Regular Font",
+      "id": "title_font",
+      "default": "montserrat_n4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "full", "label": "Full Width" },
+        { "value": "contained", "label": "Contained" }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_desk",
+      "label": "Horizontal Padding",
+      "info": "for desktop",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+       {
+      "type": "range",
+      "id": "padding_tb_desk",
+      "label": "Vertical Padding",
+      "info": "for desktop",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_mob",
+      "label": "Horizontal Padding",
+      "info": "for mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+       {
+      "type": "range",
+      "id": "padding_tb_mob",
+      "label": "Vertical Padding",
+      "info": "for mobile",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+     {
+      "type": "select",
+      "id": "display_on",
+      "label": "Display On",
+      "options": [
+        { "value": "all", "label": "All Devices" },
+        { "value": "mobile_only", "label": "Mobile Only" },
+        { "value": "desktop_only", "label": "Desktop Only" }
+      ],
+      "default": "all"
+    },
+    {
+      "type": "header",
+      "content": "Form color"
+    },
+    {
+      "type": "color",
+      "id": "input_color",
+      "label": "input Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "input border Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button Color",
+      "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button text",
+      "default": "LEAVE US A MESSAGE"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Button Corner Radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 5
+    },
+  
+   
+   {
+      "type": "header",
+      "content": "Icons Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "social_facebook_icon",
+      "label": "Facebook Icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "social_instagram_icon",
+      "label": "Instagram Icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "social_twitter_icon",
+      "label": "Twitter Icon"
+    },
+    {
+      "type": "text",
+      "id": "social_facebook",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "text",
+      "id": "social_instagram",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "text",
+      "id": "social_twitter",
+      "label": "Twitter URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Us",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

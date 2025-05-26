@@ -1,0 +1,230 @@
+
+<script>
+(function(){
+  const cssFile = "benefits-timeline.css";
+  const jsFile  = null;
+
+  function waitForLicense(cb) {
+    if (window.LICENSE_OK && window.ASSET_BASE) {
+      cb();
+    } else {
+      setTimeout(() => waitForLicense(cb), 100);
+    }
+  }
+
+  function injectCSS(file) {
+    const href = window.ASSET_BASE + file;
+    const alreadyLoaded = [...document.styleSheets].some(s => s.href && s.href.includes(file));
+    if (!alreadyLoaded) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+      console.log("Injected CSS:", file);
+    } else {
+      console.log("CSS already loaded:", file);
+    }
+  }
+
+  function injectJS(file) {
+    const src = window.ASSET_BASE + file;
+    const alreadyLoaded = [...document.scripts].some(s => s.src && s.src.includes(file));
+    if (!alreadyLoaded) {
+      const script = document.createElement("script");
+      script.src = src;
+      document.body.appendChild(script);
+      console.log("Injected JS:", file);
+    } else {
+      console.log("JS already loaded:", file);
+    }
+  }
+
+  waitForLicense(() => {
+    injectCSS(cssFile);
+    injectJS(jsFile);
+  });
+})();
+</script>
+
+<style>
+{% if section.settings.font_variant == 'custom' %}
+  {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+  {{ section.settings.title_font | font_face: font_display: 'swap' }}
+  {{ body_font_bold | font_face: font_display: 'swap' }}
+  {{ body_font_italic | font_face: font_display: 'swap' }}
+  {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+  {{ settings.type_header_font | font_face: font_display: 'swap' }}
+  #shopify-section-{{section.id}} * {
+    font-family: {{ section.settings.title_font.family }};
+  }
+{% endif %}  
+</style>
+
+<div class="benefits-timeline" data-section-id="{{ section.id }}"
+     style="
+       --text-color: {{ section.settings.text_color }};
+       --background-color: {{ section.settings.background_color }};
+       --heading-align: {{ section.settings.heading_align }};
+       --headline-transform: {{ section.settings.headline_typography }};
+       --font-size-heading: {% case section.settings.heading_size %}{% when 'small' %}36px{% when 'medium' %}45px{% when 'large' %}60px{% endcase %};
+       --font-size-heading-mob: {% case section.settings.heading_size %}{% when 'small' %}20px{% when 'medium' %}28px{% when 'large' %}36px{% endcase %};
+       --padding-desk: {{ section.settings.padding_y_desk }}px {{ section.settings.padding_x_desk }}px;
+       --padding-mob: {{ section.settings.padding_y_mob }}px {{ section.settings.padding_x_mob }}px;
+       --uppertitle-color: {{ section.settings.uppertitle_color }};
+       --timeline-bg: {{ section.settings.tl_bg }};
+       --timeline-text: {{ section.settings.tl_text }};
+       --dot-color: {{ section.settings.dot_color }};
+     ">
+
+  <div class="content-wrapper">
+    {% if section.settings.uppertitle != blank or section.settings.subtitle or section.settings.title != blank %}
+      <div class="heading">
+        {% if section.settings.uppertitle != blank %}
+          <div class="uppertitle">
+            {{ section.settings.uppertitle }}
+            {% for i in (1..5) %}{% render 'star_comparison' %}{% endfor %}
+          </div>
+        {% endif %}
+        <div class="title">
+          {% if section.settings.title != blank %}{{ section.settings.title }}{% endif %}
+        </div>
+        <div class="subtitle">
+          {% if section.settings.subtitle != blank %}{{ section.settings.subtitle }}{% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="benefits-timeline-section">
+      <div class="benefits-timeline-wrapper">
+        {% for block in section.blocks %}
+          <div class="benefits-timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-label-wrapper">
+              {% if block.settings.icon != blank %}
+                <span class="material-symbols-outlined">{{ block.settings.icon }}</span>
+              {% else %}
+                <div class="timeline-label-square"></div>
+              {% endif %}
+              <div class="timeline-label">{{ block.settings.month }}</div>
+            </div>
+            <div class="timeline-content">{{ block.settings.description }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Benefits Timeline",
+  "settings": [
+  
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+       { 
+         "type": "select", 
+       "id": "heading_size", 
+       "label": "Heading Size", 
+       "options": [{ "value": "small", "label": "Small" }, { "value": "medium", "label": "Medium" }, { "value": "large", "label": "Large" }], "default": "medium" 
+     },
+     {
+       "type": "select", "id": "headline_typography", 
+       "label": "Headline Typography", 
+       "options": [
+         { "value": "uppercase", "label": "AA" }, 
+         { "value": "capitalize", "label": "Aa" }, 
+         { "value": "lowercase", "label": "aa" }], "default": "capitalize" },
+        {
+          "type": "color", 
+          "id": "text_color", 
+          "label": "Title Color", 
+          "default": "#000000" },    
+     { 
+       "type": "select", 
+       "id": "heading_align", 
+       "label": "Heading Alignment", 
+       "options": [
+         { "value": "left", "label": "Left" }, 
+         { "value": "center", "label": "Center" }, 
+         { "value": "right", "label": "Right" }], 
+       "default": "center" 
+     }, 
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "transparent" },
+    { "type": "select", "id": "font_variant", "label": "Font Family", "options": [{ "value": "default", "label": "Default by theme" }, { "value": "custom", "label": "Own choice" }], "default": "default" },
+    { "type": "font_picker", "label": "Regular Font", "id": "title_font", "default": "montserrat_n4" },
+      { "type": "select", "id": "section_width", "label": "Section Width", "options": [{ "value": "full", "label": "Full Width" }, { "value": "contained", "label": "Contained" }], "default": "contained" },
+    { "type": "range", "id": "padding_x_desk", "label": "Horizontal Padding", "info": "for desktop", "min": 0, "max": 100, "step": 5, "default": 70 },
+    { "type": "range", "id": "padding_y_desk", "label": "Vertical Padding", "info": "for desktop", "min": 0, "max": 100, "default": 10 },
+    { "type": "range", "id": "padding_x_mob", "label": "Horizontal Padding", "info": "for mobile", "min": 0, "max": 100, "step": 5, "default": 15 },
+    { "type": "range", "id": "padding_y_mob", "label": "Vertical Padding", "info": "for mobile", "min": 0, "max": 50, "default": 7 },
+    { "type": "select", "id": "display_on", "label": "Display On", "options": [{ "value": "all", "label": "All Devices" }, { "value": "mobile_only", "label": "Mobile Only" }, { "value": "desktop_only", "label": "Desktop Only" }], "default": "all" },
+       { "type": "color", "id": "tl_bg", "label": "Timeline Background", "default": "#E5E5E5" },
+       { "type": "color", "id": "tl_text", "label": "Timeline Text", "default": "#000" },
+      { "type": "color", "id": "dot_color", "label": "Dot Color", "default": "#D9D9D9" },
+    
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+       {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<h2>Value Proposition featuring benifit</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<h3>Ut enim ad minima veniam, quis nostrum exercitati onem ullam corporis suscipit laboriosam, commodi </h3>"
+    },
+    {
+      "type": "richtext",
+      "id": "uppertitle",
+      "label": "Uppertitle",
+      "default": "<h3>Reviewed by +100 Happy Customers </h3>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "milestone",
+      "name": "Milestone",
+      "settings": [
+        {
+          "type": "text",
+          "id": "month",
+          "label": "Month",
+          "default": "1st Month"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+        },{
+          "type": "text",
+          "id": "icon",
+          "label": "Icon"
+        }
+        
+        
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefits Timeline",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

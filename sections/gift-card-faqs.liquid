@@ -1,0 +1,112 @@
+{% if section.blocks.size > 0 %}
+    <section class="bg-info-scale-2 faq pt-35 pb-10 pt-lg-120 pb-lg-100 mb-md-70">
+        <div class="container">
+            <div class="pure-g justify-content-center">
+                <div class="pure-u-1 pure-u-lg-21-24">
+                    <div class="pure-g justify-content-center">
+                        <div class="pure-u-1 pure-u-md-5-12 mb-30 mb-md-0">
+                            {% if section.settings.title != blank %}
+                                <h2 class="title">{{section.settings.title}}</h2>
+                            {% endif %}
+                            {% if section.settings.sub_title != blank %}
+                                <h4 class="subtitle">{{section.settings.sub_title}}</h4>
+                            {% endif %}
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <div class="accordion">
+                                {% for block in section.blocks %}
+                                    {% if block.settings.title != blank and block.settings.description != blank%}
+                                        <div class="accordion__item {% if forloop.index == 1 %}active{% endif %}"> 
+                                            <h4 class="accordion__header">{{block.settings.title}}</h4>
+                                            <div class="accordion__collapse">{{block.settings.description}}</div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% else %}
+    <section class="bg-info-scale-2 faq pt-35 pb-10 pt-lg-120 pb-lg-100 mb-md-70">
+        <div class="container">
+            <div class="pure-g justify-content-center">
+                <div class="pure-u-1 pure-u-lg-21-24">
+                    <div class="pure-g justify-content-center">
+                        <div class="pure-u-1 pure-u-md-5-12 mb-30 mb-md-0">
+                            <h2 class="title">Frequently Asked Questions</h2>
+                            <h4 class="subtitle">Let's get you some answers...</h4>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <div class="accordion">
+                                <div class="accordion__item active"> 
+                                    <h4 class="accordion__header">Question title</h4>
+                                    <div class="accordion__collapse"><p>Answer</p></div>
+                                </div>
+                                <div class="accordion__item"> 
+                                    <h4 class="accordion__header">Question title</h4>
+                                    <div class="accordion__collapse"><p>Answer</p></div>
+                                </div>
+                                <div class="accordion__item"> 
+                                    <h4 class="accordion__header">Question title</h4>
+                                    <div class="accordion__collapse"><p>Answer</p></div>
+                                </div>
+                                <div class="accordion__item"> 
+                                    <h4 class="accordion__header">Question title</h4>
+                                    <div class="accordion__collapse"><p>Answer</p></div>
+                                </div>
+                                <div class="accordion__item"> 
+                                    <h4 class="accordion__header">Question title</h4>
+                                    <div class="accordion__collapse"><p>Answer</p></div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+{% schema %}
+{
+  "name": "Gift card faqs",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "sub_title",
+      "label": "Sub title"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

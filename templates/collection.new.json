@@ -1,0 +1,39 @@
+{
+  "wrapper": "div.page__collection",
+  "sections": {
+    "1635332389ad679d78": {
+      "type": "01-featured-box",
+      "settings": {}
+    },
+    "banner": {
+      "type": "collection-banner",
+      "settings": {
+        "banner_image": "",
+        "heading": "",
+        "show_reviews": true,
+        "enable_payment_icons": true
+      }
+    },
+    "product-grid": {
+      "type": "collection-product-grid-new",
+      "settings": {
+        "products_per_page": 12,
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "enable_filtering": true,
+        "enable_sorting": true
+      }
+    },
+    "1635332394301aff37": {
+      "type": "12-featured-box-bottom",
+      "settings": {}
+    }
+  },
+  "order": [
+    "1635332389ad679d78",
+    "banner",
+    "product-grid",
+    "1635332394301aff37"
+  ]
+}

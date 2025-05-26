@@ -1,0 +1,800 @@
+
+<style>
+  {% if section.settings.font_variant == 'custom' %}
+    {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+  {{ section.settings.title_font | font_face: font_display: 'swap' }}
+  {{ body_font_bold | font_face: font_display: 'swap' }}
+  {{ body_font_italic | font_face: font_display: 'swap' }}
+  {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+  {{ settings.type_header_font | font_face: font_display: 'swap' }}
+  #shopify-section-{{section.id}} * {
+    font-family: {{ section.settings.title_font.family }};
+  }
+  {% endif %}
+
+  #shopify-section-{{section.id}} .content-wrapper a p {
+    margin: 0 auto;
+    color: {{ section.settings.text_color }};
+    cursor: pointer;
+  }
+
+  #shopify-section-{{section.id}} {
+    display: {% case section.settings.display_on %}
+              {% when 'all' %} block;
+              {% when 'mobile_only' %} none;
+              {% when 'desktop_only' %} block;
+            {% endcase %};
+    padding: {{ section.settings.padding_y_desk }}px {{ section.settings.padding_x_desk }}px;
+    background-color: {{ section.settings.background_color }};
+    text-align: {{ section.settings.heading_align }};
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    width: 100%;
+    text-decoration: none;
+  }
+
+   
+  #shopify-section-{{section.id}} .content-wrapper {
+    height: 100%;
+    margin: 0 auto;
+    max-width: {% if section.settings.section_width == 'full' %} 100%; {% else %} {{ settings.page_width }}px; {% endif %}
+    display: block;
+    position: relative;
+    text-align: {{ section.settings.heading_align }};
+    padding: 20px 0;
+  }
+  #shopify-section-{{section.id}} .heading{
+    width: 100%;
+  }
+  {% if section.settings.section_width == 'full' %}
+   #shopify-section-{{section.id}} .content-wrapper{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+   }
+   {% endif %}
+
+
+
+ #shopify-section-{{section.id}}  .title *
+  {
+    margin: 0;
+  }
+  #shopify-section-{{section.id}} .title h2,  #shopify-section-{{section.id}} .title h1,  #shopify-section-{{section.id}} .title h3,  #shopify-section-{{section.id}} .title p {
+  
+      font-size: {% case section.settings.heading_size %}
+                   {% when 'small' %}36px
+                   {% when 'medium' %}45px
+                   {% when 'large' %}60px
+                 {% endcase %};
+      text-transform: {{ section.settings.headline_typography }};
+      color: {{ section.settings.text_color }};
+      margin: 0; 
+ text-align: 
+    {% case section.settings.heading_align %}
+                   {% when 'left' %}left;
+                   {% when 'center' %}center;
+                   {% when 'right' %}right;
+                 {% endcase %};
+      line-height: 110%;
+      font-weight: 700;
+    margin: 0;
+    margin-bottom: 16px;
+     
+  }
+   #shopify-section-{{section.id}}  .subtitle *
+  {
+    margin: 0;
+  }
+  
+  #shopify-section-{{section.id}} .subtitle h2,  #shopify-section-{{section.id}} .subtitle h3,  #shopify-section-{{section.id}}  .subtitle p{
+    color: {{ section.settings.subtitle_color }};
+     font-size: 20px;
+     font-weight: 400;
+     text-align: 
+    {% case section.settings.heading_align %}
+                   {% when 'left' %} left;
+                   {% when 'center' %} center;
+                   {% when 'right' %} right;
+                 {% endcase %};
+    line-height: 150%;
+    margin:0;
+    margin-bottom: 20px;
+   
+  }
+     #shopify-section-{{section.id}}  .uppertitle *
+  {
+    margin: 0;
+  }
+   #shopify-section-{{section.id}} .uppertitle 
+  {
+    display: flex;
+     justify-content:     {% case section.settings.heading_align %}
+                   {% when 'left' %} left;
+                   {% when 'center' %} center;
+                   {% when 'right' %} right;
+                 {% endcase %};
+   
+   
+   align-items: center;
+   
+    margin:0;
+    margin-bottom: 14.5px;
+  }
+
+    #shopify-section-{{section.id}}  .uppertitle svg
+  {    margin-bottom: 5px;
+  
+     margin-bottom: 2px;
+  }
+  #shopify-section-{{section.id}} .uppertitle h2,  #shopify-section-{{section.id}} .uppertitle h3,  #shopify-section-{{section.id}}  .uppertitle p{
+    color: {{ section.settings.uppertitle_color }};
+     font-size: 15px;
+     font-weight: 400;
+    line-height: 150%;
+    order: 5;
+    margin-left: 11px;
+
+   
+  }
+
+ 
+  #shopify-section-{{section.id}} .slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Tight spacing between headline and subheadline */
+   
+  }
+
+  
+
+  #shopify-section-{{section.id}} .carousel-wrapper {
+    width: 100%;
+
+    margin: 0 auto;
+    padding: 100px 0 25px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .y-comparison-section-main div strong{
+    font-wight: 700;
+  }
+  .comparison-section {
+    padding: 40px 20px;
+  }
+  /* comparison-title-section */
+
+  .comparison-title-section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-direction: column;
+    width: 100%;
+  }
+  .comparison-title-section *{
+    margin: 0;
+  }
+  .comparison-title-section div{
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .comparison-title-section h1{
+    font-weight: 700;
+    font-size: 45px;
+    line-height: 52px;
+    text-transform: uppercase;
+  }
+  .comparison-title-section h3{
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 0;
+  }
+  /* end comparison-title-section */
+  .comparison-table img{
+    max-width: 56px;
+  }
+  .comparison-table-w{
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 90px;
+    gap: 22px;
+  }
+  .comparison-column{
+    display: flex;
+    align-items: flex-end;
+  }
+  .comparison-table {
+    display: inline-flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+  }
+  
+  .comparison-row{
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    gap: 22px;
+  }
+  .comparison-table-w > .comparison-table .comparison-cell:first-child{
+    background: {{section.settings.mainc_bg}};
+    color: #fff;
+    position: relative;
+  }
+  .comparison-table-w > .comparison-table .comparison-cell:first-child:after{
+    content: '';
+    background: {{section.settings.mainc_bg}};;
+    position: absolute;
+    width: 100%;
+    height: 66px;
+    bottom: -50px;
+    border-radius: 0 0 18px 18px;
+  }
+  .comparison-row.heading .comparison-cell {
+    background: transparent;
+    max-width: 132px;
+  }
+  .comparison-table-future .comparison-row .comparison-cell:first-child{
+    min-height: 103px;
+    align-self: end;
+    max-width: 230px;
+  }
+  .comparison-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: {{section.settings.sec_bg}};
+    padding: 30px 23px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 230px;
+    min-height: 110px;
+    max-width: 260px;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 26.82px;
+    letter-spacing: 0;
+    color: #000;
+    border-radius: 20px;
+  } 
+  .comparison-cell img
+  {
+    max-width: 180px;
+    max-height: 120px;
+  }
+  .comparison-section{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* scrollbar */
+  .scrollbar::-webkit-scrollbar {
+    background-color:#fff;
+    width: 3px;
+    height: 3px;
+  }
+  .scrollbar::-webkit-scrollbar-track {
+      background-color:#fff;
+  }
+  .scrollbar::-webkit-scrollbar-track:hover {
+      background-color:#f4f4f4
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+      background-color:#000;
+      border-radius:16px;
+      border:1px solid #000;
+      cursor: grab;
+  }
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+      background-color:#000;
+      border:1px solid #000;
+  }
+  .scrollbar::-webkit-scrollbar-button {display:none}
+  .scrollbar{
+    overflow: auto;
+  }
+  .scroll_text{
+    display: none;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16.8px;
+    letter-spacing: 0;
+    gap: 16px;
+    margin-top: 16px;
+    text-transform: capitalize;
+    align-items: center;
+  }
+  .scroll_text span{
+    display: inline-flex;
+    align-items: center;
+  }
+  .scroll_text.scroll-on{
+    display: inline-flex;
+  }
+  /* end scrollbar */
+  
+  @media (max-width: 769px){
+      #shopify-section-{{section.id}} {
+      display: {% case section.settings.display_on %}
+                {% when 'all' %} block;
+                {% when 'mobile_only' %} block;
+                {% when 'desktop_only' %} none;
+              {% endcase %};
+      padding: {{ section.settings.padding_y_mob }}px {{ section.settings.padding_x_mob }}px;
+    }
+
+
+ #shopify-section-{{section.id}} {
+      display: {% case section.settings.display_on %}
+                {% when 'all' %} block;
+                {% when 'mobile_only' %} block;
+                {% when 'desktop_only' %} none;
+              {% endcase %};
+      padding: {{ section.settings.padding_y_mob }}px {{ section.settings.padding_x_mob }}px;
+    }
+
+    #shopify-section-{{section.id}} .heading
+  {
+    margin: 0;
+    padding: 0;
+  }
+
+
+
+
+    #shopify-section-{{section.id}} .title h2,  #shopify-section-{{section.id}} .title h1,  #shopify-section-{{section.id}} .title h3,   #shopify-section-{{section.id}} .title p{
+      font-size: {% case section.settings.heading_size %}
+                 {% when 'small' %}20px
+                 {% when 'medium' %}28px
+                 {% when 'large' %}36px
+               {% endcase %};
+       line-height: 100%;
+      margin: 0;
+      margin-bottom: 16px;
+    }
+    #shopify-section-{{section.id}} .subtitle h2,  #shopify-section-{{section.id}} .subtitle h3,  #shopify-section-{{section.id}}  .subtitle p{
+   
+     font-size: 16px;
+      line-height: 24px;
+    }
+ #shopify-section-{{section.id}} .uppertitle h2,  #shopify-section-{{section.id}} .uppertitle h3,  #shopify-section-{{section.id}}  .uppertitle p
+  {
+    color: {{ section.settings.uppertitle_color }};
+     font-size: 12px;
+     line-height: 16px;
+     font-weight: 400;
+   ordeR: 5;
+     margin-left: 3px;
+
+
+     
+  }
+
+ #shopify-section-{{section.id}}  .uppertitle
+  {
+    margin-bottom: 16px;
+  }
+  
+   #shopify-section-{{section.id}} .uppertitle svg
+  {
+    max-width: 12px;
+    margin-left: 0px;
+    margin-bottom: 3px;
+    
+  }
+    .comparison-table-w{ 
+      gap: 14px;
+    }
+    .comparison-table{
+      gap: 12px;
+    }
+    .comparison-table-w > .comparison-table{
+      gap: 0;
+    }
+     .comparison-table-w > .comparison-table .comparison-row:not(.heading){
+      margin-bottom: 12px;
+    } 
+    .comparison-row{
+      gap: 14px;
+    }
+    
+    .comparison-table{
+      margin: 0;
+    }
+    .comparison-title-section h1{
+      font-size: 28px;
+      leading-trim: Cap height;
+      line-height: 36px;
+      letter-spacing: 0;
+    }
+    .comparison-title-section h3{
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0;
+    }
+    .comparison-title-section{
+      gap: 20px;
+    }
+    .comparison-table-future .comparison-cell{
+        text-align: left;
+    }
+    .comparison-table-future .comparison-row .comparison-cell:first-child{
+      min-height: 90px;
+      min-width: 110px;
+      max-width: 110px;
+    }
+    .comparison-table-w > .comparison-table .heading .comparison-cell:first-child{
+      border-radius: 16px 16px 0 0;
+    }
+    .comparison-table-w > .comparison-table .comparison-cell:first-child{
+      min-width: 105px;
+      border-radius: 0;
+    }
+    .comparison-table-w > .comparison-table .heading .comparison-cell:first-child{
+       margin-bottom: 25px;
+    }
+    .comparison-cell{
+      font-size: 14px;
+      line-height: 17.07px;
+      padding: 28px 14px;
+      word-break: break-word;
+    }
+    .comparison-table-w .comparison-row.heading .comparison-cell{
+      min-height: 0;
+    }
+    .comparison-table-w > .comparison-table .comparison-cell{
+      min-width: 76px;
+      min-height: 92px;
+      max-width: 76px;
+      padding: 13px 0;
+    }
+    .comparison-table-w svg{
+      width: 22px;
+    }
+  }
+  
+  
+  
+  
+  
+  
+  }
+</style>
+<div class="content-wrapper">
+ {%- if section.settings.uppertitle != blank or section.settings.subtitle or section.settings.title != blank  -%}
+      <div class="heading">
+        {% if section.settings.uppertitle != blank %}
+      <div class="uppertitle">{{ section.settings.uppertitle }} {% for i in (1..5) %}{% render 'star_comparison' %}{% endfor %}</div>
+    {% endif %}
+        <div class="title">
+          {%- if section.settings.title != blank -%}
+            {{ section.settings.title }}
+          {%- endif -%}
+        </div>
+        <div class="subtitle">
+          {%- if section.settings.subtitle != blank -%}
+            {{ section.settings.subtitle }}
+          {%- endif -%}
+        </div>
+        
+      </div>
+    {%- endif -%}
+  <div id="comparison-table-w" class="comparison-table-w scrollbar">
+    <div class="comparison-column">
+      <div class="comparison-table comparison-table-future">
+        <div class="comparison-row heading">
+          <div class="comparison-cell "> </div>
+        </div>
+        {% for block in section.blocks %}
+            <div class="comparison-row">
+                <div class="comparison-cell">{{ block.settings.title }}</div>
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="comparison-table">
+      <div class="comparison-row heading">
+        {% for i in (1..6) %}
+          {% assign company_name = 'company_name' | append: i %}
+          {% assign logo = 'logo' | append: i %}
+               {% if section.settings[logo] != blank %}
+            <div class="comparison-cell">    <img src="{{ section.settings[logo] | img_url }}" style="width: 100%;"/></div>
+            {% else %}  
+          {% if section.settings[company_name] != blank %}
+            <div class="comparison-cell">{{ section.settings[company_name] }}</div>
+          {% endif %}
+                 {% endif %}
+        {% endfor %}
+      </div>
+      {% for block in section.blocks %}
+          <div class="comparison-row">
+           {% for i in (1..6) %}
+            {% assign company_name = 'company_name' | append: i %}
+              
+            {% assign def_icon = 'def_icon_' | append: i %}
+       
+            {% if section.settings[company_name] != blank %}
+              <div class="comparison-cell">{% if block.settings[def_icon] == 'check' %}{% render 'comparison-check' %}{% else %}{% render 'comparison-cross' %}{% endif %}</div>
+            {% endif %}
+            
+          {% endfor %}
+          </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="scroll_text" id="scroll_text">
+    Swipe to scroll <span>{% render 'comparison-arrowright' %}{% render 'comparison-arrowright' %}</span>
+  </div>
+</div>
+
+
+
+
+        
+{% javascript %} 
+  const compresion_block = document.getElementById('comparison-table-w');
+  const compresion_scrollText = document.getElementById('scroll_text');
+  window.addEventListener("load", onLoadFunction);
+  window.addEventListener("resize", onLoadFunction);
+  
+  function onLoadFunction(e){
+   let compresion_isHorizontalScroll= compresion_block.scrollWidth > compresion_block.clientWidth;
+   compresion_isHorizontalScroll ? compresion_scrollText.classList.add("scroll-on") : compresion_scrollText.classList.remove("scroll-on");
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Comparison Table",
+  "tag": "section",
+  "class": "y-comparison-section-main",
+   "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "transparent" },
+ { 
+         "type": "select", 
+       "id": "heading_size", 
+       "label": "Heading Size", 
+       "options": [{ "value": "small", "label": "Small" }, { "value": "medium", "label": "Medium" }, { "value": "large", "label": "Large" }], "default": "medium" 
+     },
+     {
+       "type": "select", "id": "headline_typography", 
+       "label": "Headline Typography", 
+       "options": [
+         { "value": "uppercase", "label": "AA" }, 
+         { "value": "capitalize", "label": "Aa" }, 
+         { "value": "lowercase", "label": "aa" }], "default": "capitalize" },
+              { "type": "select", "id": "font_variant", "label": "Font Family", "options": [{ "value": "default", "label": "Default by theme" }, { "value": "custom", "label": "Own choice" }], "default": "default" },
+    { "type": "font_picker", "label": "Regular Font", "id": "title_font", "default": "montserrat_n4" },
+ 
+  { "type": "color", "id": "title_color", "label": "Title Color", "default": "#020B1E" },
+  
+    
+          { "type": "color", "id": "body_color", "label": "Body Text Color", "default": "#020B1E" },
+    { "type": "select", "id": "heading_align", "label": "Heading Alignment", "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }], "default": "center" },
+    { "type": "select", "id": "section_width", "label": "Section Width", "options": [{ "value": "full", "label": "Full Width" }, { "value": "contained", "label": "Contained" }], "default": "full" },
+    { "type": "range", "id": "padding_x_desk", "label": "Horizontal Padding", "info": "for desktop", "min": 0, "max": 100, "step": 5, "default": 0 },
+    { "type": "range", "id": "padding_y_desk", "label": "Vertical Padding", "info": "for desktop", "min": 0, "max": 100, "default": 0 },
+    { "type": "range", "id": "padding_x_mob", "label": "Horizontal Padding", "info": "for mobile", "min": 0, "max": 100, "step": 5, "default": 0 },
+    { "type": "range", "id": "padding_y_mob", "label": "Vertical Padding", "info": "for mobile", "min": 0, "max": 50, "default": 0 },
+    { "type": "select", "id": "display_on", "label": "Display On", "options": [{ "value": "all", "label": "All Devices" }, { "value": "mobile_only", "label": "Mobile Only" }, { "value": "desktop_only", "label": "Desktop Only" }], "default": "all" },
+      { "type": "color", "id": "mainc_bg", "label": "Main Container Bacground", "default": "#000" },
+        { "type": "color", "id": "sec_bg", "label": "Secondary Containers Bacground", "default": "#fff" },
+     {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "richtext",
+      "id": "uppertitle",
+      "label": "Uppertitle",
+      "default": "<h3>Reviewed by +100 Happy Customers</h3>"
+    },
+     {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<h2>Value Proposition featuring benifit</h2>"
+    },
+
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<h3>Ut enim ad minima veniam, quis nostrum exercitati onem ullam corporis suscipit laboriosam, commodi </h3>"
+    },
+   
+    {
+      "type": "header",
+      "content": "Company Name settings"
+    },
+    {
+      "type": "text",
+      "id": "company_name1",
+      "label": "Company Name #1"
+    },
+     {
+      "type": "image_picker",
+          "id": "logo1",
+          "label": "Compamy Logo 1"
+     },
+    {
+      "type": "text",
+      "id": "company_name2",
+      "label": "Company Name #2"
+    },
+      {
+      "type": "image_picker",
+          "id": "logo2",
+          "label": "Compamy Logo 2"
+     },
+    {
+      "type": "text",
+      "id": "company_name3",
+      "label": "Company Name #3"
+    },
+      {
+      "type": "image_picker",
+          "id": "logo3",
+          "label": "Compamy Logo 3"
+     },
+    {
+      "type": "text",
+      "id": "company_name4",
+      "label": "Company Name #4"
+    },
+      {
+      "type": "image_picker",
+          "id": "logo4",
+          "label": "Compamy Logo 4"
+     },
+    {
+      "type": "text",
+      "id": "company_name5",
+      "label": "Company Name #5"
+    },
+      {
+      "type": "image_picker",
+          "id": "logo5",
+          "label": "Compamy Logo 5"
+     },
+    {
+      "type": "text",
+      "id": "company_name6",
+      "label": "Company Name #6"
+    },
+      {
+      "type": "image_picker",
+          "id": "logo6",
+          "label": "Compamy Logo 6"
+     },
+    {
+      "type": "header",
+      "content": "Icon settings"
+    },
+    {
+          "type": "image_picker",
+          "id": "icon_cross",
+          "label": "Icon cross"
+    },
+    {
+          "type": "image_picker",
+          "id": "icon_check",
+          "label": "Icon check"
+    }
+  
+  ],
+  "blocks": [
+    {
+      "type": "company",
+      "name": "Company Column",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Key Feature settings"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Key Feature Title"
+        },
+        {
+          "type": "header",
+          "content": "Company settings"
+        },
+        {
+          "type": "select",
+          "id": "def_icon_1",
+          "label": "company icon default #1",
+          "options": [
+            { "value": "check", "label": "Check (✅)" },
+            { "value": "cross", "label": "Cross (❌)" }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "select",
+          "id": "def_icon_2",
+          "label": "company icon default #2",
+          "options": [
+            { "value": "check", "label": "Check (✅)" },
+            { "value": "cross", "label": "Cross (❌)" }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "select",
+          "id": "def_icon_3",
+          "label": "company icon default #3",
+          "options": [
+            { "value": "check", "label": "Check (✅)" },
+            { "value": "cross", "label": "Cross (❌)" }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "select",
+          "id": "def_icon_4",
+          "label": "company icon default #4",
+          "options": [
+            { "value": "check", "label": "Check (✅)" },
+            { "value": "cross", "label": "Cross (❌)" }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "select",
+          "id": "def_icon_5",
+          "label": "company icon default #5",
+          "options": [
+            { "value": "check", "label": "Check (✅)" },
+            { "value": "cross", "label": "Cross (❌)" }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "select",
+          "id": "def_icon_6",
+          "label": "company icon default #6",
+          "options": [
+            { "value": "check", "label": "Check (✅)" },
+            { "value": "cross", "label": "Cross (❌)" }
+          ],
+          "default": "cross"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison Table",
+      "blocks": [
+        { "type": "company" },
+        { "type": "company" },
+        { "type": "company" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+
+

@@ -1,0 +1,31 @@
+{
+  "wrapper": "div.page__blog-list",
+  "sections": {
+    "featured-box": {
+      "type": "01-featured-box",
+      "settings": {}
+    },
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "title": "Latest News",
+        "all_blogs_title": "Show all",
+        "read_more_text": "Continue reading",
+        "posted_on_text": "Posted on",
+        "post_per_page": 15,
+        "enable_tag_categories": true,
+        "show_date": true,
+        "show_author": true
+      }
+    },
+    "featured-box-bottom": {
+      "type": "12-featured-box-bottom",
+      "settings": {}
+    }
+  },
+  "order": [
+    "featured-box",
+    "main",
+    "featured-box-bottom"
+  ]
+}

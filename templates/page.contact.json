@@ -1,0 +1,52 @@
+{
+  "wrapper": "div.page__contact",
+  "sections": {
+    "featured-box": {
+      "type": "01-featured-box",
+      "settings": {
+      }
+    },
+    "main": {
+      "type": "main-contact-page",
+      "blocks": {
+        "ec408134-85e5-4e0b-88af-086e3bd47048": {
+          "type": "subjects",
+          "settings": {
+            "title": "Option1"
+          }
+        },
+        "cc54e2b2-af72-4c50-907f-2fdf4909223e": {
+          "type": "subjects",
+          "settings": {
+            "title": "Option2"
+          }
+        }
+      },
+      "block_order": [
+        "ec408134-85e5-4e0b-88af-086e3bd47048",
+        "cc54e2b2-af72-4c50-907f-2fdf4909223e"
+      ],
+      "settings": {
+        "title": "Get in touch!",
+        "sub_title": "We're here to help. Fill out the form below and we'll be in touch very shortly.",
+        "map_iframe_link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2800.514878952762!2d-75.69880528423424!3d45.419121344470845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cce05ab39846385%3A0x5206530f07ab0c6e!2sShopify%20Inc.!5e0!3m2!1sen!2sin!4v1670419533008!5m2!1sen!2sin",
+        "get_in_touch_title": "Get in touch",
+        "email_address_1": "support@address.com",
+        "email_address_2": "sales@address.com",
+        "phone_number": "123 456 789",
+        "address_title": "Visit us",
+        "address": "123 Address name<br>Town\/City<br>State <br>Country<br>Postcode"
+      }
+    },
+    "featured-box-bottom": {
+      "type": "12-featured-box-bottom",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "featured-box",
+    "main",
+    "featured-box-bottom"
+  ]
+}

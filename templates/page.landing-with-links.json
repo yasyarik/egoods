@@ -1,0 +1,102 @@
+{
+  "wrapper": "div.page__landing",
+  "sections": {
+    "featured-box": {
+      "type": "01-featured-box",
+      "settings": {}
+    },
+    "banner": {
+      "type": "landing-banner",
+      "settings": {
+        "background_image": "",
+        "heading": "Add promotion introduction",
+        "title": "Get Your Hands on the Hottest Styles First",
+        "button_link": "shopify:\/\/collections\/all",
+        "button_text": "Shop Now",
+        "show_reviews": true,
+        "enable_payment_icons": true,
+        "ssl_checkout_icon_image": ""
+      }
+    },
+    "featured-in": {
+      "type": "landing-featured-in",
+      "settings": {
+        "title": "As recommended by:"
+      }
+    },
+    "16355049808b0ae495": {
+      "type": "product-process",
+      "settings": {
+        "title": "The Latest Styles At Your Fingertips",
+        "sub_title": "Incredible Selection of Designer Clothing and Accessories With Unbeatable Prices!"
+      }
+    },
+    "details": {
+      "type": "product-details",
+      "settings": {}
+    },
+    "testimonials": {
+      "type": "09-testimonials",
+      "settings": {
+        "background_color": "#e6e6e6",
+        "title": "Don’t just take our word for it…",
+        "sub_title": "making the world a trendier place every day",
+        "show_reviews": true,
+        "button_link": "shopify:\/\/collections",
+        "button_text": "View all reviews",
+        "enable_payment_icons": true
+      }
+    },
+    "faqs": {
+      "type": "10-faqs",
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "sub_title": "Let's get you some answers..."
+      }
+    },
+    "gallery": {
+      "type": "11-gallery",
+      "settings": {}
+    },
+    "product": {
+      "type": "landing-product",
+      "settings": {
+        "product": "",
+        "show_reviews": true,
+        "product_save_text": "Save",
+        "show_stock_availability": true,
+        "stock_available_text": "Available now!",
+        "only_text": "Only",
+        "left_in_stock_text": "left in stock!",
+        "stock_low_text": "Low stock!",
+        "low_stock_thresold": 5,
+        "low_stock_color": "#ff8c00",
+        "stock_not_available_text": "Out Of Stock!",
+        "out_of_stock_color": "#ff0000",
+        "coming_soon_text": "Coming back soon",
+        "show_dynamic_checkout": false,
+        "product_short_description": "A relaxed-sizing loose jumper in grey.",
+        "enable_payment_icons": true,
+        "ssl_checkout_icon_image": "",
+        "product_description_title": "Product description",
+        "product_preorder_text": "Pre-order"
+      }
+    },
+    "featured-box-bottom": {
+      "type": "12-featured-box-bottom",
+      "settings": {}
+    }
+  },
+  "order": [
+    "featured-box",
+    "banner",
+    "featured-in",
+    "16355049808b0ae495",
+    "details",
+    "testimonials",
+    "faqs",
+    "gallery",
+    "product",
+    "featured-box-bottom"
+  ]
+}

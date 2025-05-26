@@ -1,0 +1,1659 @@
+{% if section.settings.logo_position == "left" %}
+<div class="header__main py-10 py-lg-0"> 
+  <div class="header__container container">
+      <div class="pure-g align-items-center justify-content-between">
+          <div class="header__toggle js-header-toggle d-block d-lg-none"><!-- header toggle -->
+              <span></span>
+              <span></span>
+              <span></span>
+          </div><!-- ./header toggle -->
+          <div class="header__left pure-u-lg-14-24">
+              <div class="header__nav header__nav--desktop"> <!-- header nav for desktop -->
+                  <div class="header__logo"><!-- header logo -->
+                      <a href="{{ routes.root_url }}" aria-label="Rocket">
+                          {%- if section.settings.logo != blank -%}
+                            <img src="{{ section.settings.logo | img_url: 'master' }}" class="pure-img" alt="{{ shop.name }}" width="{{ section.settings.logo_width }}" height="{{ section.settings.logo_height }}" />
+                          {% else %}
+                            <span class="h2">{{ shop.name }}</span>
+                          {% endif %}
+                      </a>
+                  </div><!-- ./header logo -->
+                  {% if section.settings.menu != blank %}
+                    <div class="header__menu"><!-- header menu -->
+                        <ul class="header__list">
+                          {%- for link in section.settings.menu.links -%}
+                            {%- assign hasMegaMenu = false -%}
+                            {% if section.blocks.size > 0 %}
+                              {% for block in section.blocks %}
+                                {% if block.type == "mega-menu" %}
+                                  {% if block.settings.title != blank %}
+                                    {% if block.settings.title == link.title %}
+                                      <li class="header__has-submenu {% if link.current %}menu-item--active{% endif %}">
+                                        <a href="{{ link.url }}">{{ link.title | escape }} <span class="material-icons">keyboard_arrow_down</span></a>
+                                        <div class="header__mega-menu custom-ul-class">
+                                            <div class="pure-g">
+                                                {% if block.settings.sub_nav_1 != blank or block.settings.sub_nav_2 != blank %}
+                                                  <div class="pure-u-7-24">
+                                                    {% if block.settings.navigation_block_title != blank %}
+                                                      <h4 class="header__mm-title">{{block.settings.navigation_block_title}}</h4>
+                                                    {% endif %}
+                                                      <div class="pure-g">
+                                                        {% if block.settings.sub_nav_1 != blank %}
+                                                          <div class="pure-u-1-2">
+                                                            {% if block.settings.sub_nav_1_title != blank %}
+                                                              <h5 class="header__mm-list-title">{{block.settings.sub_nav_1_title}}</h5>
+                                                            {% endif %}
+                                                              <ul class="list-unstyled">
+                                                                {%- for subNav1Link in block.settings.sub_nav_1.links -%}
+                                                                  <li><a href="{{subNav1Link.url}}">{{subNav1Link.title | escape}}</a></li>
+                                                                {%- endfor -%}
+                                                              </ul>
+                                                          </div>
+                                                        {% endif %}
+                                                        {% if block.settings.sub_nav_2 != blank %}
+                                                          <div class="pure-u-1-2">
+                                                            {% if block.settings.sub_nav_2_title != blank %}
+                                                              <h5 class="header__mm-list-title">{{block.settings.sub_nav_2_title}}</h5>
+                                                            {% endif %}
+                                                              <ul class="list-unstyled">
+                                                                {%- for subNav2Link in block.settings.sub_nav_2.links -%}
+                                                                  <li><a href="{{subNav2Link.url}}">{{subNav2Link.title | escape}}</a></li>
+                                                                {%- endfor -%}
+                                                              </ul>
+                                                          </div>
+                                                        {% endif %}
+                                                      </div>
+                                                  </div>
+                                                {% else %}
+                                                  <div class="pure-u-7-24">
+                                                      <h4 class="header__mm-title">Shop Websitename</h4>
+                                                      <div class="pure-g">
+                                                          <div class="pure-u-1-2">
+                                                              <h5 class="header__mm-list-title">Category</h5>
+                                                              <ul class="list-unstyled">
+                                                                  <li><a href="#">Inner category</a></li>
+                                                                  <li><a href="#">Inner category</a></li>
+                                                                  <li><a href="#">Inner category</a></li>
+                                                                  <li><a href="#">Inner category</a></li>
+                                                                  <li><a href="#">Inner category</a></li>
+                                                              </ul>
+                                                          </div>
+                                                          <div class="pure-u-1-2">
+                                                              <h5 class="header__mm-list-title">Category</h5>
+                                                              <ul class="list-unstyled">
+                                                                  <li><a href="#">Inner category</a></li>
+                                                                  <li><a href="#">Inner category</a></li>
+                                                                  <li><a href="#">Inner category</a></li>
+                                                                  <li><a href="#">Inner category</a></li>
+                                                                  <li><a href="#">Inner category</a></li>
+                                                              </ul>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                {% endif %}
+                                                {% if block.settings.product_1 != blank or block.settings.product_2 != blank %}
+                                                <div class="pure-u-7-24">
+                                                    {% if block.settings.product_block_title != blank %}
+                                                      <h4 class="header__mm-title">{{block.settings.product_block_title}}</h4>
+                                                    {% endif %}
+                                                    <div class="product__grid">
+                                                      {% if block.settings.product_1 != blank %}
+                                                        {% assign megaMenuProduct1 = all_products[block.settings.product_1] %}
+                                                        {%- assign megaMenuProduct1CurrentVariant = megaMenuProduct1.selected_or_first_available_variant -%}
+                                                        <div class="product product--style-2">
+                                                            <div class="product__image-container">
+                                                                <a href="{{megaMenuProduct1.url}}" class="product__image ratio1by1">
+                                                                    {% if megaMenuProduct1.featured_image.src != blank %}
+                                                                      <img src="{{ megaMenuProduct1.featured_image.src | img_url: '140x' }}" class=" pure-img" alt="" loading="lazy"/>
+                                                                    {% else %}
+                                                                      <img data-src="{{ 'bg-gray-img.jpg' | asset_url }}" class="lazyload pure-img" alt="" />
+                                                                    {% endif %}
+                                                                </a>
+                                                            </div>
+                                                            <div class="product__detail">
+                                                                {%- if block.settings.show_product_rating -%}
+                                                                  <div class="rating">
+                                                                      <span class="shopify-product-reviews-badge" data-id="{{ megaMenuProduct1.id }}"></span>
+                                                                  </div>
+                                                                {% endif %}
+                                                                <a href="{{megaMenuProduct1.url}}" class="product__title">{{megaMenuProduct1.title}}</a>
+                                                                <div class="product__meta">
+                                                                    <div class="product__price">
+                                                                      {%- if megaMenuProduct1CurrentVariant.compare_at_price > megaMenuProduct1CurrentVariant.price -%}
+                                                                        <span class="product__price-sale">{{ megaMenuProduct1CurrentVariant.compare_at_price | money}}</span>
+                                                                      {%- endif -%}
+                                                                        <span class="product__price-original">{{ megaMenuProduct1CurrentVariant.price | money}}</span>
+                                                                    </div>
+                                                                    {%- if megaMenuProduct1CurrentVariant.compare_at_price > megaMenuProduct1CurrentVariant.price -%}
+                                                                    {% assign megaMenuProduct1Save =  megaMenuProduct1CurrentVariant.compare_at_price | minus: megaMenuProduct1CurrentVariant.price | times: 100.0 | divided_by: megaMenuProduct1CurrentVariant.compare_at_price | money_without_currency | times: 100 | remove: '.0' | plus: 0 %}
+                                                                      {% if megaMenuProduct1Save > 0 %}
+                                                                        <span class="badge" {% if section.settings.save_badge_color != blank %}style="background-color: {{ section.settings.save_badge_color }};"{% endif %}>Save {{megaMenuProduct1Save}}%</span>
+                                                                      {% endif %}
+                                                                    {%- endif -%}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                      {% endif %}
+                                                      {% if block.settings.product_2 != blank %}
+                                                        {% assign megaMenuProduct2 = all_products[block.settings.product_2] %}
+                                                        {%- assign megaMenuProduct2CurrentVariant = megaMenuProduct2.selected_or_first_available_variant -%}
+                                                        <div class="product product--style-2">
+                                                            <div class="product__image-container">
+                                                                <a href="{{megaMenuProduct2.url}}" class="product__image ratio1by1">
+                                                                    {% if megaMenuProduct2.featured_image.src != blank %}
+                                                                      <img src="{{ megaMenuProduct2.featured_image.src | img_url: '140x' }}" class=" pure-img" alt="" loading="lazy" />
+                                                                    {% else %}
+                                                                      <img data-src="{{ 'bg-gray-img.jpg' | asset_url }}" class="lazyload pure-img" alt="" />
+                                                                    {% endif %}
+                                                                </a>
+                                                            </div>
+                                                            <div class="product__detail">
+                                                                {%- if block.settings.show_product_rating -%}
+                                                                  <div class="rating">
+                                                                      <span class="shopify-product-reviews-badge" data-id="{{ megaMenuProduct2.id }}"></span>
+                                                                  </div>
+                                                                {% endif %}
+                                                                <a href="{{megaMenuProduct2.url}}" class="product__title">{{megaMenuProduct2.title}}</a>
+                                                                <div class="product__meta">
+                                                                    <div class="product__price">
+                                                                      {%- if megaMenuProduct2CurrentVariant.compare_at_price > megaMenuProduct2CurrentVariant.price -%}
+                                                                        <span class="product__price-sale">{{ megaMenuProduct2CurrentVariant.compare_at_price | money}}</span>
+                                                                      {%- endif -%}
+                                                                        <span class="product__price-original">{{ megaMenuProduct2CurrentVariant.price | money}}</span>
+                                                                    </div>
+                                                                    {%- if megaMenuProduct2CurrentVariant.compare_at_price > megaMenuProduct2CurrentVariant.price -%}
+                                                                    {% assign megaMenuProduct2Save =  megaMenuProduct2CurrentVariant.compare_at_price | minus: megaMenuProduct2CurrentVariant.price | times: 100.0 | divided_by: megaMenuProduct2CurrentVariant.compare_at_price | money_without_currency | times: 100 | remove: '.0' | plus: 0 %}
+                                                                      {% if megaMenuProduct2Save > 0 %}
+                                                                        <span class="badge" {% if section.settings.save_badge_color != blank %}style="background-color: {{ section.settings.save_badge_color }};"{% endif %}>Save {{megaMenuProduct2Save}}%</span>
+                                                                      {% endif %}
+                                                                    {%- endif -%}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                      {% endif %}
+                                                    </div>
+                                                </div>
+                                                {% else %}
+                                                  <div class="pure-u-7-24">
+                                                      <h4 class="header__mm-title">Featured Products</h4>
+                                                      <div class="product__grid">
+                                                          <div class="product product--style-2">
+                                                              <div class="product__image-container">
+                                                                  <a href="#" class="product__image ratio1by1">
+                                                                      {{ 'product-1' | placeholder_svg_tag: 'lazyload pure-img svg__thumb' }}
+                                                                  </a>
+                                                              </div>
+                                                              <div class="product__detail">
+                                                                  <div class="rating">
+                                                                      <span class="rating__star">
+                                                                          <svg class="active" width="13" height="13">
+                                                                          <use xlink:href="#ic-star"></use>
+                                                                          </svg>
+                                                                          <svg class="active" width="13" height="13">
+                                                                          <use xlink:href="#ic-star"></use>
+                                                                          </svg>
+                                                                          <svg class="active" width="13" height="13">
+                                                                          <use xlink:href="#ic-star"></use>
+                                                                          </svg>
+                                                                          <svg class="active" width="13" height="13">
+                                                                          <use xlink:href="#ic-star"></use>
+                                                                          </svg>
+                                                                          <svg class="active" width="13" height="13">
+                                                                          <use xlink:href="#ic-star"></use>
+                                                                          </svg>
+                                                                      </span>
+                                                                      <span class="rating__text">83 <span class="d-none d-md-inline">Reviews</span></span>
+                                                                  </div>
+                                                                  <a href="#" class="product__title">Product name goes here</a>
+                                                                  <div class="product__meta">
+                                                                      <div class="product__price">
+                                                                          <span class="product__price-sale">£19.99</span>
+                                                                          <span class="product__price-original">£9.99</span>
+                                                                      </div>
+                                                                      <span class="badge">Save 50%</span>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="product product--style-2">
+                                                              <div class="product__image-container">
+                                                                  <a href="#" class="product__image ratio1by1">
+                                                                      {{ 'product-2' | placeholder_svg_tag: 'lazyload pure-img svg__thumb' }}
+                                                                  </a>
+                                                              </div>
+                                                              <div class="product__detail">
+                                                                  <div class="rating">
+                                                                      <span class="rating__star">
+                                                                          <svg class="active" width="13" height="13">
+                                                                          <use xlink:href="#ic-star"></use>
+                                                                          </svg>
+                                                                          <svg class="active" width="13" height="13">
+                                                                          <use xlink:href="#ic-star"></use>
+                                                                          </svg>
+                                                                          <svg class="active" width="13" height="13">
+                                                                          <use xlink:href="#ic-star"></use>
+                                                                          </svg>
+                                                                          <svg class="active" width="13" height="13">
+                                                                          <use xlink:href="#ic-star"></use>
+                                                                          </svg>
+                                                                          <svg class="active" width="13" height="13">
+                                                                          <use xlink:href="#ic-star"></use>
+                                                                          </svg>
+                                                                      </span>
+                                                                      <span class="rating__text">83 <span class="d-none d-md-inline">Reviews</span></span>
+                                                                  </div>
+                                                                  <a href="#" class="product__title">Product name goes here</a>
+                                                                  <div class="product__meta">
+                                                                      <div class="product__price">
+                                                                          <span class="product__price-sale">£19.99</span>
+                                                                          <span class="product__price-original">£9.99</span>
+                                                                      </div>
+                                                                      <span class="badge">Save 50%</span>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                {% endif %}
+                                                {% if block.settings.category_image != blank and block.settings.category_title != blank %}
+                                                  <div class="pure-u-10-24">
+                                                      <div class="portfolio portfolio--style-2">
+                                                          <figure class="portfolio__item ratio21by5">
+                                                              <img data-src="{{ block.settings.category_image | img_url: 'master' }}" class="img-fluid lazyload" alt="" />
+                                                              <figcaption class="portfolio__info">
+                                                                  <h3 class="text-8 fw-400" {% if block.settings.category_title_color != blank %}style="color: {{ block.settings.category_title_color }}"{% endif %}>
+                                                                    {% if block.settings.category_link != blank %}
+                                                                      <a href="{{block.settings.category_link}}" {% if block.settings.category_title_color != blank %}style="color: {{ block.settings.category_title_color }}"{% endif %}></a>
+                                                                    {% endif %}
+                                                                      {{block.settings.category_title}}
+                                                                    {% if block.settings.category_link != blank %}
+                                                                      </a>
+                                                                    {% endif %}
+                                                                    </h3>
+                                                                  {% if block.settings.category_link != blank %}
+                                                                    <a href="{{block.settings.category_link}}" class="btn btn--icon-hand">{{block.settings.category_button_text}}</a>
+                                                                  {% endif %}
+                                                              </figcaption>
+                                                          </figure>
+                                                      </div>
+                                                  </div>
+                                                {% else %}
+                                                  <div class="pure-u-10-24">
+                                                      <div class="portfolio portfolio--style-2">
+                                                          <figure class="portfolio__item ratio21by5">
+                                                              {{ 'lifestyle-2' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                                                              <figcaption class="portfolio__info">
+                                                                  <h3 class="text-8 fw-400"><a href="#">Category name</a></h3>
+                                                                  <a href="#" class="btn btn--icon-hand">Shop Now</a>
+                                                              </figcaption>
+                                                          </figure>
+                                                      </div>
+                                                  </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                      </li>
+                                      {%- assign hasMegaMenu = true -%}
+                                    {% break %}
+                                    {% endif %}
+                                  {% endif %}
+                                {% endif %}
+                              {% endfor %}
+                            {% endif %}
+                            {% if hasMegaMenu %}
+                            {% else %}
+                              <li class="{% if link.links != blank %}has-childrens{% endif %} {% if link.current %}menu-item--active{% endif %}">
+                                <a href="{{ link.url }}">{{ link.title | escape }} {% if link.links != blank %}<span class="material-icons">keyboard_arrow_down</span>{% endif %}</a>
+                                {% assign mainLinkTitle = link.title | escape %}
+                                {% assign mainLinkLink = link.url %}
+                                {%- if link.links != blank -%}
+                                  <ul class="child-lists list-menu custom-ul-class" role="list" tabindex="-1">
+                                    <li class="sub-menu-title-parent"><a href="{{ mainLinkLink }}">{{ mainLinkTitle }}</a></li>
+                                    {%- for childlink in link.links -%}
+                                      <li class="{% if childlink.links != blank %}has-childrens{% endif %} {% if childlink.current %}menu-item--active{% endif %}">
+                                          <a href="{{ childlink.url }}">{{ childlink.title | escape }} {% if childlink.links != blank %}<span class="material-icons">keyboard_arrow_right</span>{% endif %}</a>
+                                          {%- if childlink.links != blank -%}
+                                            {% assign mainSubLinkTitle = childlink.title | escape %}
+                                            {% assign mainSubLinkLink = childlink.url %}
+                                            <ul class="sub-child-lists list-menu custom-ul-class" role="list" tabindex="-1">
+                                              <li class="sub-menu-title"><span class="js-back-to-parent"><span class="material-icons">keyboard_arrow_left</span>{{ mainLinkTitle }}</span></li>
+                                              <li class="sub-menu-title-parent"><a href="{{ mainSubLinkLink }}">{{ mainSubLinkTitle }}</a></li>
+                                              {%- for grandchildlink in childlink.links -%}
+                                                <li class="{% if grandchildlink.current %}menu-item--active{% endif %}">
+                                                  <a href="{{ grandchildlink.url }}">{{ grandchildlink.title | escape }}</a>
+                                                </li>
+                                              {%- endfor -%}
+                                            </ul>
+                                          {%- endif -%}
+                                      </li>
+                                    {%- endfor -%}
+                                  </ul>
+                                {%- endif -%}
+                              </li>
+                            {% endif %}
+                          {%- endfor -%}
+                        </ul>
+                    </div><!-- ./header menu -->
+                  {% endif %}
+              </div><!-- header nav for desktop END-->
+
+              <div class="header__nav header__nav--mobile"><!-- header nav for Mobile -->
+                  <div class="header__logo"><!-- header logo -->
+                      <a href="{{ routes.root_url }}" aria-label="Rocket">
+                          {%- if section.settings.logo != blank -%}
+                            <img src="{{ section.settings.logo | img_url: 'master' }}" class="pure-img" alt="{{ shop.name }}" width="{{ section.settings.logo_width }}" height="{{ section.settings.logo_height }}" />
+                          {% else %}
+                            <span class="h2">{{ shop.name }}</span>
+                          {% endif %}
+                      </a>
+                  </div><!-- ./header logo -->
+                  {% assign hasMobileMenu = false %}
+                  {% for block in section.blocks %}
+                    {% if block.type == "mobile-menu" %}
+                      {% assign hasMobileMenu = true %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if hasMobileMenu != blank %}
+                    <div class="header__menu js-header-menu"><!-- header menu -->
+                        <div class="header__close js-header-close">
+                            <span class="material-icons">
+                            close
+                            </span>
+                        </div>
+                        <div class="custom-mobile-menu-wrapper">
+                          <div class="custom-mobile-menu-images-wrapper">
+                            {% assign mobileBannerCounter = 1 %}
+                            {% for block in section.blocks %}
+                              {% if block.type == "mobile-menu" %}
+                                {% if block.settings.image != blank %}
+                                  <div class="custom-mobile-menu-single-image {% if mobileBannerCounter == 1 %}active{% endif %} custom-mobile-{{mobileBannerCounter}}">
+                                    <a href="{{ block.settings.banner_image_url }}">
+                                      <img src="{{ block.settings.image | img_url: 'master' }}" loading="lazy" width="680" height="774" alt="" />
+                                    </a>
+                                  </div>
+                                  {% assign mobileBannerCounter = mobileBannerCounter | plus: 1 %}
+                                {% endif %}
+                              {% endif %}
+                            {% endfor %}
+                            {% if mobileBannerCounter == 1 %}
+                              <div class="cross-image-wrapper"></div>
+                            {% endif %}
+                          </div>
+                          <div class="custom-mobile-menu-tabs-wrapper">
+                            <div class="custom-mobile-menu-tab-title-listings">
+                              <ul>
+                                {% assign mobileTabTitleCounter = 1 %}
+                                {% for block in section.blocks %}
+                                  {% if block.type == "mobile-menu" %}
+                                    {% if block.settings.title != blank %}
+                                      <li class="{% if mobileTabTitleCounter == 1 %}active{% endif %}"><a href="custom-mobile-{{mobileTabTitleCounter}}">{{ block.settings.title }}</a></li>
+                                      {% assign mobileTabTitleCounter = mobileTabTitleCounter | plus: 1 %}
+                                    {% endif %}
+                                  {% endif %}
+                                {% endfor %}
+                              <ul>
+                            </div>
+                            <div class="custom-mobile-menu-tab-content-listings">
+                              {% assign mobileTabContentCounter = 1 %}
+                              {% for block in section.blocks %}
+                                {% if block.type == "mobile-menu" %}
+                                  {% if block.settings.title != blank %}
+                                    <div class="custom-mobile-menu-single-tab-content {% if mobileTabContentCounter == 1 %}active{% endif %} custom-mobile-{{mobileTabContentCounter}}">
+                                      <div class="custom-mobile-menu-single-tab-menu">
+                                        {% for i in (1..5) %}
+                                          {% assign tab_menu_var = "tab_menu_" | append: i %}
+                                          {% assign tab_menu_image_var = "tab_menu_" | append: i | append: "_image" %}
+                                          {% assign tab_menu_title_var = "tab_menu_" | append: i | append: "_title" %}
+                                          {% if block.settings[tab_menu_var] != blank and block.settings[tab_menu_image_var] != blank and block.settings[tab_menu_title_var] != blank %}
+                                            <div class="custom-mobile-menu-single-tab-menu-details">
+                                              <div class="custom-mobile-menu-single-tab-menu-details-title">
+                                                <div class="custom-mobile-menu-single-tab-menu-details-title-image">
+                                                  <img src="{{ block.settings[tab_menu_image_var] | img_url: '60x' }}" loading="lazy" width="60" height="60" alt="" />
+                                                </div>
+                                                <div class="custom-mobile-menu-single-tab-menu-details-title-name">
+                                                  <p>{{ block.settings[tab_menu_title_var] }}</p>
+                                                </div>
+                                                <div class="custom-mobile-menu-single-tab-menu-details-title-icon"></div>
+                                              </div>
+                                              <div class="custom-mobile-menu-single-tab-menu-details-content">
+                                                <ul>
+                                                  {%- for mobileMenuLink in block.settings[tab_menu_var].links -%}
+                                                    <li><a href="{{mobileMenuLink.url}}">{{mobileMenuLink.title | escape}}</a></li>
+                                                  {%- endfor -%}
+                                                </ul>
+                                              </div>
+                                            </div>
+                                          {% endif %}
+                                        {% endfor %}
+                                      </div>
+                                    </div>
+                                  {% assign mobileTabContentCounter = mobileTabContentCounter | plus: 1 %}
+                                  {% endif %}
+                                {% endif %}
+                              {% endfor %}
+                            </div>
+                          </div>
+                        </div>
+                    </div><!-- ./header menu -->
+                  {% else %}
+                    <div class="header__menu js-header-menu">
+                      <!-- header menu -->
+                      <div class="header__close js-header-close">
+                        <span class="material-icons"> close </span>
+                      </div>
+                      <div class="custom-mobile-menu-wrapper">
+                        <div class="custom-mobile-menu-images-wrapper">
+                          <div class="custom-mobile-menu-single-image custom-mobile-1 active">
+                            <a href="/collections/all">
+                              {{ 'lifestyle-2' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                            </a>
+                          </div>
+                          <div class="custom-mobile-menu-single-image custom-mobile-2">
+                            <a href="/collections/all">
+                              {{ 'lifestyle-2' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                            </a>
+                          </div>
+                        </div>
+                        <div class="custom-mobile-menu-tabs-wrapper">
+                          <div class="custom-mobile-menu-tab-title-listings">
+                            <ul>
+                              <li class="active">
+                                <a href="custom-mobile-1">Category</a>
+                              </li>
+                              <li class="">
+                                <a href="custom-mobile-2">Category</a>
+                              </li>
+                              <ul></ul>
+                            </ul>
+                          </div>
+                          <div class="custom-mobile-menu-tab-content-listings">
+                            <div class="custom-mobile-menu-single-tab-content custom-mobile-1 active">
+                              <div class="custom-mobile-menu-single-tab-menu">
+                                <div class="custom-mobile-menu-single-tab-menu-details">
+                                  <div class="custom-mobile-menu-single-tab-menu-details-title">
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-image">
+                                      {{ 'image' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                                    </div>
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-name">
+                                      <p>Category</p>
+                                    </div>
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-icon"></div>
+                                  </div>
+                                  <div class="custom-mobile-menu-single-tab-menu-details-content">
+                                    <ul>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="custom-mobile-menu-single-tab-menu-details">
+                                  <div class="custom-mobile-menu-single-tab-menu-details-title">
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-image">
+                                      {{ 'image' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                                    </div>
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-name">
+                                      <p>Category</p>
+                                    </div>
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-icon"></div>
+                                  </div>
+                                  <div class="custom-mobile-menu-single-tab-menu-details-content">
+                                    <ul>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="custom-mobile-menu-single-tab-content custom-mobile-2">
+                              <div class="custom-mobile-menu-single-tab-menu">
+                                <div class="custom-mobile-menu-single-tab-menu-details">
+                                  <div class="custom-mobile-menu-single-tab-menu-details-title">
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-image">
+                                      {{ 'image' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                                    </div>
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-name">
+                                      <p>Category</p>
+                                    </div>
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-icon"></div>
+                                  </div>
+                                  <div class="custom-mobile-menu-single-tab-menu-details-content">
+                                    <ul>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="custom-mobile-menu-single-tab-menu-details">
+                                  <div class="custom-mobile-menu-single-tab-menu-details-title">
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-image">
+                                      {{ 'image' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                                    </div>
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-name">
+                                      <p>Category</p>
+                                    </div>
+                                    <div class="custom-mobile-menu-single-tab-menu-details-title-icon"></div>
+                                  </div>
+                                  <div class="custom-mobile-menu-single-tab-menu-details-content">
+                                    <ul>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                      <li>
+                                        <a href="/collections/all">Sub Category</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+              </div><!-- header nav for Mobile END-->
+          </div>
+          <div class="header__right pure-u-lg-3-8">
+              <div class="header__actions">
+                {% if section.settings.enable_region_selector != blank %}
+                  <div class="header__action-region-selector"><!-- header search -->
+                    {% form 'localization' %}
+                      <input type="hidden" class="custom-image-dropdown-input" name="country_code" />
+                      <div class="custom-image-dropdown">
+                        <button type="button" class="selector-button">
+                          <span class="button-image-wrapper currency-flag--{{ localization.country.iso_code | downcase }}"></span>
+                          <span class="button-text-wrapper">{{ localization.country.currency.iso_code }} {{ localization.country.currency.symbol }}</span>
+                          <img data-src="{{ 'ic-keyboard-arrow-down.svg' | asset_url }}" alt="" class="dropdown-arrow-image lazyload" />
+                        </button>
+                        <ul>
+                          {% for country in localization.available_countries %}
+                            <li {% if country.iso_code == localization.country.iso_code %} class="selected"{% endif %}>
+                            <a href="#" data-value="{{ country.iso_code }}">
+                              <span class="button-image-wrapper currency-flag--{{ country.iso_code | downcase }}"></span>
+                              <span class="button-text-wrapper">({{ country.currency.iso_code }} {{ country.currency.symbol }})</span>
+                            </a></li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% comment %}
+                      <select name="country_code" class="form-select form-select--small region-selector">
+                        {% for country in localization.available_countries %}
+                          <option {% if country.iso_code == localization.country.iso_code %} selected="selected"{% endif %} value="{{ country.iso_code }}">{{ country.name }} ()</option>
+                        {% endfor %}
+                      </select>
+                      {% endcomment %}
+                    {% endform %}
+                  </div>
+                {% endif %}
+                {% if section.settings.enable_search != blank %}
+                  <div class="header__action-search" id="js-search-box"><!-- header search -->
+                    <button type="button" class="form-icon" id="js-search-toggle">
+                    <span class="material-icons">search</span>
+                    </button>
+                  </div><!-- ./header search -->
+                {% endif %}
+                {%- if shop.customer_accounts_enabled -%}
+                	<div class="header__action-account">
+                      <a aria-label="account" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}">
+                        <img src="{{ 'account-circle-black.svg' | asset_url }}" width="24" height="24" alt="" />
+                      </a>
+                	</div>
+                {%- endif -%}
+                  <div class="header__action-cart"><!-- header cart -->
+                      <div class="header__cart-icon">
+                          <a href="{% if settings.cart_type == "page"%}{{ routes.cart_url }}{% else %}#{% endif%}" class="{% if settings.cart_type == "drawer"%}js-cart-toggle{% endif %}">
+                              <span class="material-icons-outlined">{{settings.icon_cart}}</span>
+                              {%- if settings.cart_bubble -%}
+                                <span class="cart-link__bubble{% if settings.cart_bubble_animation %} rubberBand infinite slow {% endif %}{% if cart.item_count > 0 %} cart-link__bubble--visible{% endif %}"></span>
+                              {%- endif -%}
+                              {% if settings.cart_count != blank %}
+                                <span class="header__cart-count">{{cart.item_count}}</span>
+                              {% endif %}
+                          </a>
+                      </div>
+                      {% if settings.cart_type == "drawer"%}
+                      <!-- Minicart Start -->
+                        <div class="minicart__overlay"></div>
+                        <div class="minicart__wrapper js-minicart"></div>
+                        <!-- Minicart END -->
+                      {% endif %}
+                  </div><!-- ./header cart -->
+              </div>
+          </div>
+      </div>
+  </div>
+  {% if section.settings.enable_search != blank %}
+    <div class="hearch-search-form-wrapper">
+      <div class="hearch-search-form-overlay"></div>
+      <div class="hearch-search-form">
+        {%- if settings.predictive_search_enabled -%}
+          <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
+        {%- endif -%}
+          <form action="{{ routes.search_url }}" method="get" role="search" class="header__search search">
+            {% if section.settings.search_only_products != blank %}
+              <input type="hidden" name="type" value="product">
+            {% endif %}
+            <input class="form-input" id="js-search-input" type="search" name="q" value="" placeholder="{{ 'general.search.search' | t }}">
+            <button type="button" class="form-icon" id="js-search-icon">
+                <span class="material-icons">search</span>
+            </button>
+            {%- if settings.predictive_search_enabled -%}
+              <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+                <div class="predictive-search__loading-state">
+                  <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                  </svg>
+                </div>
+              </div>
+              <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+            {%- endif -%}
+          </form>
+        {%- if settings.predictive_search_enabled -%}
+          </predictive-search>
+        {%- endif -%}
+        <button type="button" class="close-search-popup" aria-label="{{ 'accessibility.close' | t }}">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% else %}
+<!-- Logo center header  -->
+<div class="header__main header--has-center py-10 py-lg-0"> 
+  <div class="header__container container">
+      <div class="pure-g align-items-center justify-content-between">
+        <div class="header__left">
+          <div class="header__toggle js-header-toggle d-inline-block d-lg-none"><!-- header toggle -->
+              <span></span>
+              <span></span>
+              <span></span>
+          </div><!-- ./header toggle -->
+          
+          <div class="header__nav header__nav--desktop"> <!-- header nav for desktop -->
+              {% if section.settings.menu != blank %}
+                <div class="header__menu"><!-- header menu -->
+                    <ul class="header__list">
+                      {%- for link in section.settings.menu.links -%}
+                        {%- assign hasMegaMenu = false -%}
+                        {% if section.blocks.size > 0 %}
+                          {% for block in section.blocks %}
+                            {% if block.type == "mega-menu" %}
+                              {% if block.settings.title != blank %}
+                                {% if block.settings.title == link.title %}
+                                  <li class="header__has-submenu {% if link.current %}menu-item--active{% endif %}">
+                                    <a href="{{ link.url }}">{{ link.title | escape }} <span class="material-icons">keyboard_arrow_down</span></a>
+                                    <div class="header__mega-menu custom-ul-class">
+                                        <div class="pure-g">
+                                            {% if block.settings.sub_nav_1 != blank or block.settings.sub_nav_2 != blank %}
+                                              <div class="pure-u-7-24">
+                                                {% if block.settings.navigation_block_title != blank %}
+                                                  <h4 class="header__mm-title">{{block.settings.navigation_block_title}}</h4>
+                                                {% endif %}
+                                                  <div class="pure-g">
+                                                    {% if block.settings.sub_nav_1 != blank %}
+                                                      <div class="pure-u-1-2">
+                                                        {% if block.settings.sub_nav_1_title != blank %}
+                                                          <h5 class="header__mm-list-title">{{block.settings.sub_nav_1_title}}</h5>
+                                                        {% endif %}
+                                                          <ul class="list-unstyled">
+                                                            {%- for subNav1Link in block.settings.sub_nav_1.links -%}
+                                                              <li><a href="{{subNav1Link.url}}">{{subNav1Link.title | escape}}</a></li>
+                                                            {%- endfor -%}
+                                                          </ul>
+                                                      </div>
+                                                    {% endif %}
+                                                    {% if block.settings.sub_nav_2 != blank %}
+                                                      <div class="pure-u-1-2">
+                                                        {% if block.settings.sub_nav_2_title != blank %}
+                                                          <h5 class="header__mm-list-title">{{block.settings.sub_nav_2_title}}</h5>
+                                                        {% endif %}
+                                                          <ul class="list-unstyled">
+                                                            {%- for subNav2Link in block.settings.sub_nav_2.links -%}
+                                                              <li><a href="{{subNav2Link.url}}">{{subNav2Link.title | escape}}</a></li>
+                                                            {%- endfor -%}
+                                                          </ul>
+                                                      </div>
+                                                    {% endif %}
+                                                  </div>
+                                              </div>
+                                            {% else %}
+                                              <div class="pure-u-7-24">
+                                                  <h4 class="header__mm-title">Shop Websitename</h4>
+                                                  <div class="pure-g">
+                                                      <div class="pure-u-1-2">
+                                                          <h5 class="header__mm-list-title">Category</h5>
+                                                          <ul class="list-unstyled">
+                                                              <li><a href="#">Inner category</a></li>
+                                                              <li><a href="#">Inner category</a></li>
+                                                              <li><a href="#">Inner category</a></li>
+                                                              <li><a href="#">Inner category</a></li>
+                                                              <li><a href="#">Inner category</a></li>
+                                                          </ul>
+                                                      </div>
+                                                      <div class="pure-u-1-2">
+                                                          <h5 class="header__mm-list-title">Category</h5>
+                                                          <ul class="list-unstyled">
+                                                              <li><a href="#">Inner category</a></li>
+                                                              <li><a href="#">Inner category</a></li>
+                                                              <li><a href="#">Inner category</a></li>
+                                                              <li><a href="#">Inner category</a></li>
+                                                              <li><a href="#">Inner category</a></li>
+                                                          </ul>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                            {% endif %}
+                                            {% if block.settings.product_1 != blank or block.settings.product_2 != blank %}
+                                            <div class="pure-u-7-24">
+                                                {% if block.settings.product_block_title != blank %}
+                                                  <h4 class="header__mm-title">{{block.settings.product_block_title}}</h4>
+                                                {% endif %}
+                                                <div class="product__grid">
+                                                  {% if block.settings.product_1 != blank %}
+                                                    {% assign megaMenuProduct1 = all_products[block.settings.product_1] %}
+                                                    {%- assign megaMenuProduct1CurrentVariant = megaMenuProduct1.selected_or_first_available_variant -%}
+                                                    <div class="product product--style-2">
+                                                        <div class="product__image-container">
+                                                            <a href="{{megaMenuProduct1.url}}" class="product__image ratio1by1">
+                                                                {% if megaMenuProduct1.featured_image.src != blank %}
+                                                                  <img src="{{ megaMenuProduct1.featured_image.src | img_url: '140x' }}" loading="lazy" class=" pure-img" alt="" />
+                                                                {% else %}
+                                                                  <img data-src="{{ 'bg-gray-img.jpg' | asset_url }}" class="lazyload pure-img" alt="" />
+                                                                {% endif %}
+                                                            </a>
+                                                        </div>
+                                                        <div class="product__detail">
+                                                            {%- if block.settings.show_product_rating -%}
+                                                              <div class="rating">
+                                                                  <span class="shopify-product-reviews-badge" data-id="{{ megaMenuProduct1.id }}"></span>
+                                                              </div>
+                                                            {% endif %}
+                                                            <a href="{{megaMenuProduct1.url}}" class="product__title">{{megaMenuProduct1.title}}</a>
+                                                            <div class="product__meta">
+                                                                <div class="product__price">
+                                                                  {%- if megaMenuProduct1CurrentVariant.compare_at_price > megaMenuProduct1CurrentVariant.price -%}
+                                                                    <span class="product__price-sale">{{ megaMenuProduct1CurrentVariant.compare_at_price | money}}</span>
+                                                                  {%- endif -%}
+                                                                    <span class="product__price-original">{{ megaMenuProduct1CurrentVariant.price | money}}</span>
+                                                                </div>
+                                                                {%- if megaMenuProduct1CurrentVariant.compare_at_price > megaMenuProduct1CurrentVariant.price -%}
+                                                                {% assign megaMenuProduct1Save =  megaMenuProduct1CurrentVariant.compare_at_price | minus: megaMenuProduct1CurrentVariant.price | times: 100.0 | divided_by: megaMenuProduct1CurrentVariant.compare_at_price | money_without_currency | times: 100 | remove: '.0' | plus: 0 %}
+                                                                  {% if megaMenuProduct1Save > 0 %}
+                                                                    <span class="badge" {% if section.settings.save_badge_color != blank %}style="background-color: {{ section.settings.save_badge_color }};"{% endif %}>Save {{megaMenuProduct1Save}}%</span>
+                                                                  {% endif %}
+                                                                {%- endif -%}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                  {% endif %}
+                                                  {% if block.settings.product_2 != blank %}
+                                                    {% assign megaMenuProduct2 = all_products[block.settings.product_2] %}
+                                                    {%- assign megaMenuProduct2CurrentVariant = megaMenuProduct2.selected_or_first_available_variant -%}
+                                                    <div class="product product--style-2">
+                                                        <div class="product__image-container">
+                                                            <a href="{{megaMenuProduct2.url}}" class="product__image ratio1by1">
+                                                                {% if megaMenuProduct2.featured_image.src != blank %}
+                                                                  <img src="{{ megaMenuProduct2.featured_image.src | img_url: '140x' }}" loading="lazy" class=" pure-img" alt="" />
+                                                                {% else %}
+                                                                  <img data-src="{{ 'bg-gray-img.jpg' | asset_url }}" class="lazyload pure-img" alt="" />
+                                                                {% endif %}
+                                                            </a>
+                                                        </div>
+                                                        <div class="product__detail">
+                                                            {%- if block.settings.show_product_rating -%}
+                                                              <div class="rating">
+                                                                  <span class="shopify-product-reviews-badge" data-id="{{ megaMenuProduct2.id }}"></span>
+                                                              </div>
+                                                            {% endif %}
+                                                            <a href="{{megaMenuProduct2.url}}" class="product__title">{{megaMenuProduct2.title}}</a>
+                                                            <div class="product__meta">
+                                                                <div class="product__price">
+                                                                  {%- if megaMenuProduct2CurrentVariant.compare_at_price > megaMenuProduct2CurrentVariant.price -%}
+                                                                    <span class="product__price-sale">{{ megaMenuProduct2CurrentVariant.compare_at_price | money}}</span>
+                                                                  {%- endif -%}
+                                                                    <span class="product__price-original">{{ megaMenuProduct2CurrentVariant.price | money}}</span>
+                                                                </div>
+                                                                {%- if megaMenuProduct2CurrentVariant.compare_at_price > megaMenuProduct2CurrentVariant.price -%}
+                                                                {% assign megaMenuProduct2Save =  megaMenuProduct2CurrentVariant.compare_at_price | minus: megaMenuProduct2CurrentVariant.price | times: 100.0 | divided_by: megaMenuProduct2CurrentVariant.compare_at_price | money_without_currency | times: 100 | remove: '.0' | plus: 0 %}
+                                                                  {% if megaMenuProduct2Save > 0 %}
+                                                                    <span class="badge" {% if section.settings.save_badge_color != blank %}style="background-color: {{ section.settings.save_badge_color }};"{% endif %}>Save {{megaMenuProduct2Save}}%</span>
+                                                                  {% endif %}
+                                                                {%- endif -%}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                  {% endif %}
+                                                </div>
+                                            </div>
+                                            {% else %}
+                                              <div class="pure-u-7-24">
+                                                  <h4 class="header__mm-title">Featured Products</h4>
+                                                  <div class="product__grid">
+                                                      <div class="product product--style-2">
+                                                          <div class="product__image-container">
+                                                              <a href="#" class="product__image ratio1by1">
+                                                                  {{ 'product-1' | placeholder_svg_tag: 'lazyload pure-img svg__thumb' }}
+                                                              </a>
+                                                          </div>
+                                                          <div class="product__detail">
+                                                              <div class="rating">
+                                                                  <span class="rating__star">
+                                                                      <svg class="active" width="13" height="13">
+                                                                      <use xlink:href="#ic-star"></use>
+                                                                      </svg>
+                                                                      <svg class="active" width="13" height="13">
+                                                                      <use xlink:href="#ic-star"></use>
+                                                                      </svg>
+                                                                      <svg class="active" width="13" height="13">
+                                                                      <use xlink:href="#ic-star"></use>
+                                                                      </svg>
+                                                                      <svg class="active" width="13" height="13">
+                                                                      <use xlink:href="#ic-star"></use>
+                                                                      </svg>
+                                                                      <svg class="active" width="13" height="13">
+                                                                      <use xlink:href="#ic-star"></use>
+                                                                      </svg>
+                                                                  </span>
+                                                                  <span class="rating__text">83 <span class="d-none d-md-inline">Reviews</span></span>
+                                                              </div>
+                                                              <a href="#" class="product__title">Product name goes here</a>
+                                                              <div class="product__meta">
+                                                                  <div class="product__price">
+                                                                      <span class="product__price-sale">£19.99</span>
+                                                                      <span class="product__price-original">£9.99</span>
+                                                                  </div>
+                                                                  <span class="badge">Save 50%</span>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                      <div class="product product--style-2">
+                                                          <div class="product__image-container">
+                                                              <a href="#" class="product__image ratio1by1">
+                                                                  {{ 'product-2' | placeholder_svg_tag: 'lazyload pure-img svg__thumb' }}
+                                                              </a>
+                                                          </div>
+                                                          <div class="product__detail">
+                                                              <div class="rating">
+                                                                  <span class="rating__star">
+                                                                      <svg class="active" width="13" height="13">
+                                                                      <use xlink:href="#ic-star"></use>
+                                                                      </svg>
+                                                                      <svg class="active" width="13" height="13">
+                                                                      <use xlink:href="#ic-star"></use>
+                                                                      </svg>
+                                                                      <svg class="active" width="13" height="13">
+                                                                      <use xlink:href="#ic-star"></use>
+                                                                      </svg>
+                                                                      <svg class="active" width="13" height="13">
+                                                                      <use xlink:href="#ic-star"></use>
+                                                                      </svg>
+                                                                      <svg class="active" width="13" height="13">
+                                                                      <use xlink:href="#ic-star"></use>
+                                                                      </svg>
+                                                                  </span>
+                                                                  <span class="rating__text">83 <span class="d-none d-md-inline">Reviews</span></span>
+                                                              </div>
+                                                              <a href="#" class="product__title">Product name goes here</a>
+                                                              <div class="product__meta">
+                                                                  <div class="product__price">
+                                                                      <span class="product__price-sale">£19.99</span>
+                                                                      <span class="product__price-original">£9.99</span>
+                                                                  </div>
+                                                                  <span class="badge">Save 50%</span>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                            {% endif %}
+                                            {% if block.settings.category_image != blank and block.settings.category_title != blank %}
+                                              <div class="pure-u-10-24">
+                                                  <div class="portfolio portfolio--style-2">
+                                                      <figure class="portfolio__item ratio21by5">
+                                                          <img data-src="{{ block.settings.category_image | img_url: 'master' }}" class="img-fluid lazyload" alt="" />
+                                                          <figcaption class="portfolio__info">
+                                                              <h3 class="text-8 fw-400" {% if block.settings.category_title_color != blank %}style="color: {{ block.settings.category_title_color }}"{% endif %}>
+                                                                {% if block.settings.category_link != blank %}
+                                                                  <a href="{{block.settings.category_link}}" {% if block.settings.category_title_color != blank %}style="color: {{ block.settings.category_title_color }}"{% endif %}></a>
+                                                                {% endif %}
+                                                                  {{block.settings.category_title}}
+                                                                {% if block.settings.category_link != blank %}
+                                                                  </a>
+                                                                {% endif %}
+                                                                </h3>
+                                                              {% if block.settings.category_link != blank %}
+                                                                <a href="{{block.settings.category_link}}" class="btn btn--icon-hand">{{block.settings.category_button_text}}</a>
+                                                              {% endif %}
+                                                          </figcaption>
+                                                      </figure>
+                                                  </div>
+                                              </div>
+                                            {% else %}
+                                              <div class="pure-u-10-24">
+                                                  <div class="portfolio portfolio--style-2">
+                                                      <figure class="portfolio__item ratio21by5">
+                                                          {{ 'lifestyle-2' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                                                          <figcaption class="portfolio__info">
+                                                              <h3 class="text-8 fw-400"><a href="#">Category name</a></h3>
+                                                              <a href="#" class="btn btn--icon-hand">Shop Now</a>
+                                                          </figcaption>
+                                                      </figure>
+                                                  </div>
+                                              </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                  </li>
+                                  {%- assign hasMegaMenu = true -%}
+                                {% break %}
+                                {% endif %}
+                              {% endif %}
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                        {% if hasMegaMenu %}
+                        {% else %}
+                          <li class="{% if link.links != blank %}has-childrens{% endif %} {% if link.current %}menu-item--active{% endif %}">
+                                <a href="{{ link.url }}">{{ link.title | escape }} {% if link.links != blank %}<span class="material-icons">keyboard_arrow_down</span>{% endif %}</a>
+                                {% assign mainLinkTitle = link.title | escape %}
+                                {% assign mainLinkLink = link.url %}
+                                {%- if link.links != blank -%}
+                                  <ul class="child-lists list-menu custom-ul-class" role="list" tabindex="-1">
+                                    <li class="sub-menu-title-parent"><a href="{{ mainLinkLink }}">{{ mainLinkTitle }}</a></li>
+                                    {%- for childlink in link.links -%}
+                                      <li class="{% if childlink.links != blank %}has-childrens{% endif %} {% if childlink.current %}menu-item--active{% endif %}">
+                                          <a href="{{ childlink.url }}">{{ childlink.title | escape }} {% if childlink.links != blank %}<span class="material-icons">keyboard_arrow_right</span>{% endif %}</a>
+                                          {%- if childlink.links != blank -%}
+                                            {% assign mainSubLinkTitle = childlink.title | escape %}
+                                            {% assign mainSubLinkLink = childlink.url %}
+                                            <ul class="sub-child-lists list-menu custom-ul-class" role="list" tabindex="-1">
+                                              <li class="sub-menu-title"><span class="js-back-to-parent sub-menu-title__title"><span class="material-icons">keyboard_arrow_left</span>{{ mainLinkTitle }}</span></li>
+                                              <li class="sub-menu-title-parent"><a href="{{ mainSubLinkLink }}">{{ mainSubLinkTitle }}</a></li>
+                                              {%- for grandchildlink in childlink.links -%}
+                                                <li class="{% if grandchildlink.current %}menu-item--active{% endif %}">
+                                                  <a href="{{ grandchildlink.url }}">{{ grandchildlink.title | escape }}</a>
+                                                </l1>
+                                              {%- endfor -%}
+                                            </ul>
+                                          {%- endif -%}
+                                      </li>
+                                    {%- endfor -%}
+                                  </ul>
+                                {%- endif -%}
+                              </li>
+                        {% endif %}
+                      {%- endfor -%}
+                    </ul>
+                </div><!-- ./header menu -->
+              {% endif %}
+          </div><!-- header nav for desktop END-->
+
+          <div class="header__nav header__nav--mobile"><!-- header nav for Mobile -->
+            {% assign hasMobileMenu = false %}
+            {% for block in section.blocks %}
+              {% if block.type == "mobile-menu" %}
+                {% assign hasMobileMenu = true %}
+              {% endif %}
+            {% endfor %}
+            {% if hasMobileMenu != blank %}
+              <div class="header__menu js-header-menu"><!-- header menu -->
+                  <div class="header__close js-header-close">
+                      <span class="material-icons">
+                      close
+                      </span>
+                  </div>
+                  <div class="custom-mobile-menu-wrapper">
+                    <div class="custom-mobile-menu-images-wrapper">
+                      {% assign mobileBannerCounter = 1 %}
+                      {% for block in section.blocks %}
+                        {% if block.type == "mobile-menu" %}
+                          {% if block.settings.image != blank %}
+                            <div class="custom-mobile-menu-single-image {% if mobileBannerCounter == 1 %}active{% endif %} custom-mobile-{{mobileBannerCounter}}">
+                              <a href="{{ block.settings.banner_image_url }}">
+                                <img src="{{ block.settings.image | img_url: 'master' }}" loading="lazy" width="680" height="774" alt="" />
+                              </a>
+                            </div>
+                            {% assign mobileBannerCounter = mobileBannerCounter | plus: 1 %}
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                      {% if mobileBannerCounter == 1 %}
+                        <div class="cross-image-wrapper"></div>
+                      {% endif %}
+                    </div>
+                    <div class="custom-mobile-menu-tabs-wrapper">
+                      <div class="custom-mobile-menu-tab-title-listings">
+                        <ul>
+                          {% assign mobileTabTitleCounter = 1 %}
+                          {% for block in section.blocks %}
+                            {% if block.type == "mobile-menu" %}
+                              {% if block.settings.title != blank %}
+                                <li class="{% if mobileTabTitleCounter == 1 %}active{% endif %}"><a href="custom-mobile-{{mobileTabTitleCounter}}">{{ block.settings.title }}</a></li>
+                                {% assign mobileTabTitleCounter = mobileTabTitleCounter | plus: 1 %}
+                              {% endif %}
+                            {% endif %}
+                          {% endfor %}
+                        <ul>
+                      </div>
+                      <div class="custom-mobile-menu-tab-content-listings">
+                        {% assign mobileTabContentCounter = 1 %}
+                        {% for block in section.blocks %}
+                          {% if block.type == "mobile-menu" %}
+                            {% if block.settings.title != blank %}
+                              <div class="custom-mobile-menu-single-tab-content {% if mobileTabContentCounter == 1 %}active{% endif %} custom-mobile-{{mobileTabContentCounter}}">
+                                <div class="custom-mobile-menu-single-tab-menu">
+                                  {% for i in (1..5) %}
+                                    {% assign tab_menu_var = "tab_menu_" | append: i %}
+                                    {% assign tab_menu_image_var = "tab_menu_" | append: i | append: "_image" %}
+                                    {% assign tab_menu_title_var = "tab_menu_" | append: i | append: "_title" %}
+                                    {% if block.settings[tab_menu_var] != blank and block.settings[tab_menu_image_var] != blank and block.settings[tab_menu_title_var] != blank %}
+                                      <div class="custom-mobile-menu-single-tab-menu-details">
+                                        <div class="custom-mobile-menu-single-tab-menu-details-title">
+                                          <div class="custom-mobile-menu-single-tab-menu-details-title-image">
+                                            <img src="{{ block.settings[tab_menu_image_var] | img_url: '60x' }}" loading="lazy" alt="" />
+                                          </div>
+                                          <div class="custom-mobile-menu-single-tab-menu-details-title-name">
+                                            <p>{{ block.settings[tab_menu_title_var] }}</p>
+                                          </div>
+                                          <div class="custom-mobile-menu-single-tab-menu-details-title-icon"></div>
+                                        </div>
+                                        <div class="custom-mobile-menu-single-tab-menu-details-content">
+                                          <ul>
+                                            {%- for mobileMenuLink in block.settings[tab_menu_var].links -%}
+                                              <li><a href="{{mobileMenuLink.url}}">{{mobileMenuLink.title | escape}}</a></li>
+                                            {%- endfor -%}
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    {% endif %}
+                                  {% endfor %}
+                                </div>
+                              </div>
+                            {% assign mobileTabContentCounter = mobileTabContentCounter | plus: 1 %}
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+              </div><!-- ./header menu -->
+            {% else %}
+              <div class="header__menu js-header-menu">
+                <!-- header menu -->
+                <div class="header__close js-header-close">
+                  <span class="material-icons"> close </span>
+                </div>
+                <div class="custom-mobile-menu-wrapper">
+                  <div class="custom-mobile-menu-images-wrapper">
+                    <div class="custom-mobile-menu-single-image custom-mobile-1 active">
+                      <a href="/collections/all">
+                        {{ 'lifestyle-2' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                      </a>
+                    </div>
+                    <div class="custom-mobile-menu-single-image custom-mobile-2">
+                      <a href="/collections/all">
+                        {{ 'lifestyle-2' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                      </a>
+                    </div>
+                  </div>
+                  <div class="custom-mobile-menu-tabs-wrapper">
+                    <div class="custom-mobile-menu-tab-title-listings">
+                      <ul>
+                        <li class="active">
+                          <a href="custom-mobile-1">Category</a>
+                        </li>
+                        <li class="">
+                          <a href="custom-mobile-2">Category</a>
+                        </li>
+                        <ul></ul>
+                      </ul>
+                    </div>
+                    <div class="custom-mobile-menu-tab-content-listings">
+                      <div class="custom-mobile-menu-single-tab-content custom-mobile-1 active">
+                        <div class="custom-mobile-menu-single-tab-menu">
+                          <div class="custom-mobile-menu-single-tab-menu-details">
+                            <div class="custom-mobile-menu-single-tab-menu-details-title">
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-image">
+                                {{ 'image' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                              </div>
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-name">
+                                <p>Category</p>
+                              </div>
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-icon"></div>
+                            </div>
+                            <div class="custom-mobile-menu-single-tab-menu-details-content">
+                              <ul>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="custom-mobile-menu-single-tab-menu-details">
+                            <div class="custom-mobile-menu-single-tab-menu-details-title">
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-image">
+                                {{ 'image' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                              </div>
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-name">
+                                <p>Category</p>
+                              </div>
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-icon"></div>
+                            </div>
+                            <div class="custom-mobile-menu-single-tab-menu-details-content">
+                              <ul>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="custom-mobile-menu-single-tab-content custom-mobile-2">
+                        <div class="custom-mobile-menu-single-tab-menu">
+                          <div class="custom-mobile-menu-single-tab-menu-details">
+                            <div class="custom-mobile-menu-single-tab-menu-details-title">
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-image">
+                                {{ 'image' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                              </div>
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-name">
+                                <p>Category</p>
+                              </div>
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-icon"></div>
+                            </div>
+                            <div class="custom-mobile-menu-single-tab-menu-details-content">
+                              <ul>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="custom-mobile-menu-single-tab-menu-details">
+                            <div class="custom-mobile-menu-single-tab-menu-details-title">
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-image">
+                                {{ 'image' | placeholder_svg_tag: 'lazyload img-fluid svg__thumb' }}
+                              </div>
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-name">
+                                <p>Category</p>
+                              </div>
+                              <div class="custom-mobile-menu-single-tab-menu-details-title-icon"></div>
+                            </div>
+                            <div class="custom-mobile-menu-single-tab-menu-details-content">
+                              <ul>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                                <li>
+                                  <a href="/collections/all">Sub Category</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </div><!-- header nav for Mobile END-->
+        </div>
+
+        <div class="header__logo"><!-- header logo -->
+          <a href="{{ routes.root_url }}" aria-label="Rocket">
+              {%- if section.settings.logo != blank -%}
+                <img src="{{ section.settings.logo | img_url: 'master' }}" class="pure-img" alt="{{ shop.name }}" width="{{ section.settings.logo_width }}" height="{{ section.settings.logo_height }}" />
+              {% else %}
+                <span class="h2">{{ shop.name }}</span>
+              {% endif %}
+          </a>
+        </div><!-- ./header logo -->
+        
+        <div class="header__right">
+            <div class="header__actions">
+              {% if section.settings.enable_region_selector != blank %}
+                <div class="header__action-region-selector"><!-- header search -->
+                  {% form 'localization' %}
+                    <input type="hidden" class="custom-image-dropdown-input" name="country_code" />
+                    <div class="custom-image-dropdown">
+                      <button type="button" class="selector-button">
+                        <span class="button-image-wrapper currency-flag--{{ localization.country.iso_code | downcase }}"></span>
+                        <span class="button-text-wrapper">{{ localization.country.currency.iso_code }} {{ localization.country.currency.symbol }}</span>
+                        <img data-src="{{ 'ic-keyboard-arrow-down.svg' | asset_url }}" alt="" class="dropdown-arrow-image lazyload" />
+                      </button>
+                      <ul>
+                        {% for country in localization.available_countries %}
+                          <li {% if country.iso_code == localization.country.iso_code %} class="selected"{% endif %}>
+                          <a href="#" data-value="{{ country.iso_code }}">
+                            <span class="button-image-wrapper currency-flag--{{ country.iso_code | downcase }}"></span>
+                            <span class="button-text-wrapper">{{ country.currency.iso_code }} {{ country.currency.symbol }}</span>
+                          </a></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    {% comment %}
+                    <select name="country_code" class="form-select form-select--small region-selector">
+                      {% for country in localization.available_countries %}
+                        <option {% if country.iso_code == localization.country.iso_code %} selected="selected"{% endif %} value="{{ country.iso_code }}">{{ country.name }} ()</option>
+                      {% endfor %}
+                    </select>
+                    {% endcomment %}
+                  {% endform %}
+                </div>
+              {% endif %}
+              {% if section.settings.enable_search != blank %}
+                <div class="header__action-search" id="js-search-box"><!-- header search -->
+                    <button type="button" class="form-icon" id="js-search-toggle">
+                      <span class="material-icons">search</span>
+                    </button>  
+                </div><!-- ./header search -->
+              {% endif %}
+              {%- if shop.customer_accounts_enabled -%}
+                <div class="header__action-account">
+                    <a aria-label="account" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}">
+                      <img src="{{ 'account-circle-black.svg' | asset_url }}" width="24" height="24" alt="" />
+                    </a>
+                </div>
+              {%- endif -%}
+                <div class="header__action-cart"><!-- header cart -->
+                    <div class="header__cart-icon">
+                        <a href="{% if settings.cart_type == "page"%}{{ routes.cart_url }}{% else %}#{% endif%}" class="{% if settings.cart_type == "drawer"%}js-cart-toggle{% endif %}">
+                            {% comment %} <span class="material-icons-outlined">{{settings.icon_cart}}</span> {% endcomment %}
+                            <img src="{{ 'icon-shopping-bag.svg' | asset_url }}" class="pure-img" width="24" height="24" alt />
+                            {%- if settings.cart_bubble -%}
+                              <span class="cart-link__bubble{% if settings.cart_bubble_animation %} rubberBand infinite slow {% endif %}{% if cart.item_count > 0 %} cart-link__bubble--visible{% endif %}"></span>
+                            {%- endif -%}
+                            {% if settings.cart_count != blank %}
+                              <span class="header__cart-count">{{cart.item_count}}</span>
+                            {% endif %}
+                        </a>
+                    </div>
+                    {% if settings.cart_type == "drawer"%}
+                    <!-- Minicart Start -->
+                      <div class="minicart__overlay"></div>
+                      <div class="minicart__wrapper js-minicart"></div>
+                      <!-- Minicart END -->
+                    {% endif %}
+                </div><!-- ./header cart -->
+            </div>
+        </div>
+      </div>
+  </div>
+  {% if section.settings.enable_search != blank %}
+    <div class="hearch-search-form-wrapper">
+      <div class="hearch-search-form-overlay"></div>
+      <div class="hearch-search-form">
+        {%- if settings.predictive_search_enabled -%}
+          <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
+        {%- endif -%}
+          <form action="{{ routes.search_url }}" method="get" role="search" class="header__search search">
+            {% if section.settings.search_only_products != blank %}
+              <input type="hidden" name="type" value="product">
+            {% endif %}
+            <input class="form-input" id="js-search-input" type="search" name="q" value="" placeholder="{{ 'general.search.search' | t }}">
+            <button type="button" class="form-icon" id="js-search-icon">
+                <span class="material-icons">search</span>
+            </button>
+            {%- if settings.predictive_search_enabled -%}
+              <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+                <div class="predictive-search__loading-state">
+                  <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                  </svg>
+                </div>
+              </div>
+              <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+            {%- endif -%}
+          </form>
+        {%- if settings.predictive_search_enabled -%}
+          </predictive-search>
+        {%- endif -%}
+        <button type="button" class="close-search-popup" aria-label="{{ 'accessibility.close' | t }}">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endif %} 
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_region_selector",
+      "label": "Enable region selector",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:sections.header.settings.logo.label"
+    },
+    {
+      "type": "text",
+      "id": "logo_width",
+      "label": "Logo width Size",
+      "info": "Numberic value for pixels",
+      "default": "100"
+    },
+    {
+      "type": "text",
+      "id": "logo_height",
+      "label": "Logo height Size",
+      "info": "Numberic value for pixels",
+      "default": "100"
+    },
+    {
+      "type": "select",
+      "id": "logo_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "middle",
+          "label": "Middle"
+        }
+      ],
+      "default": "middle",
+      "label": "Logo position"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "t:sections.header.settings.menu.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_search",
+      "default": true,
+      "label": "Enable search"
+    },
+    {
+      "type": "checkbox",
+      "id": "search_only_products",
+      "label": "Search only products",
+      "default": true
+    },
+	{
+		"type": "color",
+		"id": "save_badge_color",
+		"label": "Save badge color",
+		"default": "#2dc650",
+		"info": "Select the background color save badge"
+	}
+  ],
+  "blocks": [
+    {
+      "type": "mega-menu",
+      "name": "Mega menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Menu title"
+        },
+        {
+          "type": "text",
+          "id": "navigation_block_title",
+          "label": "Navigation block title"
+        },
+        {
+          "type": "text",
+          "id": "sub_nav_1_title",
+          "label": "Sub nav left title"
+        },
+        {
+          "type": "link_list",
+          "id": "sub_nav_1",
+          "label": "Sub nav left"
+        },
+        {
+          "type": "text",
+          "id": "sub_nav_2_title",
+          "label": "Sub nav middle title"
+        },
+        {
+          "type": "link_list",
+          "id": "sub_nav_2",
+          "label": "Sub nav middle"
+        },
+        {
+          "type": "text",
+          "id": "product_block_title",
+          "label": "Product block title"
+        },
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "Product top"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Product bottom"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_rating",
+          "default": true,
+          "label": "Show product rating",
+          "info": "t:sections.main-collection-product-grid.settings.show_rating.info"
+        },
+        {
+          "type": "image_picker",
+          "id": "category_image",
+          "label": "Category image"
+        },
+        {
+          "type": "text",
+          "id": "category_title",
+          "label": "Category title"
+        },
+        {
+          "type": "color",
+          "id": "category_title_color",
+          "label": "Category title color"
+        },
+        {
+          "type": "url",
+          "id": "category_link",
+          "label": "Category link"
+        },
+        {
+          "type": "text",
+          "id": "category_button_text",
+          "label": "Category button text",
+          "default": "Shop"
+        }
+      ]
+    },
+    {
+      "type": "mobile-menu",
+      "name": "Mobile menu",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Banner image"
+        },
+        {
+          "type": "url",
+          "id": "banner_image_url",
+          "label": "Banner image URL"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title"
+        },
+        {
+          "type": "header",
+          "content": "First Tab Menu"
+        },
+        {
+          "type": "link_list",
+          "id": "tab_menu_1",
+          "label": "First tab menu"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab_menu_1_image",
+          "label": "First tab menu image"
+        },
+        {
+          "type": "text",
+          "id": "tab_menu_1_title",
+          "label": "First tab menu title"
+        },
+        {
+          "type": "header",
+          "content": "Second Tab Menu"
+        },
+        {
+          "type": "link_list",
+          "id": "tab_menu_2",
+          "label": "Second tab menu"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab_menu_2_image",
+          "label": "Second tab menu image"
+        },
+        {
+          "type": "text",
+          "id": "tab_menu_2_title",
+          "label": "Second tab menu title"
+        },
+        {
+          "type": "header",
+          "content": "Third Tab Menu"
+        },
+        {
+          "type": "link_list",
+          "id": "tab_menu_3",
+          "label": "Third tab menu"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab_menu_3_image",
+          "label": "Third tab menu image"
+        },
+        {
+          "type": "text",
+          "id": "tab_menu_3_title",
+          "label": "Third tab menu title"
+        },
+        {
+          "type": "header",
+          "content": "Fourth Tab Menu"
+        },
+        {
+          "type": "link_list",
+          "id": "tab_menu_4",
+          "label": "Fourth tab menu"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab_menu_4_image",
+          "label": "Fourth tab menu image"
+        },
+        {
+          "type": "text",
+          "id": "tab_menu_4_title",
+          "label": "Fourth tab menu title"
+        },
+        {
+          "type": "header",
+          "content": "Fifth Tab Menu"
+        },
+        {
+          "type": "link_list",
+          "id": "tab_menu_5",
+          "label": "Fifth tab menu"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab_menu_5_image",
+          "label": "Fifth tab menu image"
+        },
+        {
+          "type": "text",
+          "id": "tab_menu_5_title",
+          "label": "Fifth tab menu title"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "mega-menu"
+      }
+    ]
+  }
+}
+{% endschema %}

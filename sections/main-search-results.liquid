@@ -1,0 +1,143 @@
+{% assign hasProduct = false %}
+{% assign hasArticle = false %}
+{% if search.results.size > 0 %}
+  {%- for item in search.results -%}
+    {% if item.object_type == "product" %}
+      {% assign hasProduct = true %}
+      {% break %}
+    {% endif %}
+  {%- endfor -%}
+  {%- for item in search.results -%}
+    {% if item.object_type == "article" or item.object_type == "page" %}
+      {% assign hasArticle = true %}
+      {% break %}
+    {% endif %}
+  {%- endfor -%}
+{% endif %}
+{% if hasArticle or hasProduct %}
+    <div class="search__result">
+        {% if hasProduct %}
+            <div class="search__result-product pt-25 pb-20 pt-md-50 pb-md-30 product__grid">
+                {% paginate search.results by 16 %}
+                <div class="container">
+                    <div class="pure-g justify-content-center">
+                        <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
+                            <div class="search__result-head text-center">
+                                <h2 class="title">{{section.settings.product_results_text}} "{{ search.terms | escape }}"</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pure-g">
+                        {%- for item in search.results -%}
+                            {% if item.object_type == "product" %}
+                                {% render 'custom-product-card', product_card_product: item, show_secondary_image: section.settings.show_secondary_image, show_vendor: section.settings.show_vendor, show_rating: section.settings.show_rating, is_related_products: false, enable_filtering: false %}
+                            {% endif %}
+                        {%- endfor -%}
+                    </div>
+                    {%- if paginate.pages > 1 -%}
+                        {% render 'pagination', paginate: paginate %}
+                    {%- endif -%}
+                </div>
+                {% endpaginate %}
+            </div>
+        {% endif %}
+        {% if hasArticle %}
+            <div class="search__result-article d-block pt-25 pb-20 pt-md-50 pb-md-30">
+                {% paginate search.results by 16 %}
+                <div class="container">
+                    <div class="pure-g gutter-xl-45">
+                        <div class="pure-u-1">
+                            <h2 class="title">{{section.settings.article_results_text}} "{{ search.terms | escape }}"</h2>
+                        </div>
+                        {%- for item in search.results -%}
+                            {% if item.object_type == "article" %}
+                                {%- render 'article-card', article: item, show_date: section.settings.show_date, show_author: section.settings.show_author -%}
+                            {% elsif item.object_type == "page" %}
+                                {%- render 'search-page', item: item -%}
+                            {% endif %}
+                        {%- endfor -%} 
+                    </div>
+                </div>
+                {% endpaginate %}
+            </div>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="search__result">
+        <div class="search__result-product pt-25 pb-20 pt-md-50 pb-md-30">
+            <div class="container">
+                <div class="pure-g justify-content-center">
+                    <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
+                        <div class="search__result-head text-center">
+                            <h2 class="title">{{ 'templates.search.no_results' | t: terms: search.terms }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% schema %}
+{
+  "name": "Search results",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.main-search.settings.header__1.content"
+    },
+    {
+      "type": "text",
+      "id": "product_results_text",
+      "default": "Product results for",
+      "label": "Product results text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "Show second image on hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.main-search.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "t:sections.main-search.settings.show_rating.label",
+      "info": "t:sections.main-search.settings.show_rating.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-search.settings.header__2.content"
+    },
+    {
+      "type": "text",
+      "id": "article_results_text",
+      "default": "Article results",
+      "label": "Search results for:"
+    },
+    {
+      "type": "text",
+      "id": "posted_on_text",
+      "label": "Posted on text",
+      "default": "Posted on"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "t:sections.main-search.settings.article_show_date.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": false,
+      "label": "t:sections.main-search.settings.article_show_author.label"
+    }
+  ]
+}
+{% endschema %}

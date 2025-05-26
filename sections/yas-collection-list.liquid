@@ -1,0 +1,552 @@
+<style>
+{% if section.settings.font_variant == 'custom' %}
+  {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+  {{ section.settings.title_font | font_face: font_display: 'swap' }}
+  {{ body_font_bold | font_face: font_display: 'swap' }}
+  {{ body_font_italic | font_face: font_display: 'swap' }}
+  {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+  {{ settings.type_header_font | font_face: font_display: 'swap' }}
+  #shopify-section-{{section.id}} * {
+    font-family: {{ section.settings.title_font.family }};
+  }
+{% endif %}
+
+#shopify-section-{{section.id}} {
+  display: {% case section.settings.display_on %}
+              {% when 'all' %}block;
+              {% when 'mobile_only' %}none;
+              {% when 'desktop_only' %}block;
+            {% endcase %};
+}
+
+@media (max-width: 768px) {
+  #shopify-section-{{section.id}} {
+    display: {% case section.settings.display_on %}
+                {% when 'all' %}block;
+                {% when 'mobile_only' %}block;
+                {% when 'desktop_only' %}none;
+              {% endcase %};
+  }
+}
+
+#shopify-section-{{section.id}} {
+  background-color: {{ section.settings.background_color }};
+  padding: {{ section.settings.padding_tb_desk }}px {{ section.settings.padding_lr_desk }}px;
+  margin: 0 auto;
+  color: {{ section.settings.text_color }};
+}
+
+#shopify-section-{{section.id}} .featured-products-section {
+  max-width: {% if section.settings.section_width == 'full' %}100%{% else %}{{ settings.page_width }}px{% endif %};
+  margin: 0 auto;
+}
+
+#shopify-section-{{section.id}} .heading {
+  {% if section.settings.section_width == 'full' %}
+    margin: 0 10%;
+  {% endif %}
+}
+
+#shopify-section-{{section.id}} .content-wrapper {
+  height: 100%;
+  margin: 0 auto;
+  max-width: {{ settings.page_width }}px;
+  display: block;
+  position: relative;
+  text-align: {{ section.settings.heading_align }};
+  padding: 20px 0;
+}
+
+#shopify-section-{{section.id}} .title * {
+  margin: 0;
+}
+
+#shopify-section-{{section.id}} .title h2, 
+#shopify-section-{{section.id}} .title h1, 
+#shopify-section-{{section.id}} .title h3, 
+#shopify-section-{{section.id}} .title p {
+  font-size: {% case section.settings.heading_size %}
+               {% when 'small' %}36px
+               {% when 'medium' %}45px
+               {% when 'large' %}60px
+             {% endcase %};
+  text-transform: {{ section.settings.headline_typography }};
+  color: {{ section.settings.text_color }};
+  margin: 0;
+  text-align: {% case section.settings.heading_align %}
+                {% when 'left' %}left;
+                {% when 'center' %}center;
+                {% when 'right' %}right;
+              {% endcase %};
+  line-height: 110%;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+#shopify-section-{{section.id}} .subtitle * {
+  margin: 0;
+}
+
+#shopify-section-{{section.id}} .subtitle h2, 
+#shopify-section-{{section.id}} .subtitle h3, 
+#shopify-section-{{section.id}} .subtitle p {
+  color: {{ section.settings.text_color }};
+  font-size: 20px;
+  font-weight: 400;
+  text-align: {% case section.settings.heading_align %}
+                {% when 'left' %}left;
+                {% when 'center' %}center;
+                {% when 'right' %}right;
+              {% endcase %};
+  line-height: 150%;
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+#shopify-section-{{section.id}} .uppertitle * {
+  margin: 0;
+}
+
+#shopify-section-{{section.id}} .product-item {
+  text-align: left;
+  overflow: hidden;
+  border-radius: {{ section.settings.container_radius }}px;
+  box-shadow: {% if section.settings.container_styling == "shadow" %}{{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_blur }}px {{ section.settings.box_shadow_spread }}px {{ section.settings.box_shadow_color }}{% else %}none{% endif %};
+  position: relative;
+  background-color: {{ section.settings.card_background }};
+  border: {% if section.settings.container_styling == "card" %} {{ section.settings.card_border }}px solid {{ section.settings.card_border_color }}{% else %}none{% endif %};
+  display: flex;
+  flex-direction: column;
+}
+
+#shopify-section-{{section.id}} .product-item[onclick] {
+  cursor: pointer;
+}
+
+#shopify-section-{{section.id}} .product-info {
+  order: {% if section.settings.mobile_layout == "image_first" %}2{% else %}1{% endif %};
+  display: flex;
+  flex-direction: column;
+  padding: {{ section.settings.card_padding }}px;
+  height: 100%;
+}
+
+#shopify-section-{{section.id}} .btn {
+  border-radius: {{ section.settings.button_radius }}px;
+  color: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+  background-color: {% if section.settings.button_color != 'transparent' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  padding: 18px 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  gap: 16px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+#shopify-section-{{section.id}} .btn svg path {
+  fill: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+}
+
+#shopify-section-{{section.id}} .product-title {
+  text-transform: {{ section.settings.card_title_typography }};
+  {% if section.settings.card_title_line %}
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; 
+    min-height: 56px;
+  {% else %}
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  {% endif %}
+  text-transform: uppercase;
+  line-height: 100%;
+}
+
+#shopify-section-{{section.id}} .product-description {
+  font-size: 16px;
+  line-height: 150%;
+  color: #696969;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  #shopify-section-{{section.id}} {
+    padding: {{ section.settings.padding_tb_mob }}px {{ section.settings.padding_lr_mob }}px;
+  }
+  #shopify-section-{{section.id}} .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(calc((100% / {{ section.settings.column_prod_mob }}) - 20px), 1fr));
+  }
+  #shopify-section-{{section.id}} .btn svg {
+    display: none;
+  }
+  #shopify-section-{{section.id}} .btn {
+    font-size: 14px;
+    padding: 15px 36px;
+    margin-top: 12px;
+  }
+  #shopify-section-{{section.id}} .product-reviews {
+    font-size: 12px;
+  }
+  #shopify-section-{{section.id}} .heading {
+    margin: 0;
+    padding: 0;
+  }
+  #shopify-section-{{section.id}} .content-wrapper {
+    max-width: 100%;
+  }
+  #shopify-section-{{section.id}} .title h2, 
+  #shopify-section-{{section.id}} .title h1, 
+  #shopify-section-{{section.id}} .title h3, 
+  #shopify-section-{{section.id}} .title p {
+    font-size: {% case section.settings.heading_size %}
+                 {% when 'small' %}20px
+                 {% when 'medium' %}28px
+                 {% when 'large' %}36px
+               {% endcase %};
+    line-height: 100%;
+    margin: 0;
+    margin-bottom: 16px;
+  }
+  #shopify-section-{{section.id}} .subtitle h2, 
+  #shopify-section-{{section.id}} .subtitle h3, 
+  #shopify-section-{{section.id}} .subtitle p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  #shopify-section-{{section.id}} .product-title {
+    font-size: 14px;
+    min-height: 21px;
+  }
+  #shopify-section-{{section.id}} .product-compare-price {
+    font-size: 12px;
+  }
+  #shopify-section-{{section.id}} .product-price {
+    font-size: 14px;
+  }
+  #shopify-section-{{section.id}} .section-subtitle {
+    font-weight: 500;
+    font-size: 16px;
+  }
+  #shopify-section-{{section.id}} .product-info {
+    gap: 6px;
+  }
+  #shopify-section-{{section.id}} .featured-header-w {
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  #shopify-section-{{section.id}} svg {
+    height: 12px;
+    width: 12px;
+  }
+}
+
+</style>
+
+<section class="featured-products-section">
+  <div class="content-wrapper">
+    {%- if section.settings.uppertitle != blank or section.settings.subtitle or section.settings.title != blank -%}
+    <div class="heading">
+      <div class="title">
+        {%- if section.settings.title != blank -%}
+          {{ section.settings.title }}
+        {%- endif -%}
+      </div>
+      <div class="subtitle">
+        {%- if section.settings.subtitle != blank -%}
+          {{ section.settings.subtitle }}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+    <div class="products-grid">
+   {% if section.blocks.size > 0 and section.blocks[0].settings.collection != blank %}
+     
+  {% for block in section.blocks %}
+    {% assign collection = block.settings.collection %}
+              <div class="product-item" {% if section.settings.card_clickable == true %} onclick="location.href='{{ collection.url }}'"{% endif %}>
+            <div class="product-image-wrapper {% if section.settings.secondary_image_highlight and product.images[1] %}has_second-img{% endif %}">
+              <img class="primary-image" src="{{ collection.featured_image | img_url: '600x' }}" alt="{{ product.title }}">
+              {% if section.settings.secondary_image_highlight and collection.images[1] %}
+                <img class="secondary-image" src="{{ collection.images[1] | img_url: '600x' }}" alt="Secondary image">
+              {% endif %}
+            </div>
+            <div class="product-info">
+             
+              <h3 class="product-title">{{ collection.title }}</h3>
+              <span class="product-description">{{ collection.description }}</span>
+             
+              
+              {% if section.settings.show_cta %}
+                <button class="btn" onclick="location.href='{{ collection.url }}'">{{ section.settings.text_btn_card }} {% if section.settings.show_arrow == true %}{% render 'icon_arrow_submit2' %}{% endif %}</button>
+              {% endif %}
+            </div>
+          </div>
+    {% endfor %}
+  {% else %}
+        {% for collection in collections %}
+       
+        {% if collection != blank %}
+          <div class="product-item" {% if section.settings.card_clickable == true %} onclick="location.href='{{ collection.url }}'"{% endif %}>
+            <div class="product-image-wrapper {% if section.settings.secondary_image_highlight and product.images[1] %}has_second-img{% endif %}">
+              <img class="primary-image" src="{{ collection.featured_image | img_url: '600x' }}" alt="{{ product.title }}">
+              {% if section.settings.secondary_image_highlight and collection.images[1] %}
+                <img class="secondary-image" src="{{ collection.images[1] | img_url: '600x' }}" alt="Secondary image">
+              {% endif %}
+            </div>
+            <div class="product-info">
+             
+              <h3 class="product-title">{{ collection.title }}</h3>
+              <span class="product-description">{{ collection.description }}</span>
+             
+              
+              {% if section.settings.show_cta %}
+                <button class="btn" onclick="location.href='{{ collection.url }}'">{{ section.settings.text_btn_card }} {% if section.settings.show_arrow == true %}{% render 'icon_arrow_submit2' %}{% endif %}</button>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% endif %}
+    </div>
+  
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Choosed Collections",
+  "class": "collections",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<h2>All Collections</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<h3>Irresistible Charm with Axe's Exquisite Range of Unbeatable Products!</h3>"
+    },
+    
+    {
+      "type": "header",
+      "content": "General Settings"
+    }, { 
+      "type": "select", 
+      "id": "heading_size", 
+      "label": "Heading Size", 
+      "options": [{ "value": "small", "label": "Small" }, { "value": "medium", "label": "Medium" }, { "value": "large", "label": "Large" }], 
+      "default": "medium" 
+    },
+    {
+      "type": "select", 
+      "id": "headline_typography", 
+      "label": "Headline Typography", 
+      "options": [
+        { "value": "uppercase", "label": "AA" }, 
+        { "value": "capitalize", "label": "Aa" }, 
+        { "value": "lowercase", "label": "aa" }
+      ], 
+      "default": "capitalize" 
+    },
+    {
+      "type": "color", 
+      "id": "text_color", 
+      "label": "Title Color", 
+      "default": "#000000" 
+    },    
+    { 
+      "type": "select", 
+      "id": "heading_align", 
+      "label": "Heading Alignment", 
+      "options": [
+        { "value": "left", "label": "Left" }, 
+        { "value": "center", "label": "Center" }, 
+        { "value": "right", "label": "Right" }
+      ], 
+      "default": "center" 
+    },
+    {
+      "type": "select",
+      "id": "font_variant",
+      "label": "Font Family",
+      "options": [
+        { "value": "default", "label": "Default by theme" },
+        { "value": "custom", "label": "Own choice" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "font_picker",
+      "label": "Regular Font",
+      "id": "title_font",
+      "default": "montserrat_n4"
+    },
+     { "type": "color", 
+       "id": "background_color", 
+       "label": "Background color", 
+       "default": "transparent" 
+     },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "full", "label": "Full Width" },
+        { "value": "contained", "label": "Contained" }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_desk",
+      "label": "Horizontal Padding",
+      "info": "for desktop",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+       {
+      "type": "range",
+      "id": "padding_tb_desk",
+      "label": "Vertical Padding",
+      "info": "for desktop",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_mob",
+      "label": "Horizontal Padding",
+      "info": "for mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_tb_mob",
+      "label": "Vertical Padding",
+      "info": "for mobile",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    { "type": "select", "id": "display_on", "label": "Display On", "options": [{ "value": "all", "label": "All Devices" }, { "value": "mobile_only", "label": "Mobile Only" }, { "value": "desktop_only", "label": "Desktop Only" }], "default": "all" },
+      {
+      "type": "header",
+      "content": "Product Cards Settings"
+    },
+    { "type": "checkbox", "id": "secondary_image_highlight", "label": "Secondary Image On Hover", "default": false },
+
+    { "type": "checkbox", "id": "card_title_line", "label": "Card title two line", "default": true },
+    { "type": "select", "id": "card_title_typography", "label": "Card title Typography", "options": [{ "value": "uppercase", "label": "AA" }, { "value": "capitalize", "label": "Aa" }, { "value": "lowercase", "label": "aa" }], "default": "capitalize" },
+    { "type": "checkbox", "id": "card_clickable", "label": "Card clickable", "default": true },
+    { "type": "select", "id": "container_styling", "label": "Container Styling", "options": [{ "value": "no_card", "label": "No Card" }, { "value": "card", "label": "Card" }, { "value": "shadow", "label": "Shadow" }], "default": "card" },
+    {
+      "type": "range",
+      "id": "box_shadow_offset",
+      "label": "Box shadow offset",  
+      "min": -10,
+      "max": 10,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "box_shadow_blur",
+      "label": "Box shadow blur",  
+      "min": 0,
+      "max": 15,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "box_shadow_spread",
+      "label": "Box shadow spread",  
+      "min": 0,
+      "max": 15,
+      "default": 1
+    },
+    { "type": "color", "id": "box_shadow_color", "label": "Box shadow color", "default": "#000000" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "transparent" },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Padding card info",
+      "min": 0,
+      "max": 25,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_border",
+      "label": "Card border",
+      "info": "Container Styling Card",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 0
+    },
+    { "type": "color", "id": "card_border_color", "label": "Card border color", "default": "#000" },
+    { "type": "range", "id": "container_radius", "label": "Container Corner Radius", "min": 0, "max": 50, "step": 5, "default": 30 },
+    { "type": "select", "id": "column_prod_mob", "label": "one column or two in mobile", "options": [{ "value": "1", "label": "One" }, { "value": "2", "label": "Two" }], "default": "2" },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    { "type": "checkbox", "id": "show_cta", "label": "Show CTA Button", "default": true },  
+    { "type": "checkbox", "id": "show_arrow", "label": "Show arrow Button", "default": true }, 
+    { "type": "range", "id": "button_radius", "label": "Button Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 },
+    { "type": "color", "id": "button_color", "label": "Button Color", "default": "#000000" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#ffffff" },
+ 
+    {
+      "type": "text",
+      "id": "text_btn_card",
+      "label": "Text For Card Buttons",
+      "default": "SHOP NOW"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Choosed Collections",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

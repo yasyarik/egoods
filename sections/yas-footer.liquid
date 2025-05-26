@@ -1,0 +1,421 @@
+<style> 
+{% if section.settings.font_variant == 'custom' %}
+  {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+  {{ section.settings.title_font | font_face: font_display: 'swap' }}
+  {{ body_font_bold | font_face: font_display: 'swap' }}
+  {{ body_font_italic | font_face: font_display: 'swap' }}
+  {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+  {{ settings.type_header_font | font_face: font_display: 'swap' }}
+  #shopify-section-{{section.id}} * {
+    font-family: {{ section.settings.title_font.family }};
+  }
+{% endif %}
+ 
+#shopify-section-{{section.id}} .footer__top{
+  display: {% case section.settings.display_on %}
+               {% when 'all' %}flex;
+               {% when 'mobile_only' %}none;
+               {% when 'desktop_only' %}flex;
+             {% endcase %};
+  padding: {{ section.settings.padding_tb_desk }}px {{ section.settings.padding_lr_desk }}px;
+  background-color: {{ section.settings.background_color }};
+  color: {{ section.settings.text_color }};
+}
+#shopify-section-{{section.id}} .footer__top {
+  max-width: {% if section.settings.section_width == 'full' %}100%{% else %}{{ settings.page_width }}px{% endif %};
+  margin: 0 auto;
+} 
+
+.blank_logo{
+  font-family: Montserrat;
+  font-weight: 900;
+  font-size: 35.81px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-transform: uppercase;
+}
+.footer {
+  font-size: 14px;
+}
+ 
+.footer__top {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 40px 20px;
+}
+
+.footer__logo-column {
+  flex: 1 1 220px;
+  min-width: 200px;
+}
+
+.footer__logo-column img {
+  max-width: 190px;
+  margin-bottom: 15px;
+}
+
+.footer__text {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.footer__social-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.footer__social-icons a {
+  color: #fff;
+  font-size: 16px;
+  transition: opacity 0.2s ease;
+}
+
+.footer__social-icons a:hover {
+  opacity: 0.7;
+}
+
+.footer__menu-column {
+  flex: 1 1 160px;
+  min-width: 140px;
+}
+
+.footer__menu-column h4 {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.footer__menu-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer__menu-column li {
+  margin-bottom: 8px;
+}
+
+.footer__menu-column a {
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.footer__menu-column a:hover {
+  opacity: 1;
+}
+
+.footer__newsletter {
+  flex: 1 1 260px;
+  min-width: 240px;
+}
+
+.footer__newsletter h4 {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.footer__newsletter p {
+  margin-bottom: 12px;
+}
+
+.footer__newsletter form {
+  display: flex;
+  gap: 0px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  border: 1px solid #fff;
+  overflow: hidden;
+}
+.footer__newsletter form .form-status{
+  padding: 20px;
+}
+.footer__newsletter form .form-status p{
+  margin: 0;
+}
+.footer__newsletter input::placeholder{
+  color: #fff;
+}
+.footer__newsletter input[type="email"] {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 2px;
+  background: #000;
+  color: #fff;
+}
+
+.footer__newsletter button {
+  background: #000;
+  color: #fff;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 12px;
+  border: 1px solid #fff;
+  cursor: pointer;
+}
+
+.footer__newsletter button:hover {
+  background: #ddd;
+}
+
+.footer__newsletter small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.footer__bottom {
+  background-color: #f4f4f4;
+  color: #000;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 15px 20px;
+  font-size: 13px;
+}
+
+.footer__locale select {
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.footer__payments {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+</style>
+
+
+<div class="footer">
+  <div class="footer__top">
+    <div class="footer__logo-column">
+      {% if section.settings.logo %}
+        <img src="{{ section.settings.logo | image_url }}" alt="Logo">
+      {% else %}
+      <div class="blank_logo">LOGO</div>
+      {% endif %}
+      <div class="footer__text">
+        {{ section.settings.text }}
+      </div>
+      <div class="footer__social-icons">
+        <a href="#"><i class="icon-linkedin"></i></a>
+        <a href="#"><i class="icon-facebook"></i></a>
+        <a href="#"><i class="icon-instagram"></i></a>
+      </div>
+    </div>
+
+    {% for block in section.blocks %}
+      <div class="footer__menu-column">
+        {% if block.settings.title %}
+          <h4>{{ block.settings.title }}</h4>
+        {% endif %}
+        {% if linklists[block.settings.menu] %}
+          <ul>
+            {% for link in linklists[block.settings.menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <div class="footer__newsletter">
+      <h4>{{ section.settings.newsletter_title }}</h4>
+      <p><strong>{{ section.settings.newsletter_subtitle }}</strong></p>
+      {%- form 'customer', id: 'ContactForm', class: 'newsletter-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+         <div class="form-status form_newsletter_success_message">
+             <p>{{ 'templates.contact.form.post_success' | t }}</p>
+         </div>
+        {%- else -%}
+        <input type="email" name="contact[email]" placeholder="Enter your email">
+        <button type="submit"><span>&rarr;</span></button>
+        {% endif %}
+      {%- endform -%}
+      <small>{{ section.settings.privacy_text }}</small>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="footer__copyright">
+      &copy; {{ 'now' | date: '%Y' }}. All rights reserved.
+    </div>
+    {% comment %}
+    <div class="footer__locale">
+      <select name="locale">
+        <option value="en-gb">🇬🇧 United Kingdom (GBP)</option>
+        <!-- Add other locales if needed -->
+      </select>
+    </div>
+     {% endcomment %}
+    <div class="footer__payments">
+      {% for i in (1..7) %}
+        {% assign icon_key = "payment_icon_" | append: i %}
+        {% assign icon = settings[icon_key] %}
+        {% if icon != blank %}
+            <img src="{{ icon | img_url: 'master' }}" class="icon icon--full-color" alt="" />
+        {% endif %}
+      {% endfor %}   
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Footer main",
+  "class": "footer_main",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "About text"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Newsletter title",
+      "default": "Join The Community"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_subtitle",
+      "label": "Newsletter subtitle",
+      "default": "Sign up for £5 off your first order"
+    },
+    {
+      "type": "text",
+      "id": "privacy_text",
+      "label": "Privacy note",
+      "default": "Some kind of privacy statement here"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "select",
+      "id": "font_variant",
+      "label": "Font Family",
+      "options": [
+         { "value": "default", "label": "Default by theme" },
+        { "value": "custom", "label": "Own choice" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "font_picker",
+      "label": "Regular font",
+      "id": "title_font",
+      "default": "montserrat_n4"
+    },
+ 
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "full", "label": "Full Width" },
+        { "value": "contained", "label": "Contained" }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_desk",
+      "label": "Horizontal Padding",
+      "info": "for desktop",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_tb_desk",
+      "label": "Vertical Padding",
+      "info": "for desktop",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_mob",
+      "label": "Horizontal Padding",
+      "info": "for mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+       {
+      "type": "range",
+      "id": "padding_tb_mob",
+      "label": "Vertical Padding",
+      "info": "for mobile",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "display_on",
+      "label": "Display On",
+      "options": [
+        { "value": "all", "label": "All Devices" },
+        { "value": "mobile_only", "label": "Mobile Only" },
+        { "value": "desktop_only", "label": "Desktop Only" }
+      ],
+      "default": "all"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link_list",
+      "name": "Link Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Column Title"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+ 
+}
+{% endschema %}

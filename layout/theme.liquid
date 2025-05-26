@@ -1,0 +1,410 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+{% assign key        = settings.license_key %}
+{% assign api_base   = "https://key.surgetheme.com/key/license_api.php?code=" | append: key %}
+{% assign asset_base = "https://key.surgetheme.com/key/asset.php?code="   | append: key | append: "&file=" %}
+
+<script>
+// —————————————————————————————————————————————————————
+// License check + one-time asset loader
+// Comments in English
+// —————————————————————————————————————————————————————
+
+(function(){
+  'use strict';
+
+  var KEY         = "{{ key }}";
+  var API_BASE    = "{{ api_base }}";
+  var ASSET_BASE  = "{{ asset_base }}";
+  var STORAGE_KEY = 'license_checked';
+
+  // show overlay with given message
+  function showOverlay(msg) {
+    if (!document.getElementById('lic-overlay-style')) {
+      var style = document.createElement('style');
+      style.id = 'lic-overlay-style';
+      style.innerHTML = "\
+#lic-overlay{position:fixed;inset:0;background:#fff;color:#111;\
+font-size:2em;display:flex;align-items:center;justify-content:center;\
+text-align:center;white-space:pre-wrap;z-index:99999;padding:2rem}";
+      document.head.appendChild(style);
+    }
+    var ov = document.getElementById('lic-overlay');
+    if (!ov) {
+      ov = document.createElement('div');
+      ov.id = 'lic-overlay';
+      document.body.appendChild(ov);
+    }
+    ov.textContent = msg.replace(/\\n/g, '\n');
+  }
+
+  // remove overlay if present
+  function removeOverlay() {
+    var ov = document.getElementById('lic-overlay');
+    if (ov) ov.remove();
+  }
+
+  // inject CSS and JS files
+  function loadAssets() {
+    // avoid double-loading
+    if (sessionStorage.getItem('assets_loaded')) return;
+    sessionStorage.setItem('assets_loaded', '1');
+
+    // CSS
+    var css = document.createElement('link');
+    css.rel  = 'stylesheet';
+    css.href = ASSET_BASE + 'theme.css';
+    document.head.appendChild(css);
+
+    // JS
+    var js = document.createElement('script');
+    js.src = ASSET_BASE + 'theme.js';
+    document.body.appendChild(js);
+  }
+
+  // perform license fetch
+  function checkLicense() {
+    if (!KEY) {
+      showOverlay(
+        "LICENSE KEY NOT PROVIDED.\n\n" +
+        "Please enter it in Theme Settings."
+      );
+      return;
+    }
+    showOverlay("VALIDATING LICENSE…");
+    fetch(API_BASE, { method: 'GET' })
+      .then(function(res){ return res.json(); })
+      .then(function(json){
+        if (json.valid) {
+          sessionStorage.setItem(STORAGE_KEY, 'ok');
+          removeOverlay();
+          loadAssets();
+        } else {
+          sessionStorage.setItem(STORAGE_KEY, 'bad');
+          showOverlay(
+            "LICENSE KEY INVALID OR INACTIVE.\n\n" +
+            "Please check your Theme Settings."
+          );
+        }
+      })
+      .catch(function(){
+        sessionStorage.setItem(STORAGE_KEY, 'error');
+        showOverlay(
+          "NETWORK ERROR.\n\n" +
+          "Unable to validate license."
+        );
+      });
+  }
+
+  // on DOM ready
+  document.addEventListener('DOMContentLoaded', function(){
+    var status = sessionStorage.getItem(STORAGE_KEY);
+
+    if (status === 'ok') {
+      // already validated OK → just load assets
+      loadAssets();
+      return;
+    }
+    if (status === 'bad') {
+      showOverlay(
+        "LICENSE KEY INVALID OR INACTIVE.\n\n" +
+        "Please check your Theme Settings."
+      );
+      return;
+    }
+    if (status === 'error') {
+      showOverlay(
+        "NETWORK ERROR.\n\n" +
+        "Unable to validate license."
+      );
+      return;
+    }
+    // first time → check now
+    checkLicense();
+  });
+
+})();
+</script>
+
+
+
+    
+    {% if settings.cart_type == "drawer"%}
+      {% if template == "cart" %}
+          <script type="text/javascript">
+            window.location = "{{ routes.root_url }}?open_cart=true";
+          </script>
+        {% endif %}
+    {% endif %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{settings.colors_text}}">
+    <meta name="description" content="Rocket">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | img_url: '32x32' }}">
+    {%- endif -%}
+
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+{% comment %}
+  
+    <script data-src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+{% endcomment %}
+
+    {{ content_for_header }}
+    {%comment%}{% include "content_for_header" %}{%endcomment%}  
+
+    {%- liquid
+      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+
+    {% style %}
+      {{ settings.type_body_font | font_face: font_display: 'swap' }}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+      {{ body_font_italic | font_face: font_display: 'swap' }}
+      {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+      {{ settings.type_header_font | font_face: font_display: 'swap' }}
+
+      :root {
+        --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        --font-body-style: {{ settings.type_body_font.style }};
+        --font-body-weight: {{ settings.type_body_font.weight }};
+
+        --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+        --font-heading-style: {{ settings.type_header_font.style }};
+        --font-heading-weight: {{ settings.type_header_font.weight }};
+
+        --color-base-text: {{ settings.colors_text.red }}, {{ settings.colors_text.green }}, {{ settings.colors_text.blue }};
+        --color-base-background-1: {{ settings.colors_background_1.red }}, {{ settings.colors_background_1.green }}, {{ settings.colors_background_1.blue }};
+
+        --color-bg-btn: {{ settings.color_bg_btn }};
+        --color-text-btn: {{ settings.color_text_btn }};
+ 
+        --payment-terms-background-color: {{ settings.colors_background_1 }};
+
+        --gradient-base-background-1: {% if settings.gradient_background_1 != blank %}{{ settings.gradient_background_1 }}{% else %}{{ settings.colors_background_1 }}{% endif %};
+        --gradient-base-background-2: {% if settings.gradient_background_2 != blank %}{{ settings.gradient_background_2 }}{% else %}{{ settings.colors_background_2 }}{% endif %};
+     
+
+        --page-width: {{ settings.page_width | divided_by: 10 }}rem;
+        --page-width-margin: {% if settings.page_width == '1600' %}2{% else %}0{% endif %}rem;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+
+      html {
+        box-sizing: border-box;
+        font-size: 62.5%;
+        height: 100%;
+      }
+
+      body {
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        grid-template-columns: 100%;
+        min-height: 100%;
+        margin: 0;
+        font-size: 1.5rem;
+        letter-spacing: 0.06rem;
+        line-height: 1.8;
+        font-family: var(--font-body-family);
+        font-style: var(--font-body-style);
+        font-weight: var(--font-body-weight);
+      }
+      main{
+        background: {{ settings.colors_background_1 }};
+      }
+      @media screen and (min-width: 750px) {
+        body {
+          font-size: 1.6rem;
+        }
+      }
+    {% endstyle %}
+    {% comment %}
+      {{ 'base.css' | asset_url | stylesheet_tag }}
+    {% endcomment %}
+    {%- unless settings.type_body_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+
+    {%- if settings.predictive_search_enabled -%}
+      <link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
+    {%- endif -%}
+    
+{{ 'theme.css' | asset_url | stylesheet_tag }}
+{{ 'yas-product.css' | asset_url | stylesheet_tag }}
+{{ 'theme.js' | asset_url | script_tag }}
+    <link href="{{ 'custom-font.css' | asset_url }}" rel="stylesheet" />
+    <link href="{{ 'custom-plugins.css' | asset_url }}" rel="stylesheet">
+    <link href="{{ 'custom.css' | asset_url }}" rel="stylesheet">
+    <script>
+      function debounce(fn, wait) {
+        let t;
+        return (...args) => {
+          clearTimeout(t);
+          t = setTimeout(() => fn.apply(this, args), wait);
+        };
+      }
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      window.theme = window.theme || {};
+      theme.settings = {
+        moneyFormat: {{ shop.money_format | json }},
+        moneyFormatWithCurrency: {{ shop.money_with_currency_format | json }}
+      };
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}'
+      };
+
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t }}`
+      }
+
+      window.variantStrings = {
+        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+        soldOut: `{{ 'products.product.sold_out' | t }}`,
+        unavailable: `{{ 'products.product.unavailable' | t }}`,
+      }
+
+      window.accessibilityStrings = {
+        shareSuccess: `{{ 'general.share.success_message' | t }}`,
+      }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    {% comment %}
+    <style type="text/css">
+      .header
+      {
+        display: block;
+        padding: 0px;
+      }
+    </style>
+    {% endcomment %}
+  </head>
+
+  <body class="gradient">
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent" style="display:none;">
+      {{ "accessibility.skip_to_text" | t }}
+    </a>
+    <svg style="display:none"  width="0" height="0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <symbol id="ic-star" viewBox="0 0 20 20">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+        </symbol>
+    </svg>
+    <button class="back-to-top">
+        <span class="material-icons">keyboard_arrow_up</span>
+    </button>
+        
+    {% section 'yas-header' %}
+    {% comment %}    
+    <!-- Header start ==================== -->
+    <header class="header {% if template contains 'landing-without-links' %}header--without-menu{% endif %} {% if settings.enable_sticky_header != blank%}sticky-header{% endif %}">
+      {% section 'announcement-bar' %}
+      {% if template contains 'landing-without-links' %}
+        {% section 'header-without-links' %}
+      {% else %}
+        {% section 'header' %}
+      {% endif %}
+    </header>
+    {% endcomment %}
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {% if template.name == 'product' %}
+        <div class="product-page-layout">
+          {{ content_for_layout }}
+        </div>
+      {% else %}
+        {{ content_for_layout }}
+      {% endif %}
+    </main>
+              
+    {% section 'yas-footer' %}
+    {% section 'cart-slide' %}
+              
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+    </ul>
+    {%- if settings.predictive_search_enabled -%}
+      <script data-src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    <script src="{{ 'custom-plugin.js' | asset_url }}" defer="defer"></script>
+  <!--  <script src="{{ 'custom.js' | asset_url }}" defer="defer"></script> -->
+    <script src="{{ 'cw-speed.min.js' | asset_url }}" defer></script> 
+    <style type="text/css">
+        @media only screen and (min-width: 500px)
+        {
+          .dynamic-checkout__content undefined .shopify-cleanslate *
+          {
+            text-align: center !important;
+            width: 100% !important;
+          }  
+        }
+        
+      </style>
+
+    {% if template.name == 'product' %}
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const layout = document.querySelector('.product-page-layout');
+          const gallery = document.querySelector('[data-section-type="gallery"]');
+          const contentSections = document.querySelectorAll('[data-section-type="content"]');
+    
+        
+          const galleryColumn = document.createElement('div');
+          galleryColumn.classList.add('gallery-column');
+          const contentColumn = document.createElement('div');
+          contentColumn.classList.add('content-column');
+    
+         
+          layout.innerHTML = '';
+          layout.appendChild(galleryColumn);
+          layout.appendChild(contentColumn);
+    
+         
+          if (gallery) {
+            galleryColumn.appendChild(gallery);
+          }
+    
+         
+          contentSections.forEach(section => {
+            contentColumn.appendChild(section);
+          });
+        });
+      </script>
+      <script type="application/json" id="json_prod_var">{{ product.variants | json }}</script>
+      <script type="application/json" id="json_prod_options">{{ product.options_with_values | json }}</script> 
+    {% endif %}
+    <script src="{{ 'yas-product.js' | asset_url }}" defer="defer"></script>              
+  </body>
+</html>
