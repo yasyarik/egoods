@@ -306,13 +306,15 @@ order: 5;
 
   #shopify-section-{{section.id}} .carousel-nav .arrow {
     font-size: 20px;
-    color: #000;
     cursor: pointer;
     padding: 5px;
-    background: #fff;
+    border: 1px solid var(--swiper-navigation-color);
+    color: var(--swiper-navigation-color);
     border-radius: 50%;
-    border: 1px solid #ccc;
     transition: background-color 0.3s;
+    width: 40px;
+    line-height: normal;
+    height: 40px;
   }
 
   #shopify-section-{{section.id}} .carousel-nav .arrow:hover {
@@ -322,13 +324,13 @@ order: 5;
   #shopify-section-{{section.id}} .carousel-nav .dot {
     width: 10px;
     height: 10px;
-    background: #ccc;
+    background: var(--bullet-color);
     border-radius: 50%;
     cursor: pointer;
   }
 
   #shopify-section-{{section.id}} .carousel-nav .dot.active {
-    background: #000;
+    background: var(--bullet-active-color);
   }
 
   @media (max-width: 768px) {
@@ -845,7 +847,7 @@ order: 5;
   "presets": [
     {
       "name": "TP Reviews",
-      "category": "Custom",
+      "category": "Reviews",
       "blocks": [
         
         { "type": "testimonial_slide" },

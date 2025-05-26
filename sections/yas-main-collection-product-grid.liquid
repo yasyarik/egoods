@@ -68,6 +68,9 @@
     text-transform: {{ section.settings.headline_typography }};
     color: {{ section.settings.text_color }};
   }
+  #shopify-section-{{ section.id }} .pagination__list{
+    gap: 10px;
+  }
   @media (max-width: 768px) {
     #shopify-section-{{ section.id }} .section-title {
       font-size:
@@ -111,11 +114,11 @@
   /* Button colors & radius */
   #shopify-section-{{ section.id }} .btn {
     border-radius: {{ section.settings.button_radius }}px;
-    color: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
-    background-color: {% if section.settings.button_color != 'transparent' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
+    background-color: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
   }
   #shopify-section-{{ section.id }} .btn svg path {
-    fill: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+    fill: {{ section.settings.button_text_color }};
   }
 
   /* Product-title dynamic clamp */
@@ -127,26 +130,52 @@
     -webkit-box-orient: vertical;
     {% endif %}
   }
+  {% if collection.products_count == 0 %}
+  #shopify-section-{{ section.id }} .featured-header-w{
+    margin 0;
+  }
+  main{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+  {% endif %}
 </style>
 
 
 
 <section class="featured-products-section">
   <div class="content-wrapper">
-    {%- if section.settings.title != blank or section.settings.under_title_text != blank -%}
-    <div class="featured-header-w">
-      {%- if section.settings.title != blank -%}
-      <div class="section-title">{{ section.settings.title }}</div>
+    {% if collection.products_count > 0 %}
+      {%- if section.settings.title != blank or section.settings.under_title_text != blank -%}
+      <div class="featured-header-w">
+        {%- if section.settings.title != blank -%}
+        <div class="section-title">{{ section.settings.title }}</div>
+        {%- endif -%}
+        {%- if section.settings.under_title_text != blank -%}
+        <div class="section-subtitle">{{ section.settings.under_title_text }}</div>
+        {%- endif -%}
+      </div>
+      {%- else -%}
+        <div class="featured-header-w">
+        <div class="section-title">{{ collection.title }}</div>
+        {%- if collection.description != blank -%}
+        <div class="section-subtitle">{{ collection.description }}</div>
+        {%- endif -%}
+      </div>
       {%- endif -%}
-      {%- if section.settings.under_title_text != blank -%}
-      <div class="section-subtitle">{{ section.settings.under_title_text }}</div>
-      {%- endif -%}
-    </div>
-    {%- endif -%}
-
+    {% else %}
+      <div class="featured-header-w">
+        <div class="section-title"> NO PRODUCTS</div>
+      </div>   
+    {% endif %}
+    {%- paginate collection.products by section.settings.products_per_page -%}
+    {%- if collection.products.size == 0 -%}
+      
+    {%- else -%}
     <div class="products-grid">
-      {% for block in section.blocks %}
-        {% assign product = block.settings.product %}
+      {% for block in collection.products %}
+        {% assign product = block %}
         {% if product != blank %}
           <div class="product-item" {% if section.settings.card_clickable == true %} onclick="location.href='{{ product.url }}'"{% endif %}>
             <div class="product-image-wrapper {% if section.settings.secondary_image_highlight and product.images[1] %}has_second-img{% endif %}">
@@ -156,11 +185,6 @@
               {% endif %}
             </div>
             <div class="product-info">
-              {% if section.settings.show_reviews %}
-                <div class="product-reviews">
-                  <span>{% for i in (1..block.settings.star_count) -%}{% render 'review-stars' %}{%- endfor -%}</span> {{ block.settings.review_text }}
-                </div>
-              {% endif %}
               <h3 class="product-title">{{ product.title }}</h3>
               <p>
                 {% if product.compare_at_price > product.price %}
@@ -177,20 +201,35 @@
         {% endif %}
       {% endfor %}
     </div>
-    {% if section.settings.view_more_url != blank or section.settings.view_more_btn != blank %}
-    <div class="viewmore_btn-w">
-      <a href="{{ section.settings.view_more_url }}" class="viewmore_btn">{{ section.settings.view_more_btn }}</a>
-    </div>
-    {% endif %}
+    
+    {%- if paginate.pages > 1 -%}
+       <div class="viewmore_btn-w">
+          {% render 'pagination', paginate: paginate, anchor: '' %}
+            </div>
+    {%- endif -%}  
+   
+
+
+  {%- endif -%}
+  {%- endpaginate -%}
+      
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Featured Products Section",
-  "class": "featured-product-grid",
-  "limit": 1,
+  "name": "t:sections.main-collection-product-grid.name",
+  "class": "spaced-section collection-grid-section featured-product-grid",
   "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 24,
+      "step": 4,
+      "default": 16,
+      "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+    },
     {
       "type": "header",
       "content": "Header Content"
@@ -356,8 +395,8 @@
     { "type": "checkbox", "id": "show_cta", "label": "Show CTA Button", "default": true },  
     { "type": "checkbox", "id": "show_arrow", "label": "Show arrow Button", "default": true }, 
     { "type": "range", "id": "button_radius", "label": "Button Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 },
-    { "type": "color", "id": "button_color", "label": "Button Color", "default": "transparent" },
-    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "transparent" },
+    { "type": "color", "id": "button_color", "label": "Button Color", "default": "#000000" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#ffffff" },
  
     {
       "type": "text",
@@ -366,49 +405,7 @@
       "default": "SHOP NOW"
     },
    
-    {
-      "type": "text",
-      "id": "view_more_btn",
-      "label": "Text For View More link",
-      "default": "View More"
-    },
-    {
-      "type": "url",
-      "id": "view_more_url",
-      "label": "View More Url"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "product",
-      "name": "Product",
-      "settings": [
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Select Product"
-        },
-        { "type": "range", "id": "star_count", "label": "Star count", "min": 1, "max": 5, "step": 1, "default": 5 },
-        {
-          "type": "text",
-          "id": "review_text",
-          "label": "Review text",
-          "default": "10 reviews"
-        },
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Featured Products",
-      "category": "Product",
-      "blocks": [
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" }
-      ]
-    }
+    
   ]
 }
 {% endschema %}

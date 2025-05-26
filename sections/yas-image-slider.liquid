@@ -187,7 +187,6 @@
   #shopify-section-{{ section.id }} .swiper .swiper-pagination-bullet {
     width: 16px;
     height: 16px;
-    background: #000;
     margin: 0 8px;
     min-width: 16px;
     opacity: 0.4;
@@ -195,7 +194,6 @@
   #shopify-section-{{ section.id }} .swiper .swiper-pagination-bullet-active {
     width: 20px;
     height: 20px;
-    background: #000;
     min-width: 20px;
     opacity: 1;
   }
@@ -217,12 +215,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #000;
+    border: 1px solid var(--swiper-navigation-color);;
     cursor: pointer;
   }
   #shopify-section-{{ section.id }} .swiper-b-prev path,
   #shopify-section-{{ section.id }} .swiper-b-next path {
-    fill: #000;
+    fill: var(--swiper-navigation-color);
   }
   #shopify-section-{{ section.id }} .swiper-button-disabled {
     opacity: 0.2;
@@ -525,7 +523,7 @@
   "presets": [
     {
       "name": "Image Slider one",
-      "category": "Custom",
+      "category": "Image",
       "blocks": [
         { "type": "photo_slide" },
       ]

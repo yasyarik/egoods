@@ -53,7 +53,38 @@
         "default": "#121212",
         "label": "t:settings_schema.colors.settings.colors_text.label",
         "info": "t:settings_schema.colors.settings.colors_text.info"
-      },     
+      },    
+      {
+        "type": "color",
+        "id": "color_paginate",
+        "default": "#000",
+        "label": "Color Pagination Slider",
+      },    
+      {
+        "type": "color",
+        "id": "color_paginate_active",
+        "default": "#000",
+        "label": "Color Pagination Active Slider",
+      },
+      {
+        "type": "color",
+        "id": "color_arrow",
+        "default": "#000",
+        "label": "Color Arrow Slider",
+      },
+      {
+        "type": "color",
+        "id": "color_paginate_btn",
+        "default": "#000",
+        "label": "Color Pagination Batton",
+      },
+      {
+        "type": "color",
+        "id": "background_paginate_btn",
+        "default": "#fff",
+        "label": "Background Pagination Batton",
+      },
+      
     ]
   },
   {

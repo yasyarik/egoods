@@ -25,7 +25,7 @@
     <div class="instock"  >
       {% if product.available %}
     <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"
-     style="background:white; overflow: visible; display: block;">
+     style="overflow: visible; display: block;">
 
   <circle cx="12.5" cy="12.5" r="4" fill="{{ section.settings.intstock_color }}" />
 
@@ -100,8 +100,12 @@
   ],
   "presets": [
     {
-      "name": "Product Price"
+      "name": "Product Price",
+      "category": "Product Sections"
     }
-  ]
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
 }
 {% endschema %}

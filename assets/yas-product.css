@@ -152,7 +152,6 @@ quantity-inputs button{
 .custom-select {
   cursor: pointer;
   user-select: none;
-  background: white;
   position: relative;
   color: #000;
   leading-trim: both;
@@ -172,6 +171,7 @@ quantity-inputs button{
   display: flex;
   gap: 10px;
   position: relative;
+  background: white;
 }
 .select-trigger:after{
   content: '';
@@ -426,6 +426,9 @@ quantity-inputs button{
  
     border-radius: 12px;
     margin-bottom: 10px;
+  }
+  .product-addons__image{
+    display: flex;
   }
   .product-addons__image img {
     width: 100px;
@@ -961,7 +964,7 @@ margin: 0 25px;
   align-items:center;
   margin-bottom: 0px;
   margin-top: 0;
-  
+  flex-wrap: wrap;
 }
 .instock
 {

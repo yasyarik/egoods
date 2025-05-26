@@ -4,7 +4,7 @@
 {% assign key        = settings.license_key %}
 {% assign api_base   = "https://key.surgetheme.com/key/license_api.php?code=" | append: key %}
 {% assign asset_base = "https://key.surgetheme.com/key/asset.php?code="   | append: key | append: "&file=" %}
-
+ 
 <script>
 // —————————————————————————————————————————————————————
 // License check + one-time asset loader
@@ -209,6 +209,17 @@ text-align:center;white-space:pre-wrap;z-index:99999;padding:2rem}";
 
         --page-width: {{ settings.page_width | divided_by: 10 }}rem;
         --page-width-margin: {% if settings.page_width == '1600' %}2{% else %}0{% endif %}rem;
+
+
+        --bullet-color: {{ settings.color_paginate }};
+        --swiper-pagination-bullet-inactive-color: {{ settings.color_paginate }};
+        --bullet-active-color: {{ settings.color_paginate_active }};
+        --swiper-pagination-color: {{ settings.color_paginate_active }};
+        
+        --swiper-navigation-color: {{ settings.color_arrow }};
+        
+        
+    
       }
 
       *,
@@ -239,6 +250,14 @@ text-align:center;white-space:pre-wrap;z-index:99999;padding:2rem}";
       main{
         background: {{ settings.colors_background_1 }};
       }
+      .swiper .swiper-pagination-bullet{
+        background-color: var(--bullet-color);
+        border: none;
+      }
+      .swiper .swiper-pagination-bullet-active{
+        background-color: var(--bullet-active-color);
+      }
+     
       @media screen and (min-width: 750px) {
         body {
           font-size: 1.6rem;
@@ -258,7 +277,7 @@ text-align:center;white-space:pre-wrap;z-index:99999;padding:2rem}";
     {%- if settings.predictive_search_enabled -%}
       <link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
     {%- endif -%}
-    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>    
 {{ 'theme.css' | asset_url | stylesheet_tag }}
 {{ 'yas-product.css' | asset_url | stylesheet_tag }}
 {{ 'theme.js' | asset_url | script_tag }}
@@ -301,7 +320,7 @@ text-align:center;white-space:pre-wrap;z-index:99999;padding:2rem}";
         shareSuccess: `{{ 'general.share.success_message' | t }}`,
       }
     </script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     {% comment %}
     <style type="text/css">

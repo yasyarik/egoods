@@ -15,7 +15,7 @@
       font-family: {{ section.settings.title_font.family }};
     }
   {% endif %}
-
+     
   #shopify-section-{{section.id}} .content-wrapper a p {
     margin: 0 auto;
     color: {{ section.settings.text_color }};
@@ -508,13 +508,19 @@ border-radius: 50px;
 
 {% assign product = section.settings.product %}
 
+{% unless product %}
+  {% if request.design_mode %}
+    {% assign product = all_products['product'] %}
+  {% endif %}
+{% endunless %}
+
 <div class="content-wrapper">
   <div class="product-page-layout">
     <div class="gallery-column">
       {% for block in section.blocks %}
         {%- case block.type -%}
           {%- when 'media' -%}
-              {% assign product = section.settings.product %}
+              
               <div class="gallery-section" data-section-type="gallery">
                 <div class="main-image-wrapper">
                   <button class="arrow arrow-left" aria-label="Previous Image">←</button>
@@ -655,7 +661,7 @@ border-radius: 50px;
           <div class="instock" >
             {% if product.available %}
                 <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"
-                 style="background:white; overflow: visible; display: block;">
+                 style="overflow: visible; display: block;">
             
               <circle cx="12.5" cy="12.5" r="4" fill="{{ block.settings.intstock_color }}" />
             
@@ -1215,12 +1221,12 @@ border-radius: 50px;
 <style>
  #shopify-section-{{section.id}}  add-card-prod .submit_add_cart{
       border-radius: {{ block.settings.button_radius }}px;
-      background: {{ block.settings.button_color }};
-      color: {{ block.settings.button_text_color }};
+      color: {% if block.settings.button_text_color != 'transparent' %}{{block.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+      background: {% if block.settings.button_color != 'transparent' %}{{block.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
       border: none;
     }
    #shopify-section-{{section.id}}  add-card-prod .submit_add_cart svg path{
-      stroke: {{ block.settings.button_text_color }};
+      stroke: {% if block.settings.button_text_color != 'transparent' %}{{block.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
     }
    #shopify-section-{{section.id}} quantity-inputs {
 
@@ -1879,6 +1885,11 @@ border-radius: 50px;
   "name": "Product Block",
   "settings": [
     {
+          "type": "product",
+          "id": "product",
+          "label": "Product"        
+    },
+    {
       "type": "header",
       "content": "General Settings"
     },
@@ -1999,12 +2010,6 @@ border-radius: 50px;
       ], 
       "default": "all" 
     },
- {
-          "type": "product",
-          "id": "product",
-          "label": "Product"        },
-       
- 
     {
       "type": "richtext",
       "id": "uppertitle",
@@ -2682,7 +2687,7 @@ border-radius: 50px;
       "type": "color",
       "id": "background_color",
       "label": "Background Color",
-      "default": "#ffffff"
+      "default": "transparent"
     },
      {
       "type": "select",
@@ -2769,8 +2774,8 @@ border-radius: 50px;
       "content": "Button Settings"
     },
     { "type": "range", "id": "button_radius", "label": "Button Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 },
-    { "type": "color", "id": "button_color", "label": "Button background", "default": "#000000" },
-    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "button_color", "label": "Button background", "default": "transparent" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "transparent" },
     {
       "type": "header",
       "content": "Icons Add Button"
@@ -3521,10 +3526,44 @@ border-radius: 50px;
    
   ],
   "presets": [
-    {
-      "name": "Product Block",
-      "category": "Custom"
-    }
-  ]
+  {
+    "name": "Product Block",
+    "category": "Product",
+    "settings": {
+      "heading_size": "medium",
+      "headline_typography": "capitalize",
+      "text_color": "#000000",
+      "heading_align": "center",
+      "background_color": "transparent",
+      "font_variant": "default",
+      "title_font": "montserrat_n4",
+      "section_width": "contained",
+      "padding_x_desk": 70,
+      "padding_y_desk": 10,
+      "padding_x_mob": 15,
+      "padding_y_mob": 7,
+      "display_on": "all",
+      "uppertitle": "<h3>Reviewed by +100 Happy Customers </h3>"
+    },
+    "blocks": [
+      { "type": "price" },
+      { "type": "description" },
+      { "type": "points" },
+      { "type": "trust-icons" },
+      { "type": "addon" },
+      { "type": "gifts" },
+      { "type": "size" },
+      { "type": "add" },
+      { "type": "timeline" },
+      { "type": "media" },
+      { "type": "video" },
+      { "type": "testimonial" },
+      { "type": "square_icon" },
+      { "type": "pack_options" },
+      { "type": "accordion" },
+      { "type": "option" }
+    ]
+  }
+]
 }
 {% endschema %}

@@ -20,7 +20,7 @@
                {% when 'all' %}block;
                {% when 'mobile_only' %}none;
                {% when 'desktop_only' %}block;
-             {% endcase %};
+             {% endcase %}
   padding: {{ section.settings.padding_tb_desk }}px {{ section.settings.padding_lr_desk }}px;
   background-color: {{ section.settings.background_color }};
   color: {{ section.settings.text_color }};
@@ -51,7 +51,11 @@
   line-height: 100%;
 }
 
-#shopify-section-{{section.id}}.faq-header {
+#shopify-section-{{ section.id }} .faq-header h2,
+#shopify-section-{{ section.id }} .faq-header h1,
+#shopify-section-{{ section.id }} .faq-header h3,
+#shopify-section-{{ section.id }} .faq-header p,
+#shopify-section-{{section.id}} .faq-header {
   font-size: {% case section.settings.heading_size %}
                {% when 'small' %}36px
                {% when 'medium' %}45px
@@ -62,18 +66,21 @@
   color: {{ section.settings.text_color }};
   line-height: 100%;
 }
-
-#shopify-section-{{section.id}}.faq-subtitle {
+#shopify-section-{{ section.id }} .faq-subtitle h2,
+#shopify-section-{{ section.id }} .faq-subtitle h1,
+#shopify-section-{{ section.id }} .faq-subtitle h3,
+#shopify-section-{{ section.id }} .faq-subtitle p,
+#shopify-section-{{section.id}} .faq-subtitle {
   font-size: 20px;
   font-weight: 500;
   color: {{ section.settings.subtitle_color }};
 }
 
-#shopify-section-{{section.id}}.faq-item:first-child {
+#shopify-section-{{section.id}} .faq-item:first-child {
   margin-top: 0;
 }
 
-#shopify-section-{{section.id}}.faq-item {
+#shopify-section-{{section.id}} .faq-item {
   background: {{ section.settings.faq_background_color }};
   border: 1px solid {{ section.settings.faq_border_color }};
   border-radius: 10px;
@@ -82,7 +89,7 @@
   overflow: hidden;
 }
 
-#shopify-section-{{section.id}}.faq-question {
+#shopify-section-{{section.id}} .faq-question {
   padding: 20px;
   font-size: 22px;
   font-weight: 700;
@@ -92,11 +99,10 @@
   color: {{ section.settings.title_color_block }};
 }
 
-#shopify-section-{{section.id}}.faq-answer {
+#shopify-section-{{section.id}} .faq-answer {
   padding: 0 20px 20px;
   font-size: 16px;
   color: {{ section.settings.text_color_block }};
-  display: none;
 }
 
 #shopify-section-{{section.id}} .faq-item-s.faq-item-showvideo {
@@ -162,10 +168,10 @@
 </div>
 
 <script>
-  document.querySelectorAll('.faq-question').forEach(item => {
+  document.querySelectorAll('#shopify-section-{{section.id}} .faq-question').forEach(item => {
     item.addEventListener('click', () => {
       const parent = item.parentNode;
-      document.querySelectorAll('.faq-item').forEach(faq => {
+      document.querySelectorAll('#shopify-section-{{section.id}} .faq-item').forEach(faq => {
         if (faq !== parent) {
           faq.classList.remove('open');
         }
@@ -401,7 +407,7 @@
   "presets": [
     {
       "name": "FAQ Section",
-      "category": "Custom",
+      "category": "Info",
       "blocks": [
         {
           "type": "faq_block", "settings": {"title":"LOREM IPSUM DOLOR SIT AMET?","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "}

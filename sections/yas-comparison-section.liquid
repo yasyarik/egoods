@@ -783,15 +783,61 @@
     }
   ],
   "presets": [
-    {
-      "name": "Comparison Table",
-      "blocks": [
-        { "type": "company" },
-        { "type": "company" },
-        { "type": "company" }
-      ]
-    }
-  ]
+  {
+    "name": "Comparison Table",
+    "category": "Info",
+    "settings": {
+      "company_name1": "Shopify",
+      "company_name2": "BigCommerce",
+      "company_name3": "WooCommerce",
+      "company_name4": "Squarespace",
+      "company_name5": "Magento",
+      "company_name6": "Wix",
+      "uppertitle": "<h3>Over 1,000 customers compared us</h3>",
+      "title": "<h2>How We Stack Up</h2>",
+      "subtitle": "<h3>Compare features, performance, and trust</h3>"
+    },
+    "blocks": [
+      {
+        "type": "company",
+        "settings": {
+          "title": "Ease of Use",
+          "def_icon_1": "check",
+          "def_icon_2": "check",
+          "def_icon_3": "cross",
+          "def_icon_4": "check",
+          "def_icon_5": "cross",
+          "def_icon_6": "check"
+        }
+      },
+      {
+        "type": "company",
+        "settings": {
+          "title": "Customizability",
+          "def_icon_1": "check",
+          "def_icon_2": "check",
+          "def_icon_3": "check",
+          "def_icon_4": "cross",
+          "def_icon_5": "check",
+          "def_icon_6": "cross"
+        }
+      },
+      {
+        "type": "company",
+        "settings": {
+          "title": "Speed & Hosting",
+          "def_icon_1": "check",
+          "def_icon_2": "cross",
+          "def_icon_3": "cross",
+          "def_icon_4": "check",
+          "def_icon_5": "check",
+          "def_icon_6": "cross"
+        }
+      }
+    ]
+  }
+]
+
 }
 {% endschema %}
 

@@ -130,8 +130,8 @@
   }
 
   #shopify-section-{{ section.id }} .image-with-text-button {
-    background-color: {{ section.settings.button_color }};
-    color: {{ section.settings.button_text_color }};
+    color: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+    background-color: {% if section.settings.button_color != 'transparent' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
     padding: 11px 40px;
     border-radius: {{ section.settings.button_radius }}px;
     border: none;
@@ -465,14 +465,14 @@
       "label": "Button Link"
     },
     { "type": "range", "id": "button_radius", "label": "Button Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 },
-    { "type": "color", "id": "button_color", "label": "Button background", "default": "#000000" },
-    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "button_color", "label": "Button background", "default": "transparent" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "transparent" },
 
   ],
   "presets": [
     {
       "name": "Image With Text",
-      "category": "Custom"
+      "category": "Image"
     }
   ]
 }

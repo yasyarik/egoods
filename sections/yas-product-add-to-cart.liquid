@@ -2,12 +2,12 @@
   <style>
     add-card-prod .submit_add_cart{
       border-radius: {{ section.settings.button_radius }}px;
-      background: {{ section.settings.button_color }};
-      color: {{ section.settings.button_text_color }};
+      color: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+      background: {% if section.settings.button_color != 'transparent' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
       border: none;
     }
     add-card-prod .submit_add_cart svg path{
-      stroke: {{ section.settings.button_text_color }};
+      stroke: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
     }
     .cart-quantity {
       {% if section.settings.qty_align =='right' %}
@@ -136,8 +136,8 @@
       "content": "Button Settings"
     },
     { "type": "range", "id": "button_radius", "label": "Button Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 },
-    { "type": "color", "id": "button_color", "label": "Button background", "default": "#000000" },
-    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "button_color", "label": "Button background", "default": "transparent" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "transparent" },
     {
       "type": "header",
       "content": "Icons Add Button"
@@ -154,16 +154,17 @@
       "default": "shopping_bag"
     },
     ],
-    "enabled_on": {
-      "templates": ["product"],
-    },
+   
     "presets": [
       {
         "name": "Product Add to Cart",
+        "category": "Product Sections",
         "settings": {
 
         },
       }
-    ],
+    ], "enabled_on": {
+      "templates": ["product"],
+    },
 }
 {% endschema %}

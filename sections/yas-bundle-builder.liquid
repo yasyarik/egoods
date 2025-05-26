@@ -131,7 +131,7 @@
   box-shadow: {% if section.settings.container_styling == 'shadow' %}
                {{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_blur }}px {{ section.settings.box_shadow_spread }}px {{ section.settings.box_shadow_color }};
              {% else %}none;
-             {% endif %};
+             {% endif %}
   border: {% if section.settings.container_styling == 'card' %}
             {{ section.settings.card_border }}px solid {{ section.settings.card_border_color }};
           {% else %}none;
@@ -162,14 +162,14 @@
   text-align: left;
 }
 
-#shopify-section-{{ section.id }} .btn {
+#shopify-section-{{ section.id }} .bundle-checkout-btn{
   border-radius: {{ section.settings.btn_radius }}px;
   color: {% if section.settings.btn_color != 'transparent' %}{{section.settings.btn_color}}{% else %}var(--color-text-btn){% endif %};
   background: {% if section.settings.btn_bg != 'transparent' %}{{section.settings.btn_bg}}{% else %}var(--color-bg-btn){% endif %};
 }
-  #shopify-section-{{ section.id }} .btn svg path {
+#shopify-section-{{ section.id }} .bundle-checkout-btn svg path{
    fill: {% if section.settings.btn_color != 'transparent' %}{{section.settings.btn_color}}{% else %}var(--color-text-btn){% endif %};
-  }
+}
 #shopify-section-{{ section.id }} .bundle-qty-control {
   display: flex;
   align-items: center;
@@ -628,8 +628,8 @@ checkoutBtn.addEventListener("click", async () => {
        "min": 0, "max": 100, "step": 1,
   "default": 40
 }, 
-       { "type": "color", "id": "btn_bg", "label": "Button Background Color", "default": "#000" },
-      { "type": "color", "id": "btn_color", "label": "Button Text Color", "default": "#fff" },
+       { "type": "color", "id": "btn_bg", "label": "Button Background Color", "default": "transparent" },
+      { "type": "color", "id": "btn_color", "label": "Button Text Color", "default": "transparent" },
     
     
     { "type": "header", "content": "Payment Icons" },

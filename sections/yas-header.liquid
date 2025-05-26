@@ -219,6 +219,36 @@
     letter-spacing: 0;
     text-align: center;
   }
+  .sub_header .sub_header-collection.collection-toogle .collection-item[data-open="true"] > a{
+    border: none;
+    padding-bottom: 0;
+  }
+
+  .collection-item[data-open="false"] .collection-item_listprod{
+    display: none;
+  }
+  .collection-item[data-open="true"] .collection-item_listprod{
+    display: block;
+  }
+  .collection-item_product{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 25px 0;
+    border-bottom: 1px solid #D9D9D9;
+  }
+  .collection-item_product svg{
+    min-width: 12px;
+    width: 12px;
+  }
+  .collection-item_product h5{
+    margin: 0;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
 </style>
 <div class="header_w">
   <div class="header_left">
@@ -316,8 +346,11 @@
               <div class="collection-list">
                 {% for collection in block.settings.collection_list limit: block.settings.limit %}
                   {% if collection != blank %}
-                    <div class="collection-item">
-                      <a href="{{ collection.url }}">
+                    <div class="collection-item" data-open="false">
+                    <a href="#"
+                       onclick="event.preventDefault(); const p=this.closest('.collection-item'); const o=p.dataset.open==='true'; p.dataset.open=!o; this.setAttribute('aria-expanded',!o);"
+                       role="button"
+                       aria-expanded="false">
                         {% if collection.image %}
                           <img src="{{ collection.image | image_url: width: 600 }}" alt="{{ collection.title }}">
                         {% else %}
@@ -328,10 +361,28 @@
                         <div class="collection-info">
                           <h3>{{ collection.title }} <div class="btn_collection-toogle">+</div></h3>
                           <p>{{ collection.description | strip_html | truncate: 65 }}</p>
-                          
                         </div>
                         
                       </a>
+                      <div class="collection-item_listprod">
+                          {% for product in collection.products limit: 3 %}
+                            <a href="{{ product.url }}" class="collection-item_product">
+                              <svg width="21" height="13" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M20.5303 7.03033C20.8232 6.73744 20.8232 6.26256 20.5303 5.96967L15.7574 1.1967C15.4645 0.903806 14.9896 0.903806 14.6967 1.1967C14.4038 1.48959 14.4038 1.96447 14.6967 2.25736L18.9393 6.5L14.6967 10.7426C14.4038 11.0355 14.4038 11.5104 14.6967 11.8033C14.9896 12.0962 15.4645 12.0962 15.7574 11.8033L20.5303 7.03033ZM0 7.25H20V5.75H0V7.25Z" fill="#000"/>
+                              </svg>
+                              <h5>{{ product.title }}</h5>
+                            </a>
+                            {% if forloop.last %}
+                            <a href="{{ collection.url }}" class="collection-item_product">
+                              <svg width="21" height="13" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M20.5303 7.03033C20.8232 6.73744 20.8232 6.26256 20.5303 5.96967L15.7574 1.1967C15.4645 0.903806 14.9896 0.903806 14.6967 1.1967C14.4038 1.48959 14.4038 1.96447 14.6967 2.25736L18.9393 6.5L14.6967 10.7426C14.4038 11.0355 14.4038 11.5104 14.6967 11.8033C14.9896 12.0962 15.4645 12.0962 15.7574 11.8033L20.5303 7.03033ZM0 7.25H20V5.75H0V7.25Z" fill="#000"/>
+                              </svg>
+                              <h5>SHOP ALL {{ collection.title }}</h5>
+                            </a>
+                            {% endif %}
+                          {% endfor %}
+                          
+                      </div>      
                     </div>
                   {% endif %}
                 {% endfor %}
