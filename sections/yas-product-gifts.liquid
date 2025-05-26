@@ -1,0 +1,189 @@
+<div class="content-section unlock-gifts-section" data-section-type="content">
+  <style>
+    .unlock-gifts-section .gift-image{
+      overflow: hidden;
+      border-radius: {{ section.settings.container_radius }}px;
+      box-shadow: {% if section.settings.container_styling == "shadow" %}{{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_blur }}px {{ section.settings.box_shadow_spread }}px {{ section.settings.box_shadow_color }}{% else %}none{% endif %};
+      border: {% if section.settings.container_styling == "card" %} {{ section.settings.card_border }}px solid {{ section.settings.card_border_color }}{% else %}none{% endif %};
+    }
+  </style>
+  <!-- Section title -->
+  <h3>{{ section.settings.title | default: "Unlock Gifts" }}</h3>
+
+  <!-- Container for gifts -->
+  <gift-block class="gifts">
+    {% for block in section.blocks %}
+      <div class="gift" data-locked="true"
+        data-giftid="{{block.settings.gift_product.variants.first.id }}"
+        data-giftimg="{{ block.settings.gift_image | img_url: '400x400' }}"
+        data-giftarea="{{ block.settings.gift_area }}"
+        data-qtyunlock="{{ block.settings.gift_qty }}"
+        data-priceunlock="{{ block.settings.gift_summ | times: 100 }}"
+        data-unlockrulle="{{ block.settings.gift_rulle_option }}"
+       >
+        <!-- Gift image or lock image -->
+        <div class="gift-image">         
+           <svg width="88" height="88" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M68.75 85.5H19.25C17.062 85.5 14.9635 84.6308 13.4164 83.0836C11.8692 81.5365 11 79.438 11 77.25V47C11 44.812 11.8692 42.7135 13.4164 41.1664C14.9635 39.6192 17.062 38.75 19.25 38.75H68.75C70.938 38.75 73.0365 39.6192 74.5836 41.1664C76.1308 42.7135 77 44.812 77 47V77.25C77 79.438 76.1308 81.5365 74.5836 83.0836C73.0365 84.6308 70.938 85.5 68.75 85.5ZM19.25 44.25C18.5207 44.25 17.8212 44.5397 17.3055 45.0555C16.7897 45.5712 16.5 46.2707 16.5 47V77.25C16.5 77.9793 16.7897 78.6788 17.3055 79.1945C17.8212 79.7103 18.5207 80 19.25 80H68.75C69.4793 80 70.1788 79.7103 70.6945 79.1945C71.2103 78.6788 71.5 77.9793 71.5 77.25V47C71.5 46.2707 71.2103 45.5712 70.6945 45.0555C70.1788 44.5397 69.4793 44.25 68.75 44.25H19.25Z" fill="#101820"/>
+            <path d="M66 44.25H22C21.2707 44.25 20.5712 43.9603 20.0555 43.4445C19.5397 42.9288 19.25 42.2293 19.25 41.5V25C19.25 19.1652 21.5678 13.5695 25.6936 9.44365C29.8195 5.31785 35.4152 3 41.25 3H46.75C52.5848 3 58.1805 5.31785 62.3064 9.44365C66.4322 13.5695 68.75 19.1652 68.75 25V41.5C68.75 42.2293 68.4603 42.9288 67.9445 43.4445C67.4288 43.9603 66.7293 44.25 66 44.25ZM24.75 38.75H63.25V25C63.25 20.6239 61.5116 16.4271 58.4173 13.3327C55.3229 10.2384 51.1261 8.5 46.75 8.5H41.25C36.8739 8.5 32.6771 10.2384 29.5827 13.3327C26.4884 16.4271 24.75 20.6239 24.75 25V38.75Z" fill="#101820"/>
+            <path d="M44 63.5C42.9122 63.5 41.8488 63.1774 40.9444 62.5731C40.0399 61.9687 39.3349 61.1098 38.9187 60.1048C38.5024 59.0998 38.3935 57.9939 38.6057 56.927C38.8179 55.8601 39.3417 54.8801 40.1109 54.1109C40.8801 53.3417 41.8601 52.8179 42.927 52.6057C43.9939 52.3935 45.0998 52.5024 46.1048 52.9187C47.1098 53.3349 47.9687 54.0399 48.5731 54.9444C49.1774 55.8488 49.5 56.9122 49.5 58C49.5 59.4587 48.9205 60.8576 47.8891 61.8891C46.8576 62.9205 45.4587 63.5 44 63.5Z" fill="#101820"/>
+            <path d="M46.75 60.75H41.25V71.75H46.75V60.75Z" fill="#101820"/>
+          </svg>
+        </div>
+        <!-- Gift title -->
+        <div class="gift-title">{{ block.settings.gift_title | default: "Gift" }}</div>
+      </div>
+    {% endfor %}
+  </gift-block>
+</div>
+
+{% schema %}
+{
+  "name": "Unlock Gifts",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Unlock Gifts"
+    },
+    {
+      "type": "image_picker",
+      "id": "lock_image",
+      "label": "Lock Image",
+      "info": "Used for locked gifts. Recommended size: 100x100px."
+    },
+        {
+        "type": "header",
+          "content": "Cards Settings"
+        },
+        { "type": "select", "id": "container_styling", "label": "Container Styling", "options": [{ "value": "no_card", "label": "No Card" }, { "value": "card", "label": "Card" }, { "value": "shadow", "label": "Shadow" }], "default": "card" },
+        {
+          "type": "range",
+          "id": "box_shadow_offset",
+          "label": "Box shadow offset",  
+          "min": -10,
+          "max": 10,
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "box_shadow_blur",
+          "label": "Box shadow blur",  
+          "min": 0,
+          "max": 15,
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "box_shadow_spread",
+          "label": "Box shadow spread",  
+          "min": 0,
+          "max": 15,
+          "default": 1
+        },
+        { "type": "color", "id": "box_shadow_color", "label": "Box shadow color", "default": "#000000" },   
+        {
+          "type": "range",
+          "id": "card_border",
+          "label": "Card border",
+          "info": "Container Styling Card",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 1
+        },
+        { "type": "color", "id": "card_border_color", "label": "Card border color", "default": "#000" },
+        { "type": "range", "id": "container_radius", "label": "Container Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 }
+  ],
+  "blocks": [
+    {
+      "type": "gift",
+      "name": "Gift",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "gift_image",
+          "label": "Gift Image",
+          "info": "Used when gift is unlocked. Recommended size: 100x100px."
+        },
+        {
+          "type": "text",
+          "id": "gift_title",
+          "label": "Gift Title",
+          "default": "Gift"
+        },
+          {
+          "type": "product",
+          "id": "gift_product",
+          "label": "Gift Product",
+        },
+        {
+          "type": "number",
+          "id": "gift_summ",
+          "label": "Gift Rule Summ",
+        },
+        {
+          "type": "number",
+          "id": "gift_qty",
+          "label": "Gift Rule Quaantity",
+        },
+        {
+          "type": "radio",
+          "id": "gift_area",
+          "label": "Local / Global area",
+          "options": [
+            { "value": "local", "label": "Local" },
+            { "value": "global", "label": "Global" }
+          ],
+          "default": "local"
+        },
+        {
+          "type": "radio",
+          "id": "gift_rulle_option",
+          "label": "Gift rulle open",
+          "options": [
+            { "value": "price", "label": "price" },
+            { "value": "quntity", "label": "quntity" }
+          ],
+          "default": "quntity"
+        },
+
+        
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Unlock Gifts",
+      "category": "Product Sections",
+      "settings": {
+        "title": "Unlock Gifts"
+      },
+      "blocks": [
+        {
+          "type": "gift",
+          "settings": {
+            "gift_title": "Gift no 1"
+          }
+        },
+        {
+          "type": "gift",
+          "settings": {
+            "gift_title": "Gift no 2"
+          }
+        },
+        {
+          "type": "gift",
+          "settings": {
+            "gift_title": "Gift no 5"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

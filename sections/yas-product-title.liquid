@@ -1,0 +1,155 @@
+<div class="content-section product-info-section" data-section-type="content">
+  <style>
+    .product-info-section h1{
+      text-transform: {{ section.settings.headline_typography }};
+      color: {{ section.settings.text_color }};
+      text-align: {% case section.settings.heading_align %}
+                  {% when 'left' %}left;
+                  {% when 'center' %}center;
+                  {% when 'right' %}right;
+                {% endcase %};
+    }
+    .product-info-section .rating{
+       width: 100%;
+       display: block;
+       text-align: {% case section.settings.heading_align %}
+                  {% when 'left' %}left;
+                  {% when 'center' %}center;
+                  {% when 'right' %}right;
+                {% endcase %};
+    }
+    .product-info-section .rating .rating-star{
+      color: {{ section.settings.star_color }};
+    }
+    .product-info-section .rating .rating-text{
+      color: {{ section.settings.review_color }};
+    }
+ 
+
+    .product-info-section .uppertitle * {
+      margin: 0;
+    }
+  
+    .product-info-section .uppertitle {
+      display: flex;
+      justify-content: {% case section.settings.heading_align %}
+                        {% when 'left' %} left;
+                        {% when 'center' %} center;
+                        {% when 'right' %} right;
+                      {% endcase %};
+      align-items: center;
+      margin: 0;
+      margin-bottom: 14.5px;
+    }
+  
+    .product-info-section .uppertitle svg {
+      margin-bottom: 5px;
+      margin-left: 5px;
+    }
+  
+    .product-info-section .uppertitle h2, 
+    .product-info-section .uppertitle h3, 
+    .product-info-section .uppertitle p {
+     color: {{ section.settings.review_color }};
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 150%;
+      order: 5;
+      margin-left: 11px;
+    }  
+    
+    @media (max-width: 768px) {
+      .product-info-section .uppertitle h2, 
+      .product-info-section .uppertitle h3, 
+      .product-info-section .uppertitle p {
+        color: {{ section.settings.review_color }};
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 400;
+        order: 5;
+        margin-left: 11px;
+      }
+  
+      .product-info-section .uppertitle {
+        margin-bottom: 16px;
+      }
+  
+      .product-info-section .uppertitle svg {
+        max-width: 12px;
+        margin-left: 0px;
+        margin-bottom: 3px;
+      }
+      .product-info-section .uppertitle {
+          display: flex;
+          justify-content: left;
+          align-items: center;
+          margin: 0;
+          margin-bottom: 14.5px;
+          color: {{ section.settings.review_color }};
+      }
+    }
+  </style>
+
+  {% if section.settings.uppertitle != blank %}
+  <div class="rating" {% if section.settings.review_url != blank %}onclick="location.href = '{{ section.settings.review_url}}'" {% endif %}>
+      <div class="uppertitle">{{ section.settings.uppertitle }} {% for i in (1..5) %}{% render 'star_comparison' %}{% endfor %}</div>
+  </div>
+  {% endif %}
+  <h1>{{ product.title | default: "Demo Product Name" }}</h1> 
+ 
+  
+</div>
+
+{% schema %}
+{
+  "name": "Product Title",
+  "settings": [
+    { "type": "select", "id": "headline_typography", "label": "Headline Typography", "options": [{ "value": "uppercase", "label": "AA" }, { "value": "capitalize", "label": "Aa" }, { "value": "lowercase", "label": "aa" }], "default": "capitalize" },
+    {
+      "type": "color", 
+      "id": "text_color", 
+      "label": "Title Color", 
+      "default": "#000000" 
+    },    
+    { 
+      "type": "select", 
+      "id": "heading_align", 
+      "label": "Heading Alignment", 
+      "options": [
+        { "value": "left", "label": "Left" }, 
+        { "value": "center", "label": "Center" }, 
+        { "value": "right", "label": "Right" }
+      ], 
+      "default": "center" 
+    },
+    {
+      "type": "color", 
+      "id": "review_color", 
+      "label": "Review Color", 
+      "default": "#000000" 
+    }, 
+    {
+      "type": "url",
+      "id": "review_url",
+      "label": "Review link"
+    },
+  
+
+    {
+      "type": "richtext",
+      "id": "uppertitle",
+      "label": "Uppertitle",
+      "default": "<h3>500 Happy Customers</h3>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Title",
+      "category": "Product Sections"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

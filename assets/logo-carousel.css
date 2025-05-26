@@ -1,0 +1,105 @@
+/* Logo Carousel External Stylesheet */
+
+.logo-carousel-section {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  padding: var(--padding-desk);
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.logo-carousel-section .heading {
+  margin-bottom: 64px;
+}
+
+.logo-carousel-section .title h1,
+.logo-carousel-section .title h2,
+.logo-carousel-section .title h3,
+.logo-carousel-section .title p {
+  font-size: var(--font-size-heading);
+  text-transform: var(--text-transform);
+  color: var(--text-color);
+  margin: 0;
+  text-align: var(--text-align);
+  font-weight: 700;
+  line-height: 110%;
+}
+
+.logo-carousel-section .subtitle h2,
+.logo-carousel-section .subtitle h3,
+.logo-carousel-section .subtitle p {
+  color: var(--subtitle-color);
+  font-size: 20px;
+  font-weight: 400;
+  text-align: var(--text-align);
+}
+
+.logo-carousel-section a {
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 26.82px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--link-color);
+}
+
+.logo-carousel-section .carousel-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.logo-carousel-section .carousel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  animation: scroll var(--scroll-speed) linear infinite;
+  position: relative;
+}
+
+.logo-carousel-section .carousel:hover {
+  animation-play-state: paused;
+}
+
+.logo-carousel-section .carousel .carousel-item {
+  min-width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.logo-carousel-section .carousel img {
+  max-height: 50px;
+  margin: 0 20px;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@media (max-width: 768px) {
+  .logo-carousel-section {
+    padding: var(--padding-mob);
+  }
+
+  .logo-carousel-section a {
+    font-size: 18px;
+    line-height: 21.94px;
+  }
+
+  .logo-carousel-section .title h1,
+  .logo-carousel-section .title h2,
+  .logo-carousel-section .title h3,
+  .logo-carousel-section .title p {
+    font-size: 28px;
+    line-height: 100%;
+  }
+}

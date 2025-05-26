@@ -1,0 +1,174 @@
+{% if section.settings.title != blank %}
+    <section class="highlight {% if section.settings.margin != blank %}mb-35{% endif %}">
+        <div class="container">
+            <div class="bg-info highlight__inner" {% if section.settings.background_color != blank %} style="background-color: {{section.settings.background_color}};"{% endif %}>
+                <div class="pure-g justify-content-center">
+                    <div class="pure-u-1 pure-u-md-5-8 pure-u-xl-1-2">
+                        <div class="highlight__info px-25 px-md-0 py-90 text-center">
+                            {% if section.settings.heading != blank %}
+                                <h4 class="subtitle" {% if section.settings.text_color != blank %} style="color: {{section.settings.text_color}};"{% endif %}>{{section.settings.heading}}</h4>
+                            {% endif %}
+                            <h2 class="title" {% if section.settings.text_color != blank %} style="color: {{section.settings.text_color}};"{% endif %}>{{section.settings.title}}</h2>
+                            {% if section.settings.button_link != blank %}
+                                <a href="{{section.settings.button_link}}" class="btn btn--icon-hand">{{section.settings.button_text}}</a>
+                            {% endif %}
+                            {% if section.settings.enable_payment_icons %}
+                              {% if shop.enabled_payment_types != blank %}
+                                <ul class="list list__payment justify-content-center">
+                                    {% for type in shop.enabled_payment_types %}
+                                      <li class="icon--payment">
+                                        {{ type | payment_type_svg_tag: class:'icon icon--full-color' }}
+                                      </li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                    {% if settings.payment_icon_1 != blank or settings.payment_icon_2 != blank or settings.payment_icon_3 != blank or settings.payment_icon_4 != blank or settings.payment_icon_5 != blank or settings.payment_icon_6 != blank %}
+                                        <ul class="list list__payment justify-content-center">
+                                          {% if settings.payment_icon_1 != blank %}
+                                            <li><img data-src="{{ settings.payment_icon_1 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                          {% endif %}
+                                          {% if settings.payment_icon_2 != blank %}
+                                            <li><img data-src="{{ settings.payment_icon_2 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                          {% endif %}
+                                          {% if settings.payment_icon_3 != blank %}
+                                            <li><img data-src="{{ settings.payment_icon_3 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                          {% endif %}
+                                          {% if settings.payment_icon_4 != blank %}
+                                            <li><img data-src="{{ settings.payment_icon_4 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                          {% endif %}
+                                          {% if settings.payment_icon_5 != blank %}
+                                            <li><img data-src="{{ settings.payment_icon_5 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                          {% endif %}
+                                          {% if settings.payment_icon_6 != blank %}
+                                            <li><img data-src="{{ settings.payment_icon_6 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                          {% endif %}
+                                        </ul>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+
+                            {% if section.settings.show_reviews != blank %}
+                                {% if settings.reviews_ratings != blank or settings.reviews_text != blank %}
+                                    <div class="rating justify-content-center">
+                                        {% if settings.reviews_ratings != blank %}
+                                            <span class="rating__star">
+                                                <img src="{{ settings.reviews_ratings | img_url: 'master' }}" alt="" loading="lazy" />
+                                            </span>
+                                        {% endif %}
+                                        {% if settings.reviews_text != blank %}
+                                            <span class="rating__text">{{settings.reviews_text}}</span>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% else %}
+    <section class="highlight mb-md-15">
+        <div class="container">
+            <div class="bg-info highlight__inner">
+                <div class="pure-g justify-content-center">
+                    <div class="pure-u-1 pure-u-md-5-8 pure-u-xl-1-2">
+                        <div class="highlight__info px-25 px-md-0 py-90 text-center">
+                            <h4 class="subtitle">Add collection highlight introduction</h4>
+                            <h2 class="title">Add emotive proposition for collection highlight</h2>
+                            <a href="#" class="btn btn--icon-hand">Get Mine Now</a>
+                            <!-- rating -->
+                            <div class="rating justify-content-center">
+
+                                <span class="rating__star">
+                                    <svg class="active" width="13" height="13">
+                                    <use xlink:href="#ic-star"></use>
+                                    </svg>
+                                    <svg class="active" width="13" height="13">
+                                    <use xlink:href="#ic-star"></use>
+                                    </svg>
+                                    <svg class="active" width="13" height="13">
+                                    <use xlink:href="#ic-star"></use>
+                                    </svg>
+                                    <svg class="active" width="13" height="13">
+                                    <use xlink:href="#ic-star"></use>
+                                    </svg>
+                                    <svg class="active" width="13" height="13">
+                                    <use xlink:href="#ic-star"></use>
+                                    </svg>
+                                </span>
+                        
+                                <span class="rating__text">Rated <b>Excellent</b> (500+ Reviews)</span>
+                            </div>
+                            <!-- ./rating -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+{% schema %}
+{
+  "name": "Gift card collection",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "margin",
+      "label": "Add spacing",
+      "default": true,
+      "info": "Add spacing below the banner"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Get Mine Now"
+    },
+    {
+        "type": "checkbox",
+        "id": "enable_payment_icons",
+        "label": "Enable payment icons",
+        "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show Flash",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

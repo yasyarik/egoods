@@ -1,23 +1,25 @@
-<style type="text/css">
-  .template-404 .title + * {
-    margin-top: 1rem;
-  }
-
-  @media screen and (min-width: 750px) {
-    .template-404 .title + * {
-      margin-top: 2rem;
+<section class="error bg-info-light">
+    <div class="container">
+        <div class="pure-g justify-content-center">
+            <div class="pure-u-1-2 text-center">
+                <h1 class="title"><b>{{ 'templates.404.subtext' | t }}</b> - {{ 'templates.404.title' | t }}</h1>
+                {% if section.settings.sub_title != blank %}
+                  <h4 class="subtitle">{{section.settings.sub_title}}</h4>
+                {% endif %}
+                <a href="{{ routes.all_products_collection_url }}" class="btn btn--icon-hand">{{ 'general.continue_shopping' | t }}</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% schema %}
+{
+  "name": "Main 404",
+  "settings": [
+    {
+      "type": "text",
+      "id": "sub_title",
+      "label": "Sub title"
     }
-  }
-</style>
-
-<div class="template-404 page-width page-margin center">
-  <p>
-    {{ 'templates.404.subtext' | t }}
-  </p>
-  <h1 class="title">
-    {{ 'templates.404.title' | t }}
-  </h1>
-  <a href="{{ routes.all_products_collection_url }}" class="button">
-    {{ 'general.continue_shopping' | t }}
-  </a>
-</div>
+  ]
+}
+{% endschema %}

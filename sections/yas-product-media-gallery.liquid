@@ -1,0 +1,133 @@
+<div class="gallery-section" data-section-type="gallery">
+  <div class="main-image-wrapper">
+    <button class="arrow arrow-left" aria-label="Previous Image">←</button>
+    <div class="main-image">
+      {% if section.settings.main_image %}
+        <img src="{{ section.settings.main_image | img_url: 'large' }}" alt="{{ section.settings.main_image.alt }}" data-index="0">
+      {% else %}
+        {% if product.images.size > 0 %}
+          <img src="{{ product.images.first | img_url: 'large' }}" alt="{{ product.title }}" data-index="0">
+        {% else %}
+          <img src="https://via.placeholder.com/500x500.png?text=Demo+Product+Image" alt="Demo Product Image" data-index="0">
+        {% endif %}
+      {% endif %}
+    </div>
+    <button class="arrow arrow-right" aria-label="Next Image">→</button>
+  </div>
+  <div class="thumbnails">
+    {% if product.images.size > 0 %}
+      {% for image in product.images %}
+        <img src="{{ image.src | img_url: 'thumbnail' }}" alt="{{ image.alt }}" class="thumbnail" data-main-image="{{ image.src | img_url: 'large' }}" data-index="{{ forloop.index0 }}">
+      {% endfor %}
+    {% else %}
+      <img src="https://via.placeholder.com/60x60.png?text=Thumb+1" alt="Thumbnail 1" class="thumbnail" data-main-image="https://via.placeholder.com/500x500.png?text=Demo+Product+Image+1" data-index="0">
+      <img src="https://via.placeholder.com/60x60.png?text=Thumb+2" alt="Thumbnail 2" class="thumbnail" data-main-image="https://via.placeholder.com/500x500.png?text=Demo+Product+Image+2" data-index="1">
+      <img src="https://via.placeholder.com/60x60.png?text=Thumb+3" alt="Thumbnail 3" class="thumbnail" data-main-image="https://via.placeholder.com/500x500.png?text=Demo+Product+Image+3" data-index="2">
+    {% endif %}
+  </div>
+</div>
+ 
+{% schema %}
+{
+  "name": "Product Gallery",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main Image (Optional)",
+      "info": "Leave blank to use the product's featured image."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Gallery",
+      "category": "Product Sections"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    const gallery = document.querySelector('.gallery-section');
+  const mainImage = gallery.querySelector('.main-image img');
+  const thumbnails = gallery.querySelectorAll('.thumbnails .thumbnail');
+  const arrowLeft = gallery.querySelector('.arrow-left');
+  const arrowRight = gallery.querySelector('.arrow-right');
+  
+  let currentIndex = 0;
+  const totalImages = thumbnails.length;
+  
+  // Функция для обновления основного изображения
+  const updateMainImage = (index) => {
+    const thumbnail = thumbnails[index];
+    mainImage.src = thumbnail.dataset.mainImage;
+    mainImage.dataset.index = index;
+    currentIndex = index;
+  
+    thumbnails.forEach(thumb => thumb.classList.remove('active'));
+    thumbnail.classList.add('active');
+  };
+  
+  // Клик по превьюшке
+  thumbnails.forEach((thumbnail, index) => {
+    thumbnail.addEventListener('click', () => {
+      updateMainImage(index);
+    });
+  });
+  
+  // Клик по стрелке влево
+  arrowLeft.addEventListener('click', () => {
+    let newIndex = currentIndex - 1;
+    if (newIndex < 0) {
+      newIndex = totalImages - 1;
+    }
+    updateMainImage(newIndex);
+  });
+  
+  // Клик по стрелке вправо
+  arrowRight.addEventListener('click', () => {
+    let newIndex = currentIndex + 1;
+    if (newIndex >= totalImages) {
+      newIndex = 0;
+    }
+    updateMainImage(newIndex);
+  });
+  
+  // Устанавливаем первое изображение как активное
+  if (thumbnails.length > 0) {
+    updateMainImage(0);
+  }
+  
+  // === Обработка свайпов на мобильных ===
+  let touchStartX = 0;
+  
+  gallery.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  
+  gallery.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].screenX;
+    const deltaX = touchEndX - touchStartX;
+    const minDistance = 50;
+  
+    if (Math.abs(deltaX) > minDistance) {
+      if (deltaX < 0) {
+        // свайп влево
+        let newIndex = currentIndex + 1;
+        if (newIndex >= totalImages) newIndex = 0;
+        updateMainImage(newIndex);
+      } else {
+        // свайп вправо
+        let newIndex = currentIndex - 1;
+        if (newIndex < 0) newIndex = totalImages - 1;
+        updateMainImage(newIndex);
+      }
+    }
+  });
+  });
+</script>

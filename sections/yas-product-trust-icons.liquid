@@ -1,0 +1,253 @@
+
+<div class="content-section safety-icons-section" data-section-type="content">
+  <style>
+    
+
+/* Styles for safety icons section */
+.safety-icons-section {
+  width: 100%;
+}
+
+.safety-icons-section .icon-items {
+  display: flex;
+   {% if section.settings.txt_align == 'bottom' %}
+gap: 20px;
+  {% endif %}
+  
+
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.safety-icons-section .icon-item {
+    {% if section.settings.txt_align == 'bottom' %}
+  flex: 0 1 calc(25% - 15px); /* 4 items per row with gap */
+   {% else %}
+        flex: 0 1 30%;
+       {% endif %}
+  display: flex;
+    {% if section.settings.txt_align == 'bottom' %}
+  flex-direction: column;
+    text-align: center;
+  {% else %}
+      width: 30%;
+        text-align: left;
+ {% endif %}
+  align-items: center; 
+
+}
+
+.safety-icons-section .icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background-color: #e0e0e0; /* Gray background for icon */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.safety-icons-section .icon-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.safety-icons-section .icon-wrapper .material-icons {
+  font-size: 30px;
+  color: #000;
+}
+
+.safety-icons-section .icon-wrapper span {
+  font-size: 30px;
+  color: #000;
+}
+
+.safety-icons-section .icon-text {
+  font-size: 14px;
+  line-height: 1.4;
+   {% if section.settings.txt_align == 'right' %}
+     width: 85px;
+  padding-left: 10px;
+     {% endif %}
+  
+}
+
+.safety-icons-section .icon-text p {
+  margin: 0;
+}
+    @media (max-width: 767px)
+    {
+      .safety-icons-section .icon-items {
+      flex-wrap: wrap;
+          {% if section.settings.txt_align == 'right' %}
+          
+        flex: unset;
+          {% endif %}
+          gap: 10px;
+      }
+      .safety-icons-section .icon-item {
+    {% if section.settings.txt_align == 'right' %}
+      width: 50%;
+      {% endif %}
+      
+    }
+  </style>
+  <!-- Container for safety icons -->
+  <div class="icon-items">
+    {% for block in section.blocks %}
+      <div class="icon-item">
+        <!-- Icon display based on selected type -->
+        <div class="icon-wrapper" style="background: {{ section.settings.background_item }}">
+          {% if block.settings.icon_type == 'image' and block.settings.icon_image %}
+            <img src="{{ block.settings.icon_image | img_url: '60x60' }}" alt="{{ block.settings.text | strip_html }}">
+          {% elsif block.settings.icon_type == 'google_icon' and block.settings.google_icon_name %}
+            <span class="material-icons material-symbols-outlined" style="color: {{ section.settings.icon_item }}">{{ block.settings.google_icon_name }}</span>
+          {% elsif block.settings.icon_type == 'symbol' and block.settings.icon_symbol %}
+            <span style="color: {{ section.settings.icon_item }}">{{ block.settings.icon_symbol }}</span>
+          {% else %}
+            <!-- Fallback icon if none selected -->
+            <span class="material-icons material-symbols-outlined" style="color: {{ section.settings.icon_item }}">science</span>
+          {% endif %}
+        </div>
+        <!-- Rich text description -->
+        <div class="icon-text">{{ block.settings.text }}</div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Icons",
+  "settings": [ 
+     {
+      "type": "color",
+      "id": "background_item",
+      "label": "Background Item Color",
+       "default": "#d9d9d9"
+    },
+     {
+      "type": "color",
+      "id": "icon_item",
+      "label": "Icon Item Color",
+       "default": "#fff"
+    },   {
+      "type": "select",
+      "id": "txt_align",
+      "label": "Text Position",
+       "options": [
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }],
+       "default": "bottom"
+    }
+ 
+  ],
+  "blocks": [
+    {
+      "type": "icon",
+      "name": "Icon Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Icon Type",
+          "options": [
+            {
+              "value": "image",
+              "label": "Image"
+            },
+            {
+              "value": "google_icon",
+              "label": "Google Material Icon"
+            },
+            {
+              "value": "symbol",
+              "label": "Symbol/Emoji"
+            }
+          ],
+          "default": "google_icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon Image",
+          "info": "Used if Icon Type is set to Image. Recommended size: 60x60px."
+        },
+        {
+          "type": "text",
+          "id": "google_icon_name",
+          "label": "Google Material Icon Name",
+          "info": "Used if Icon Type is set to Google Material Icon. Example: 'science'. See https://fonts.google.com/icons for names.",
+          "default": "science"
+        },
+        {
+          "type": "text",
+          "id": "icon_symbol",
+          "label": "Symbol/Emoji",
+          "info": "Used if Icon Type is set to Symbol/Emoji. Example: '🔬'.",
+          "default": "🔬"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p><strong>Lab Tested</strong><br>For Safety</p>"
+        }
+        
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Icons",
+      "category": "Product Sections",
+      "blocks": [
+        {
+          "type": "icon",
+          "settings": {
+            "icon_type": "google_icon",
+            "google_icon_name": "science",
+            "text": "<p><strong>Lab Tested</strong><br>For Safety</p>"
+          }
+        },
+        {
+          "type": "icon",
+          "settings": {
+            "icon_type": "google_icon",
+            "google_icon_name": "science",
+            "text": "<p><strong>Lab Tested</strong><br>For Safety</p>"
+          }
+        },
+        {
+          "type": "icon",
+          "settings": {
+            "icon_type": "google_icon",
+            "google_icon_name": "science",
+            "text": "<p><strong>Lab Tested</strong><br>For Safety</p>"
+          }
+        },
+        {
+          "type": "icon",
+          "settings": {
+            "icon_type": "google_icon",
+            "google_icon_name": "science",
+            "text": "<p><strong>Lab Tested</strong><br>For Safety</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

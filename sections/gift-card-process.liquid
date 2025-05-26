@@ -1,0 +1,158 @@
+<section class="featureboxes pt-40 pb-20 py-md-80">
+    <div class="container">
+        <div class="pure-g justify-content-center">
+            <div class="pure-u-1 pure-u-md-7-8 mb-30 mb-lg-50 text-center">
+                {% if section.settings.title != blank %}
+                    <h2 class="title">{{section.settings.title}}</h2>
+                {% endif %}
+                {% if section.settings.sub_title != blank %}
+                    <h4 class="subtitle">{{section.settings.sub_title}}</h4>
+                {% endif %}
+            </div>
+            <div class="pure-u-1">
+                {% if section.blocks.size > 0 %}
+                    <div class="pure-g gutter-xl-30">
+                        {% for block in section.blocks %}
+                            {% if block.settings.title != blank %}
+                                <div class="pure-u-1 pure-u-md-1-3 mb-40 mb-lg-50">
+                                    <div class="featurebox featurebox--style-1 text-center">
+                                        {% if block.settings.icon != blank %}
+                                            <div class="featurebox__icon mb-lg-20">
+                                                <span class="material-icons md-50"><img src="{{ block.settings.icon | img_url: 'master' }}" alt="" width="96" height="96" /></span>
+                                            </div>
+                                        {% endif %}
+                                        <div class="featurebox__info">
+                                            <h4 class="text-8 fw-400 mb-15">{{block.settings.title}}</h4>
+                                            {% if block.settings.description != blank %}
+                                            <p class="text-grey">{{block.settings.description}}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="pure-g text-center">
+                    <div class="pure-u-1">
+                        {% if section.settings.button_link != blank %}
+                            <a href="{{section.settings.button_link}}" class="btn btn--icon-hand">{{section.settings.button_text}}</a>
+                        {% endif %}
+                        {% if section.settings.enable_payment_icons %}
+                          {% if shop.enabled_payment_types != blank %}
+                            <ul class="list list__payment justify-content-center">
+                                {% for type in shop.enabled_payment_types %}
+                                  <li class="icon--payment">
+                                    {{ type | payment_type_svg_tag: class:'icon icon--full-color' }}
+                                  </li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                                {% if settings.payment_icon_1 != blank or settings.payment_icon_2 != blank or settings.payment_icon_3 != blank or settings.payment_icon_4 != blank or settings.payment_icon_5 != blank or settings.payment_icon_6 != blank %}
+                                    <ul class="list list__payment justify-content-center">
+                                      {% if settings.payment_icon_1 != blank %}
+                                        <li><img data-src="{{ settings.payment_icon_1 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                      {% endif %}
+                                      {% if settings.payment_icon_2 != blank %}
+                                        <li><img data-src="{{ settings.payment_icon_2 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                      {% endif %}
+                                      {% if settings.payment_icon_3 != blank %}
+                                        <li><img data-src="{{ settings.payment_icon_3 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                      {% endif %}
+                                      {% if settings.payment_icon_4 != blank %}
+                                        <li><img data-src="{{ settings.payment_icon_4 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                      {% endif %}
+                                      {% if settings.payment_icon_5 != blank %}
+                                        <li><img data-src="{{ settings.payment_icon_5 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                      {% endif %}
+                                      {% if settings.payment_icon_6 != blank %}
+                                        <li><img data-src="{{ settings.payment_icon_6 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                      {% endif %}
+                                    </ul>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {% if section.settings.show_reviews != blank %}
+                            {% if settings.reviews_ratings != blank or settings.reviews_text != blank %}
+                                <div class="rating justify-content-center">
+                                    {% if settings.reviews_ratings != blank %}
+                                        <span class="rating__star">
+                                            <img src="{{ settings.reviews_ratings | img_url: 'master' }}" alt="" loading="lazy" />
+                                        </span>
+                                    {% endif %}
+                                    {% if settings.reviews_text != blank %}
+                                        <span class="rating__text">{{settings.reviews_text}}</span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% schema %}
+{
+  "name": "Gift card USP blocks",
+  "max_blocks": 3,
+  "settings": [
+    {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+    },
+    {
+        "type": "text",
+        "id": "sub_title",
+        "label": "Sub title"
+    },
+    {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+    },
+    {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button text",
+        "default":"Get Mine Now"
+    },
+    {
+        "type": "checkbox",
+        "id": "enable_payment_icons",
+        "label": "Enable payment icons",
+        "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show Flash",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "process",
+      "name": "Process",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

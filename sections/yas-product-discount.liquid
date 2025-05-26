@@ -1,0 +1,202 @@
+<div class="content-section product-discount-section" data-section-type="content">
+  <div class="product-discount-content" style="background: {{ section.settings.background_color }};">
+
+    <ul class="product-points-list">
+      <li>
+        {% if section.settings.icon_1 != blank %}
+          <img src="{{ section.settings.icon_1 | img_url: '24x24' }}" alt="Icon 1">
+        {% elsif section.settings.icon_1_text != blank %}
+          <span class="material-symbols-outlined">{{ section.settings.icon_1_text }}</span>
+        {% endif %}
+<style>
+  .product-points-list span a
+  {
+              color: {{ section.settings.text_color }};
+              font-size: {% case section.settings.title_size %}
+                {% when 'small' %}20px
+                {% when 'medium' %}28px
+                {% when 'large' %}36px
+              {% endcase %};
+              font-weight: 700;
+              text-transform: {{ section.settings.title_format }};}
+  
+            @media(max-width:768px)
+            {
+                .product-points-list span a{
+             font-size: {% case section.settings.title_size %}
+                {% when 'small' %}16px
+                {% when 'medium' %}20px
+                {% when 'large' %}24px
+              {% endcase %};
+              font-weight: 600;}
+            }
+  </style>
+       <span
+  id="discount-link-wrapper"
+  data-discount="{{ section.settings.discount }}"
+  data-success-message="{{ section.settings.discountsuc | escape }}"
+  data-redirect="{{ request.path }}">
+  <a href="#" id="apply-discount-link">
+    {{ section.settings.title }}
+  </a>
+</span>
+
+      </li>
+    </ul>
+<div id="discountsuc" style="display: none;">
+  {{ section.settings.discountsuc }}
+</div>
+    <div class="discount-description">{{ section.settings.description }}</div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const wrapper = document.getElementById('discount-link-wrapper');
+    const savedDiscount = localStorage.getItem('discount_applied');
+
+    const productWrapper = wrapper?.closest('.product');
+    const discountElement = productWrapper?.querySelector('.product-discount-content');
+    const successMessageElement = document.getElementById('discountsuc');
+
+    // Show success message if discount is saved
+    if (savedDiscount && wrapper && discountElement && successMessageElement) {
+      const baseMessage = successMessageElement.textContent.trim();
+      const finalMessage = `${savedDiscount} ${baseMessage}`;
+
+      // Insert the message into the external .product-discount-content block
+      discountElement.innerHTML = `
+        <div class="applied">
+          ${finalMessage}
+        </div>
+      `;
+      discountElement.style.display = 'block';
+
+      // Hide the points list if it exists
+      const pointsList = discountElement.querySelector('.product-points-list');
+      if (pointsList) {
+        pointsList.style.display = 'none';
+      }
+    }
+
+    // Attach manual redirect on click
+    const link = document.getElementById('apply-discount-link');
+    if (link && wrapper) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const discount = wrapper.dataset.discount;
+        const redirectUrl = wrapper.dataset.redirect;
+
+        if (discount && redirectUrl) {
+          // Save the discount locally to show success message later
+          localStorage.setItem('discount_applied', discount);
+
+          // Build Shopify discount redirect URL
+          const discountUrl = `/discount/${discount}?redirect=${encodeURIComponent(redirectUrl)}`;
+          window.location.href = discountUrl;
+        }
+      });
+    }
+  });
+</script>
+
+
+
+
+
+
+
+           
+{% schema %}
+{
+  "name": "Product Discount Aply",
+  "class": "product-discount",
+  "settings": [
+    
+    
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+       {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+     {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "title_format",
+      "label": "Headline Typography",
+      "options": [
+        { "value": "uppercase", "label": "AA" },
+        { "value": "capitalize", "label": "Aa" },
+        { "value": "lowercase", "label": "aa" }
+      ],
+      "default": "uppercase"
+    },
+     {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_1",
+      "label": "Icon Image"
+    },
+    {
+      "type": "text",
+      "id": "icon_1_text",
+      "label": "Icon Symbol"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Discount Header",
+      "default": "Click here to Apply discount"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Discount Description",
+      "default": "details of discount"
+    },
+    {
+      "type": "text",
+      "id": "discount",
+      "label": "Discount Code",
+      "default": "TEST"
+    },
+    {
+      "type": "text",
+      "id": "discountsuc",
+      "label": "Success Applied Text",
+      "default": " DISCOUNT CODE APPLIED. CHECK YOUR FINAL PRICE AT CHECKOUT"
+    }
+
+
+    
+  ],
+  "presets": [
+    {
+      "name": "Product Discount Aply",
+      "category": "Custom"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

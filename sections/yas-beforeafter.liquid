@@ -1,0 +1,466 @@
+<script>
+(function(){
+ const cssFile = "before-after.css";
+  const jsFile  = "before-after.js";
+
+  function waitForLicense(cb) {
+    if (window.LICENSE_OK && window.ASSET_BASE) {
+      cb();
+    } else {
+      setTimeout(() => waitForLicense(cb), 100);
+    }
+  }
+
+  function injectCSS(file) {
+    const href = window.ASSET_BASE + file;
+    const alreadyLoaded = [...document.styleSheets].some(s => s.href && s.href.includes(file));
+    if (!alreadyLoaded) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+      console.log("Injected CSS:", file);
+    }
+  }
+
+  function injectJS(file) {
+    const src = window.ASSET_BASE + file;
+    const alreadyLoaded = [...document.scripts].some(s => s.src && s.src.includes(file));
+    if (!alreadyLoaded) {
+      const script = document.createElement("script");
+      script.src = src;
+      document.body.appendChild(script);
+      console.log("Injected JS:", file);
+    }
+  }
+
+  waitForLicense(() => {
+    injectCSS(cssFile);
+    injectJS(jsFile);
+  });
+})();
+</script>
+
+<style>
+{% if section.settings.font_variant == 'custom' %}
+  {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+  {{ section.settings.title_font | font_face: font_display: 'swap' }}
+  {{ body_font_bold | font_face: font_display: 'swap' }}
+  {{ body_font_italic | font_face: font_display: 'swap' }}
+  {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+  {{ settings.type_header_font | font_face: font_display: 'swap' }}
+  #shopify-section-{{section.id}} * {
+    font-family: {{ section.settings.title_font.family }};
+  }
+{% endif %}  
+
+</style>
+{% comment %}Before After Slider — обновлённый с поддержкой CSS-переменных и внешних файлов{% endcomment %}
+
+<div class="before-after-section" data-section-id="{{ section.id }}"
+     style="
+       --text-color: {{ section.settings.text_color }};
+       --background-color: {{ section.settings.background_color }};
+       --heading-align: {{ section.settings.heading_align }};
+       --headline-transform: {{ section.settings.headline_typography }};
+       --font-size-heading: {% case section.settings.heading_size %}{% when 'small' %}36px{% when 'medium' %}45px{% when 'large' %}60px{% endcase %};
+       --font-size-heading-mob: {% case section.settings.heading_size %}{% when 'small' %}20px{% when 'medium' %}28px{% when 'large' %}36px{% endcase %};
+       --padding-desk: {{ section.settings.padding_y_desk }}px {{ section.settings.padding_x_desk }}px;
+       --padding-mob: {{ section.settings.padding_y_mob }}px {{ section.settings.padding_x_mob }}px;
+       --image-radius: {{ section.settings.image_round }}px;
+       --marker-color: {{ section.settings.marker_color }};
+       --marker-symbol: {{ section.settings.marker_symbol }};
+       --tooltip-color: {{ section.settings.tooltip_color }};
+       --tooltip-text: {{ section.settings.tooltip_text }};
+     ">
+
+  <div class="content-wrapper">
+    {% if section.settings.uppertitle != blank or section.settings.subtitle or section.settings.title != blank %}
+      <div class="heading">
+        {% if section.settings.uppertitle != blank %}
+          <div class="uppertitle">
+            {{ section.settings.uppertitle }}
+            {% for i in (1..5) %}{% render 'star_comparison' %}{% endfor %}
+          </div>
+        {% endif %}
+        <div class="title">
+          {% if section.settings.title != blank %}{{ section.settings.title }}{% endif %}
+        </div>
+        <div class="subtitle">
+          {% if section.settings.subtitle != blank %}{{ section.settings.subtitle }}{% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="before-after-wrapper">
+      <div class="swiper before-after-slider">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            {% if block.settings.before_image and block.settings.after_image %}
+              <div class="swiper-slide">
+                <div class="before-after-item">
+                  <div class="before-after-container">
+                    <div class="before-image">
+                      <img src="{{ block.settings.before_image | img_url: 'master' }}" alt="Before">
+                    </div>
+                    <div class="after-image">
+                      <img src="{{ block.settings.after_image | img_url: 'master' }}" alt="After">
+                    </div>
+                    <div class="divider">
+                      <div class="handle">
+                        {% render 'handle-icon' %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="labels">
+                    <span class="before-label">{{ block.settings.before_label }}</span>
+                    <span class="after-label">{{ block.settings.after_label }}</span>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="swiper-pagination"></div>
+      </div>
+
+      <div class="swiper-button-prev">{% render 'swiper-arrow-left-n' %}</div>
+      <div class="swiper-button-next">{% render 'swiper-arrow-right-n' %}</div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  try {
+    const totalItems = document.querySelectorAll('#shopify-section-{{section.id}} .swiper-slide').length;
+    
+    const swiper = new Swiper('#shopify-section-{{section.id}} .before-after-slider', {
+      slidesPerView: 1, // По умолчанию 1 слайд на мобильных
+      slidesPerGroup: 1, // По умолчанию 1 слайд в группе на мобильных
+      spaceBetween: 20,
+      loop: false,
+      simulateTouch: false,
+      navigation: {
+        nextEl: '#shopify-section-{{section.id}} .swiper-button-next',
+        prevEl: '#shopify-section-{{section.id}} .swiper-button-prev',
+      },
+      pagination: {
+        el: '#shopify-section-{{section.id}} .swiper-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        769: {
+          slidesPerView: 2, // 2 слайда на десктопе
+          slidesPerGroup: 2 // 2 слайда в группе на десктопе
+        }
+      },
+      on: {
+        init: function () {
+          console.log('Swiper initialized');
+          console.log('Total items:', totalItems);
+          console.log('Slides per view:', this.params.slidesPerView);
+          console.log('Slides per group:', this.params.slidesPerGroup);
+          console.log('Pagination bullets:', document.querySelectorAll('.swiper-pagination-bullet').length);
+        },
+        slideChange: function () {
+          console.log('Slide changed to:', this.activeIndex);
+          const containers = document.querySelectorAll('.before-after-container');
+          containers.forEach(container => {
+            const divider = container.querySelector('.divider');
+            const beforeImage = container.querySelector('.before-image');
+            const afterImage = container.querySelector('.after-image');
+            divider.style.left = '50%';
+            beforeImage.style.clipPath = 'inset(0 50% 0 0)';
+            afterImage.style.clipPath = 'inset(0 0 0 50%)';
+          });
+        },
+        resize: function () {
+          this.update();
+          console.log('Slides per view after resize:', this.params.slidesPerView);
+          console.log('Slides per group after resize:', this.params.slidesPerGroup);
+          console.log('Pagination bullets after resize:', document.querySelectorAll('.swiper-pagination-bullet').length);
+        }
+      }
+    });
+
+    const containers = document.querySelectorAll('#shopify-section-{{section.id}} .before-after-container');
+    
+    containers.forEach(container => {
+      const divider = container.querySelector('.divider');
+      const beforeImage = container.querySelector('.before-image');
+      const afterImage = container.querySelector('.after-image');
+      let isDragging = false;
+
+      divider.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        isDragging = true;
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.stopPropagation();
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        let percentage = (x / rect.width) * 100;
+        percentage = Math.max(0, Math.min(100, percentage));
+        divider.style.left = `${percentage}%`;
+        beforeImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        afterImage.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+      });
+
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+
+      divider.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        isDragging = true;
+      });
+
+      document.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        e.stopPropagation();
+        const rect = container.getBoundingClientRect();
+        const x = e.touches[0].clientX - rect.left;
+        let percentage = (x / rect.width) * 100;
+        percentage = Math.max(0, Math.min(100, percentage));
+        divider.style.left = `${percentage}%`;
+        beforeImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        afterImage.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+      });
+
+      document.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+    });
+  } catch (error) {
+    console.error('Swiper initialization failed:', error);
+  }
+});
+</script>
+{% schema %}
+{
+  "name": "Before After Slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    { 
+      "type": "select", 
+      "id": "heading_size", 
+      "label": "Heading Size", 
+      "options": [{ "value": "small", "label": "Small" }, { "value": "medium", "label": "Medium" }, { "value": "large", "label": "Large" }], 
+      "default": "medium" 
+    },
+    {
+      "type": "select", 
+      "id": "headline_typography", 
+      "label": "Headline Typography", 
+      "options": [
+        { "value": "uppercase", "label": "AA" }, 
+        { "value": "capitalize", "label": "Aa" }, 
+        { "value": "lowercase", "label": "aa" }
+      ], 
+      "default": "capitalize" 
+    },
+    {
+      "type": "color", 
+      "id": "text_color", 
+      "label": "Title Color", 
+      "default": "#000000" 
+    },    
+    { 
+      "type": "select", 
+      "id": "heading_align", 
+      "label": "Heading Alignment", 
+      "options": [
+        { "value": "left", "label": "Left" }, 
+        { "value": "center", "label": "Center" }, 
+        { "value": "right", "label": "Right" }
+      ], 
+      "default": "center" 
+    }, 
+    { 
+      "type": "color", 
+      "id": "background_color", 
+      "label": "Background color", 
+      "default": "transparent" 
+    },
+    { 
+      "type": "select", 
+      "id": "font_variant", 
+      "label": "Font Family", 
+      "options": [
+        { "value": "default", "label": "Default by theme" }, 
+        { "value": "custom", "label": "Own choice" }
+      ], 
+      "default": "default" 
+    },
+    { 
+      "type": "font_picker", 
+      "label": "Regular Font", 
+      "id": "title_font", 
+      "default": "montserrat_n4" 
+    },
+    { 
+      "type": "select", 
+      "id": "section_width", 
+      "label": "Section Width", 
+      "options": [
+        { "value": "full", "label": "Full Width" }, 
+        { "value": "contained", "label": "Contained" }
+      ], 
+      "default": "contained" 
+    },
+    { 
+      "type": "range", 
+      "id": "padding_x_desk", 
+      "label": "Horizontal Padding", 
+      "info": "for desktop", 
+      "min": 0, 
+      "max": 100, 
+      "step": 5, 
+      "default": 70 
+    },
+    { 
+      "type": "range", 
+      "id": "padding_y_desk", 
+      "label": "Vertical Padding", 
+      "info": "for desktop", 
+      "min": 0, 
+      "max": 100, 
+      "default": 10 
+    },
+    { 
+      "type": "range", 
+      "id": "padding_x_mob", 
+      "label": "Horizontal Padding", 
+      "info": "for mobile", 
+      "min": 0, 
+      "max": 100, 
+      "step": 5, 
+      "default": 15 
+    },
+    { 
+      "type": "range", 
+      "id": "padding_y_mob", 
+      "label": "Vertical Padding", 
+      "info": "for mobile", 
+      "min": 0, 
+      "max": 50, 
+      "default": 7 
+    },
+    { 
+      "type": "select", 
+      "id": "display_on", 
+      "label": "Display On", 
+      "options": [
+        { "value": "all", "label": "All Devices" }, 
+        { "value": "mobile_only", "label": "Mobile Only" }, 
+        { "value": "desktop_only", "label": "Desktop Only" }
+      ], 
+      "default": "all" 
+    },
+    { 
+      "type": "range",
+      "id": "image_round",
+      "label": "Image Round Corner",
+      "min": 0, 
+      "max": 50, 
+      "step": 1, 
+      "default": 16 
+    },
+    { 
+      "type": "color", 
+      "id": "marker_color", 
+      "label": "Marker Color", 
+      "default": "#000" 
+    },
+    { 
+      "type": "color", 
+      "id": "marker_symbol", 
+      "label": "Marker Plus Color", 
+      "default": "#fff" 
+    },
+    { 
+      "type": "color", 
+      "id": "tooltip_color", 
+      "label": "Tooltip Background", 
+      "default": "#E5E5E5" 
+    },
+    { 
+      "type": "color", 
+      "id": "tooltip_text", 
+      "label": "Tooltip Font Color", 
+      "default": "#000" 
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<h2>Value Proposition featuring benifit</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<h3>Ut enim ad minima veniam, quis nostrum exercitati onem ullam corporis suscipit laboriosam, commodi </h3>"
+    },
+    {
+      "type": "richtext",
+      "id": "uppertitle",
+      "label": "Uppertitle",
+      "default": "<h3>Reviewed by +100 Happy Customers </h3>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "before_image",
+          "label": "Before Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "after_image",
+          "label": "After Image"
+        },
+        {
+          "type": "text",
+          "id": "before_label",
+          "label": "Before Label",
+          "default": "Before"
+        },
+        {
+          "type": "text",
+          "id": "after_label",
+          "label": "After Label",
+          "default": "After 2 Weeks"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Before After Slider",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

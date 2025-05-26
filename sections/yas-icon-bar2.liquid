@@ -1,0 +1,334 @@
+<style>
+  {% if section.settings.font_variant == 'custom' %}
+    {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+    {{ section.settings.title_font | font_face: font_display: 'swap' }}
+    {{ body_font_bold | font_face: font_display: 'swap' }}
+    {{ body_font_italic | font_face: font_display: 'swap' }}
+    {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+    {{ settings.type_header_font | font_face: font_display: 'swap' }}
+    #shopify-section-{{section.id}} * {
+      font-family: {{ section.settings.title_font.family }};
+    }
+  {% endif %}
+   All rules scoped under .icon_bar_2 to avoid conflicts */
+.icon_bar_2 {
+  position: relative;
+  overflow: hidden;
+}
+
+.icon_bar_2 .content-wrapper {
+  margin: auto;
+  display: block;
+  position: relative;
+  text-align: center;
+}
+
+.icon_bar_2 .heading {
+  margin-bottom: 64px;
+}
+
+.icon_bar_2 .title * {
+  margin: 0;
+}
+
+.icon_bar_2 .subtitle * {
+  margin: 0;
+}
+
+.icon_bar_2 .icon-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  border-radius: 16px;
+  padding: 80px 0;
+}
+
+.icon_bar_2 .icon_item {
+  max-width: 315px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon_bar_2 .icon_item-img {
+  max-width: 90px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.icon_bar_2 .icon_item-img * {
+  width: 100%;
+  height: auto;
+}
+
+.icon_bar_2 .icon_item h4 {
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 26.82px;
+  letter-spacing: 0;
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.icon_bar_2 p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0;
+  text-align: center;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .icon_bar_2 .title * {
+    margin-bottom: 16px;
+  }
+  .icon_bar_2 .icon-content-wrapper {
+    gap: 44px;
+    padding: 25px 0;
+  }
+  .icon_bar_2 .icon_item {
+    max-width: 305px;
+    gap: 24px;
+  }
+  .icon_bar_2 .icon_item-img {
+    max-width: 70px;
+  }
+  .icon_bar_2 .icon_item h4 {
+    font-size: 18px;
+    line-height: 21.94px;
+  }
+  .icon_bar_2 p {
+    font-size: 14px;
+    line-height: 17.07px;
+  }
+}
+
+</style>
+
+<div class="content-wrapper">
+    {%- if section.settings.title != blank or section.settings.under_title_text != blank -%}
+      <div class="heading">
+       
+        <div class="title">
+          {%- if section.settings.title != blank -%}
+            {{ section.settings.title }}
+          {%- endif -%}
+        </div>
+        <div class="subtitle">
+          {%- if section.settings.subtitle != blank -%}
+            {{ section.settings.subtitle }}
+          {%- endif -%}
+        </div>
+        
+      </div>
+    {%- endif -%}
+
+    <div class="icon-content-wrapper">
+      {% for block in section.blocks %}
+        <div class="icon_item">
+          <div class="icon_item-img">
+            {%- if block.settings.image != blank -%}
+            <img src="{{ block.settings.image | img_url: '180x' }}" alt="icon">
+            {%- else -%}
+              {% render 'icon_bar2-svg' %}
+            {%- endif -%}
+          </div>
+          <div class="icon_item-info">
+            <h4>{{ block.settings.title }}</h4>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+</div>
+
+{% schema %}
+{
+  "name": "icon bar 2",
+  "tag": "section",
+  "class": "section icon_bar_2",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<h2>lorem ipsum dolor</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<h3>Lorem ipsum dolor sit amet consecteur adipiscing</h3>"
+    },
+      {
+      "type": "header",
+      "content": "General Settings"
+    },
+     { "type": "color", 
+       "id": "background_color", 
+       "label": "Background color", 
+       "default": "transparent" 
+     },
+     { "type": "select", 
+       "id": "heading_size", 
+       "label": "Heading Size", 
+       "options": [{ "value": "small", "label": "Small" }, { "value": "medium", "label": "Medium" }, { "value": "large", "label": "Large" }], "default": "medium" 
+     },
+   { "type": "select", "id": "headline_typography", "label": "Headline Typography", "options": [{ "value": "uppercase", "label": "AA" }, { "value": "capitalize", "label": "Aa" }, { "value": "lowercase", "label": "aa" }], "default": "capitalize" },
+
+    {
+      "type": "select",
+      "id": "font_variant",
+      "label": "Font Family",
+      "options": [
+        { "value": "default", "label": "Default by theme" },
+        { "value": "custom", "label": "Own choice" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "font_picker",
+      "label": "Regular Font",
+      "id": "title_font",
+      "default": "montserrat_n4"
+    },
+    
+    { "type": "color", "id": "text_color", "label": "Title Color", "default": "#000000" },
+    
+     { "type": "select", 
+       "id": "heading_align", 
+       "label": "Heading Alignment", 
+       "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }], "default": "center" 
+     },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "full", "label": "Full Width" },
+        { "value": "contained", "label": "Contained" }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "range",
+      "id": "padding_x_desk",
+      "label": "Horizontal Padding",
+      "info": "for desktop",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+       {
+      "type": "range",
+      "id": "padding_y_desk",
+      "label": "Vertical Padding",
+      "info": "for desktop",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_x_mob",
+      "label": "Horizontal Padding",
+      "info": "for mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_y_mob",
+      "label": "Vertical Padding",
+      "info": "for mobile",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    { "type": "select", "id": "display_on", "label": "Display On", "options": [{ "value": "all", "label": "All Devices" }, { "value": "mobile_only", "label": "Mobile Only" }, { "value": "desktop_only", "label": "Desktop Only" }], "default": "all" },
+    {
+      "type": "header",
+      "content": "icon secting"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "icon Text Color",
+      "default": "#000000"
+    },
+    { "type": "color", 
+       "id": "icon_background_color", 
+       "label": "Icon Background color", 
+       "default": "#F6F6F6" 
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon_block",
+      "name": "icon block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title For Block"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icon"
+        }
+      ]
+    }
+  ],
+   "presets": [
+    {
+      "name": "icon bar 2",
+      "category": "Icons",
+      "blocks": [
+        {
+          "type": "icon_block", "settings": {"title":"Fast Delivery","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+        },
+        {
+          "type": "icon_block", "settings": {"title":"Fast Delivery","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+        },
+        {
+          "type": "icon_block", "settings": {"title":"Fast Delivery","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+        },
+        {
+          "type": "icon_block", "settings": {"title":"Fast Delivery","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+        },
+        {
+          "type": "icon_block", "settings": {"title":"Fast Delivery","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+        },
+        {
+          "type": "icon_block", "settings": {"title":"Fast Delivery","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,212 @@
+<div class="content-section product-sizechart-section" data-section-type="content">
+  <div class="product-sizechart-content" style="background: {{ section.settings.background_color }};">
+
+    <ul class="product-points-list">
+      <li>
+        {% if section.settings.icon_1 != blank %}
+          <img src="{{ section.settings.icon_1 | img_url: '24x24' }}" alt="Icon 1">
+        {% elsif section.settings.icon_1_text != blank %}
+          <span class="material-symbols-outlined">{{ section.settings.icon_1_text }}</span>
+        {% endif %}
+
+        <span
+          id="sizechart-link-wrapper"
+          data-discount="{{ section.settings.discount }}"
+          data-success-message="{{ section.settings.discountsuc | escape }}"
+          data-redirect="{{ shop.url }}/discount/{{ section.settings.discount }}?redirect={{ request.path }}">
+          <a onclick="event.preventDefault(); document.getElementById('sizechart-modal').style.display = 'flex';" class="open-sizechart" 
+            href="#"
+            style="
+              color: {{ section.settings.text_color }};
+              font-size: {% case section.settings.title_size %}
+                {% when 'small' %}28px
+                {% when 'medium' %}20px
+                {% when 'large' %}36px
+              {% endcase %};
+              font-weight: 700;
+              text-transform: {{ section.settings.title_format }};"
+           >
+            {{ section.settings.title }}
+          </a>
+        </span>
+      </li>
+
+     
+    </ul>
+
+
+<div id="sizechart-modal" class="sizechart-modal">
+  <div class="sizechart-modal-backdrop"></div>
+  <div class="sizechart-modal-content">
+    <button class="sizechart-close" aria-label="Close popup">&times;</button>
+    {% if section.settings.image != blank %}
+      <img src="{{ section.settings.image | img_url: 'master' }}" alt="Size Chart">
+    {% else %}
+      <p>No image provided</p>
+    {% endif %}
+  </div>
+</div>
+
+
+<div id="sizechart-modal" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+">
+  <div id="sizechart-modal-content" style="
+    position: relative;
+    background: white;
+    padding: 20px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  ">
+    <button id="sizechart-close" style="
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    ">&times;</button>
+
+    {% if section.settings.image != blank %}
+      <img src="{{ section.settings.image | img_url: 'master' }}" alt="Size Chart" style="
+        width: 100%;
+        height: auto;
+        max-height: 80vh;
+        object-fit: contain;
+        display: block;
+      ">
+    {% else %}
+      <p>No image provided</p>
+    {% endif %}
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("sizechart-modal");
+    const modalContent = document.getElementById("sizechart-modal-content");
+    const closeBtn = document.getElementById("sizechart-close");
+
+   
+    closeBtn.addEventListener("click", function () {
+      modal.style.display = "none";
+    });
+
+   
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        modal.style.display = "none";
+      }
+    });
+
+   
+    modal.addEventListener("click", function (e) {
+      if (!modalContent.contains(e.target)) {
+        modal.style.display = "none";
+      }
+    });
+  });
+</script>
+
+
+
+
+
+           
+{% schema %}
+{
+  "name": "Product Size Chart",
+  "class": "product-sizechart",
+  "settings": [
+    
+    
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+     {
+      "type": "select",
+      "id": "title_size",
+      "label": "Title Size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "title_format",
+      "label": "Headline Typography",
+      "options": [
+        { "value": "uppercase", "label": "AA" },
+        { "value": "capitalize", "label": "Aa" },
+        { "value": "lowercase", "label": "aa" }
+      ],
+      "default": "uppercase"
+    },
+     {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_1",
+      "label": "Icon Image"
+    },
+    {
+      "type": "text",
+      "id": "icon_1_text",
+      "label": "Icon Symbol"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Size Chart Text",
+      "default": "Size Chart."
+    },
+     {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Size Chart Image"
+    }
+    
+
+
+    
+  ],
+  "presets": [
+    {
+      "name": "Product Size Chart",
+      "category": "Custom"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

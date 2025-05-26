@@ -1,0 +1,32 @@
+<div class="content-section product-info-section" data-section-type="content">
+  <style>
+  </style>
+ 
+
+  <div class="short-description" style="color: {{ section.settings.text_color }}">{{ product.description }}</div>
+  
+</div>
+
+{% schema %}
+{
+  "name": "Product Description",
+  "settings": [
+    {
+      "type": "color", 
+      "id": "text_color", 
+      "label": "Text Color", 
+      "default": "#000000" 
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Description",
+      "category": "Product Sections"
+      
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,126 @@
+<div class="content-section product-testimonial-section" data-section-type="content">
+<style>
+    .product-testimonial-section .testimonial-card{
+      overflow: hidden;
+      border-radius: {{ section.settings.container_radius }}px;
+      box-shadow: {% if section.settings.container_styling == "shadow" %}{{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_blur }}px {{ section.settings.box_shadow_spread }}px {{ section.settings.box_shadow_color }}{% else %}none{% endif %};
+      border: {% if section.settings.container_styling == "card" %} {{ section.settings.card_border }}px solid {{ section.settings.card_border_color }}{% else %}none{% endif %};
+    }
+</style>
+<div class="testimonial-card">
+  {% if section.settings.photo %}
+    <img src="{{ section.settings.photo | img_url: '100x' }}" alt="Customer photo" class="testimonial-photo">
+  {% endif %}
+  <div class="testimonial-content">
+    <p class="testimonial-text">“ {{ section.settings.testimonial }} ”</p>
+    <div class="testimonial-footer">
+      <strong>{{ section.settings.name }}</strong>
+      {% if section.settings.verified %}
+        <span class="verified-icon">✔️</span>
+        <span class="verified-label">VERIFIED BUYER</span>
+      {% endif %}
+      <div class="testimonial-stars">
+        {% for i in (1..5) %}
+          {% if i <= section.settings.rating %}
+            <span class="star">★</span>
+          {% else %}
+            <span class="star empty">☆</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% schema %}
+{
+  "name": "Testimonial Card",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "testimonial",
+      "label": "Testimonial Text",
+      "default": "Have been buying these for years !! Really like the bigger size of the Gummies now ! Appreciate it Joe V. 🙌"
+    },
+    {
+      "type": "image_picker",
+      "id": "photo",
+      "label": "Customer Photo"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Customer Name",
+      "default": "Michael"
+    },
+    {
+      "type": "checkbox",
+      "id": "verified",
+      "label": "Verified Buyer",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "rating",
+      "label": "Star Rating (0–5)",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+       {
+          "type": "header",
+          "content": "Cards Settings"
+        },
+        { "type": "select", "id": "container_styling", "label": "Container Styling", "options": [{ "value": "no_card", "label": "No Card" }, { "value": "card", "label": "Card" }, { "value": "shadow", "label": "Shadow" }], "default": "card" },
+        {
+          "type": "range",
+          "id": "box_shadow_offset",
+          "label": "Box shadow offset",  
+          "min": -10,
+          "max": 10,
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "box_shadow_blur",
+          "label": "Box shadow blur",  
+          "min": 0,
+          "max": 15,
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "box_shadow_spread",
+          "label": "Box shadow spread",  
+          "min": 0,
+          "max": 15,
+          "default": 1
+        },
+        { "type": "color", "id": "box_shadow_color", "label": "Box shadow color", "default": "#000000" },   
+        {
+          "type": "range",
+          "id": "card_border",
+          "label": "Card border",
+          "info": "Container Styling Card",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 1
+        },
+        { "type": "color", "id": "card_border_color", "label": "Card border color", "default": "#000" },
+        { "type": "range", "id": "container_radius", "label": "Container Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial Card Default",
+     
+      "category": "Product Sections"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

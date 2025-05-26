@@ -1,0 +1,368 @@
+{% layout none %}
+<div class="minicart">
+    {% if cart == empty %}
+        <div class="minicart__body">
+            <h4 class="minicart__title">
+                <span class="material-icons-outlined minicart__basket">shopping_bag</span>
+                {{ 'sections.cart.title' | t }} ({{cart.item_count}} items)
+                <span class="minicart__close material-icons js-cart-close">close</span>
+            </h4>
+            <h2 class="text-center">{{ 'sections.cart.empty' | t }}</h2>
+            {% if settings.empty_minicart_sub_title != blank %}
+                <h3 class="text-center">{{ settings.empty_minicart_sub_title }}</h3>
+            {% endif %}
+            <div class="minicart_empty_options">
+                {% if settings.empty_minicart_collection_1 != blank %}
+                    {% assign customCollection = collections[settings.empty_minicart_collection_1] %}
+                    <div class="minicart_single_collection">
+                        <a href="{{ customCollection.url }}" class="btn btn--border">{{ customCollection.title }}</a>
+                    </div>
+                {% endif %}
+                {% if settings.empty_minicart_collection_2 != blank %}
+                    {% assign customCollection = collections[settings.empty_minicart_collection_2] %}
+                    <div class="minicart_single_collection">
+                        <a href="{{ customCollection.url }}" class="btn btn--border">{{ customCollection.title }}</a>
+                    </div>
+                {% endif %}
+                {% if settings.empty_minicart_collection_3 != blank %}
+                    {% assign customCollection = collections[settings.empty_minicart_collection_3] %}
+                    <div class="minicart_single_collection">
+                        <a href="{{ customCollection.url }}" class="btn btn--border">{{ customCollection.title }}</a>
+                    </div>
+                {% endif %}
+                {% if settings.empty_minicart_collection_4 != blank %}
+                    {% assign customCollection = collections[settings.empty_minicart_collection_4] %}
+                    <div class="minicart_single_collection">
+                        <a href="{{ customCollection.url }}" class="btn btn--border">{{ customCollection.title }}</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="minicart_empty_options">
+                {% if settings.empty_minicart_shop_link != blank %}
+                    <div class="minicart_single_button">
+                        <a href="{{ settings.empty_minicart_shop_link }}" class="btn btn--icon-hand">{{ settings.empty_minicart_shop_link_text }}</a>
+                    </div>
+                {% endif %}
+                {% if settings.empty_minicart_note != blank %}
+                    <div class="minicart_single_button">
+                        <p class="text-center">{{ settings.empty_minicart_note }}</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="minicart__footer">
+        </div>
+    {% else %}
+        {% form 'cart', cart, class: "mini-cart-form", id: "formCart", action: routes.cart_url, novalidate: "novalidate" %}
+            <div class="minicart__body"><!-- mincart body -->
+                <h4 class="minicart__title">
+                    <span class="material-icons-outlined minicart__basket">shopping_bag</span>
+                    {{ 'sections.cart.title' | t }} ({{cart.item_count}} items)
+                    <span class="minicart__close material-icons js-cart-close">close</span>
+                </h4>
+                {% if settings.minicart_free_shipping_price != blank and settings.minicart_free_shipping_price_qualified_text != blank and settings.minicart_free_shipping_price_not_qualified_text != blank %}
+                    {% assign cart_total_price = cart.total_price | money_without_currency | remove: ',' | plus: 0 %}
+                    {%- assign free_shipping_value = settings.minicart_free_shipping_price | plus: 0 -%}
+                    {% if cart_total_price >= free_shipping_value %}
+                        <div class="mincart_free_shipping mincart_free_shipping_qualified">
+                            <div class="mincart_free_shipping_title">
+                                <p>{{ settings.minicart_free_shipping_price_qualified_text }}</p>
+                                <span class="material-icons">local_shipping</span>
+                            </div>
+                            <div class="mincart_not_free_shipping">
+                                <div class="mincart_not_free_shipping_drawer" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% assign remaning_price = free_shipping_value | minus: cart_total_price | times: 100.00 | money %}
+                        {% assign remaning_price_value = free_shipping_value | minus: cart_total_price | times: 100.00  %}
+                        {% assign width = remaning_price_value | divided_by: free_shipping_value | round %}
+                        {% assign remaning_price_text = settings.minicart_free_shipping_price_not_qualified_text | replace: "@price@", remaning_price %}
+                        <div class="mincart_free_shipping">
+                            <div class="mincart_free_shipping_title">
+                                <p>{{ remaning_price_text }}</p>
+                                <span class="material-icons">local_shipping</span>
+                            </div>
+                            <div class="mincart_not_free_shipping">
+                                <div class="mincart_not_free_shipping_drawer" style="width: calc(100% - {{width}}%);"></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                {% if cart.items.size > 0 %}
+                    {% assign commaSeparatedCartProducts = "" %}
+                    {% assign commaSeparatedCartProductsCounter = 1 %}
+                    {% for item in cart.items %}
+                        {% if commaSeparatedCartProductsCounter == 1 %}
+                            {% assign commaSeparatedCartProducts = commaSeparatedCartProducts | append: item.product.handle %}
+                        {% else %}
+                            {% assign commaSeparatedCartProducts = commaSeparatedCartProducts | append: "," | append: item.product.handle %}
+                        {% endif %}
+                        {% assign commaSeparatedCartProductsCounter = commaSeparatedCartProductsCounter | plus: 1 %}
+                    {% endfor %}
+                    <div class="minicart__product-grid">
+                        {% for item in cart.items %}
+                            <div class="product product--style-2" data-key="{{ item.key }}">
+                                <div class="product__image-container">
+                                    <a href="{{ item.url }}" class="product__image ratio1by1">
+                                        <img src="{{ item | img_url: 'master' }}" class=" pure-img" loading="lazy" alt="{{ item.image.alt }}" />
+                                    </a>
+                                </div>
+                                <div class="product__detail">
+                                    <div class="product__title_wrapper">
+                                        <a href="{{ item.url }}" class="product__title">{{ item.product.title }}</a>
+                                        <a href="#" class="product__remove_button"><span class="material-icons js-cart-close">close</span></a>
+                                    </div>
+                                    <div class="product__meta">
+                                        <span class="product__qty">Qty: <span>{{ item.quantity }}</span></span>
+                                        <div class="product__price_wrapper">
+                                            <div class="product__price">
+                                                {%- if item.variant.compare_at_price > item.variant.price -%}
+                                                  <span class="product__price-sale">{{ item.variant.compare_at_price | money}}</span>
+                                                {%- endif -%}
+                                                <span class="product__price-original">{{item.price | money}}</span>
+                                            </div>
+                                            {% comment %}
+                                            {%- if item.variant.compare_at_price > item.price -%}
+                                                {% assign savePer =  item.variant.compare_at_price | minus: item.price | times: 100.0 | divided_by: item.variant.compare_at_price | money_without_currency | times: 100 | remove: '.0' | plus: 0 %}
+                                                {% if savePer > 0 %}    
+                                                    <span class="badge">Save {{savePer}}%</span>
+                                                {% endif %}
+                                            {%- endif -%}
+                                            {% endcomment %} 
+                                        </div>
+                                    </div>
+                                    {%- if item.product.has_only_default_variant == false -%}
+                                        {%- if item.product.has_only_default_variant == false -%}
+                                            <div class="product__info">
+                                                {%- for option in item.options_with_values -%}
+                                                    <span class="product__color">{{ option.value }}</span>
+                                                {%- endfor -%}
+                                            </div>
+                                        {%- endif -%}
+                                    {%- endif -%}
+                                    {% if item.properties.size > 0 %}
+                                        <div class="product__info">
+                                        {%- for property in item.properties -%}
+                                        {%- assign property_first_char = property.first | slice: 0 -%}
+                                            {%- if property.last != blank and property_first_char != '_' -%}
+                                                <span class="product__color">{{ property.first }}: 
+                                                    {%- if property.last contains '/uploads/' -%}
+                                                      <a href="{{ property.last }}" target="_blank">
+                                                        {{ property.last | split: '/' | last }}
+                                                      </a>
+                                                    {%- else -%}
+                                                      {{ property.last }}
+                                                    {%- endif -%}
+                                                </span>
+                                            {%- endif -%}
+                                        {%- endfor -%}
+                                        </div>
+                                    {% endif %}
+                                    {% if item.selling_plan_allocation != nil %}
+                                        <div class="product__info">
+                                            <span class="product__size">{{ item.selling_plan_allocation.selling_plan.name }}</span>
+                                        </div>
+                                    {% endif %}
+                                    {%- for discount in item.discounts -%}
+                                        <div class="product__info">
+                                            <span class="product__size">{{ discount.title }}</span>
+                                        </div>
+                                    {%- endfor -%}
+                                    <div class="minicart__qauntity_wrapper">
+                                        <div class="minicart__qauntity_inner_wrapper">
+                                            <i class="form-counter__decrement">-</i>
+                                            <input type="number" name="qty" id="qty" min="1" step="1" value="{{ item.quantity }}" class="form-counter__output">
+                                            <i class="form-counter__increment">+</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% assign commaSeparatedRelatedProducts = "" %}
+                {% for i in (1..5) %}
+                    {% assign product_var = "minicart_suggestion_product_" | append: i %}
+                    {% if settings[product_var] != blank %}
+                        {% if commaSeparatedCartProducts contains settings[product_var] %}
+                        {% else %}
+                            {% assign commaSeparatedRelatedProducts = commaSeparatedRelatedProducts | append: "," | append: settings[product_var] %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if commaSeparatedRelatedProducts != blank %}
+                    {% assign relatedProductsArray = commaSeparatedRelatedProducts | split: "," %}
+                    <div class="minicart_related_product-grid">
+                        {% if settings.minicart_suggestion_products_title != blank %}
+                            <div class="minicart_related_product-grid-title">
+                                <p>{{ settings.minicart_suggestion_products_title }}</p>
+                            </div>
+                        {% endif %}
+                        {% for singleRelatedProduct in relatedProductsArray %}
+                            {% if singleRelatedProduct != blank %}
+                                {% assign relatedProduct = all_products[singleRelatedProduct] %}
+                                {% assign relatedProductCurrentVariant = relatedProduct.selected_or_first_available_variant %}
+                                {% if relatedProductCurrentVariant.available %}
+                                    <div class="product product--style-2" data-variant-id="{{ item.key }}">
+                                        <div class="product__image-container">
+                                            <a href="{{ relatedProduct.url }}" class="product__image ratio1by1">
+                                                <img data-src="{{ relatedProduct.featured_image.src | img_url: 'master' }}" class="lazyload pure-img" alt="{{ relatedProduct.featured_image.alt }}" />
+                                            </a>
+                                        </div>
+                                        <div class="product__detail">
+                                            <div class="product__title_wrapper">
+                                                <a href="{{ relatedProduct.url }}" class="product__title">{{ relatedProduct.title }}</a>
+                                            </div>
+                                            <div class="product__meta">
+                                                <div class="minicart__qauntity_wrapper">
+                                                    <div class="minicart__qauntity_inner_wrapper">
+                                                        <i class="form-counter__decrement">-</i>
+                                                        <input type="number" name="qty" id="qty" min="1" step="1" value="1" class="form-counter__output">
+                                                        <i class="form-counter__increment">+</i>
+                                                    </div>
+                                                </div>
+                                                <div class="product__price_wrapper">
+                                                    <div class="product__price">
+                                                        {%- if relatedProductCurrentVariant.compare_at_price > relatedProductCurrentVariant.price -%}
+                                                          <span class="product__price-sale">{{ relatedProductCurrentVariant.compare_at_price | money}}</span>
+                                                        {%- endif -%}
+                                                        <span class="product__price-original">{{relatedProductCurrentVariant.price | money}}</span>
+                                                    </div>
+                                                    {% comment %}
+                                                        {%- if relatedProductCurrentVariant.compare_at_price > relatedProductCurrentVariant.price -%}
+                                                            {% assign savePer =  relatedProductCurrentVariant.compare_at_price | minus: relatedProductCurrentVariant.price | times: 100.0 | divided_by: relatedProductCurrentVariant.compare_at_price | money_without_currency | times: 100 | remove: '.0' | plus: 0 %}
+                                                            {% if savePer > 0 %}    
+                                                                <span class="badge">Save {{savePer}}%</span>
+                                                            {% endif %}
+                                                        {%- endif -%}
+                                                    {% endcomment %}
+                                                </div>
+                                            </div>
+                                            <div class="product__related_add_to_cart_wrapper">
+                                                <a href="#" class="btn btn--border" data-variant-id="{{relatedProductCurrentVariant.id}}">{{settings.minicart_suggestion_product_button_text}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div><!-- ./mincart body -->
+
+            <div class="minicart__footer"><!-- mincart Footer -->
+                {% if settings.enable_discount_code != blank %}
+                    <div class="minicart__discount">
+                        <div class="minicart__discount-form">
+                            <label class="form-label fw-700">Coupon/discount code</label>
+                            <div class="form-row">
+                                <input type="text" class="form-input" placeholder="{{settings.discount_code_label}}">
+                                <div class="minicart__discount-button">
+                                    <button type="button" class="badge">{{settings.discount_code_button_text}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if settings.cart_notes_enable != blank %}
+                    <div class="minicart__discount">
+                        <div class="minicart__discount-form">
+                            <label class="form-label fw-700">{{ 'sections.cart.note' | t }}</label>
+                            <div class="form-row">
+                                <textarea class="text-area text-area--resize-vertical field__input form-textarea" name="note" id="Cart-note" placeholder="{{ 'sections.cart.note' | t }}">{{ cart.note }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="minicart__bottom">
+                    <div class="minicart__total-wrapper">
+                        <h4 class="minicart__total" data->Subtotal <span class="js-price" data-cart-subtotal>{{ cart.items_subtotal_price | money }}</span>
+                        {{ form | payment_terms }}
+                        </h4>
+                    </div>
+
+                    <div class="minicart__note">{%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
+                    {{ 'sections.cart.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                  {%- elsif cart.taxes_included -%}
+                    {{ 'sections.cart.taxes_included_but_shipping_at_checkout' | t }}
+                  {%- elsif shop.shipping_policy.body != blank -%}
+                    {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
+                  {%- else -%}
+                    {{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}
+                  {%- endif -%}</div>
+
+                    <a href="/checkout" class="btn btn--icon-hand">{{ settings.minicart_checkout_button_text }}</a>
+                    {%- if additional_checkout_buttons -%}
+                        <div class="cart__dynamic-checkout-buttons additional-checkout-buttons">
+                          {{ content_for_additional_checkout_buttons }}
+                        </div>
+                    {%- endif -%}
+                    {% if settings.enable_payment_icons != blank %}
+                        <div class="payment__ssl">
+                            {% if shop.enabled_payment_types != blank %}
+                                <ul class="list list__payment mb-0 d-none d-md-flex">
+                                    {% for type in shop.enabled_payment_types %}
+                                      <li class="icon--payment">
+                                        {{ type | payment_type_svg_tag: class:'icon icon--full-color' }}
+                                      </li>
+                                    {% endfor %}
+                                  </ul>
+                            {% else %}
+                                {% if settings.payment_icon_1 != blank or settings.payment_icon_2 != blank or settings.payment_icon_3 != blank or settings.payment_icon_4 != blank or settings.payment_icon_5 != blank or settings.payment_icon_6 != blank %}
+                                  <ul class="list list__payment mb-0 d-none d-md-flex">
+                                    {% if settings.payment_icon_1 != blank %}
+                                      <li class="icon--payment"><img data-src="{{ settings.payment_icon_1 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                    {% endif %}
+                                    {% if settings.payment_icon_2 != blank %}
+                                      <li class="icon--payment"><img data-src="{{ settings.payment_icon_2 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                    {% endif %}
+                                    {% if settings.payment_icon_3 != blank %}
+                                      <li class="icon--payment"><img data-src="{{ settings.payment_icon_3 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                    {% endif %}
+                                    {% if settings.payment_icon_4 != blank %}
+                                      <li class="icon--payment"><img data-src="{{ settings.payment_icon_4 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                    {% endif %}
+                                    {% if settings.payment_icon_5 != blank %}
+                                      <li class="icon--payment"><img data-src="{{ settings.payment_icon_5 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                    {% endif %}
+                                    {% if settings.payment_icon_6 != blank %}
+                                      <li class="icon--payment"><img data-src="{{ settings.payment_icon_6 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                                    {% endif %}
+                                  </ul>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% assign showTrustIcons = false %}
+                    {% for i in (1..4) %}
+                        {% assign minicart_trust_icon_check_var = "minicart_trust_icon_" | append: i %}
+                        {% assign minicart_trust_icon_text_check_var = "minicart_trust_icon_text_" | append: i %}
+                        {% if settings[minicart_trust_icon_check_var] != blank and settings[minicart_trust_icon_text_check_var] != blank %}
+                            {% assign showTrustIcons = true %}
+                            {% break %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if showTrustIcons %}
+                        <div class="minicart__featured_icons">
+                            {% for i in (1..4) %}
+                                {% assign minicart_trust_icon_var = "minicart_trust_icon_" | append: i %}
+                                {% assign minicart_trust_icon_text_var = "minicart_trust_icon_text_" | append: i %}
+                                {% if settings[minicart_trust_icon_var] != blank and settings[minicart_trust_icon_text_var] != blank %}
+                                    <div class="minicart__single_featured_icon">
+                                        <div class="featurebox__icon">
+                                            <span class="material-icons"><img src="{{ settings[minicart_trust_icon_var] | img_url: 'master' }}" alt="" /></span>
+                                        </div>
+                                        <div class="featurebox__info">
+                                            <h4 class="text-1 fw-400 mb-0">{{ settings[minicart_trust_icon_text_var] }}</h4>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div><!-- ./mincart Footer -->
+        {% endform %}
+    {% endif %}
+</div>

@@ -1,0 +1,133 @@
+
+<div class="content-section product-points-section" data-section-type="content">
+   <STYLE>
+   .product-points-section li
+     {
+       color: {{section.settings.color}};
+     }
+   </STYLE>
+    <div class="product-points-content">
+ 
+      <ul class="product-points-list">
+        <li>
+          {% if section.settings.icon_1 != blank %}
+            <img src="{{ section.settings.icon_1 | img_url: '24x24' }}" alt="Icon 1">
+          {% else %}
+            {% if section.settings.icon_1_text != blank %}
+          <span class="material-symbols-outlined color">     {{ section.settings.icon_1_text }}</span>
+            {% else %}
+              {% render 'icon_number_1' %}
+            {% endif %}
+          {% endif %}
+          {{ section.settings.point_1_text }}
+        </li>
+        <li >
+          {% if section.settings.icon_2 != blank %}
+            <img src="{{ section.settings.icon_2 | img_url: '24x24' }}" alt="Icon 2">
+          {% else %}
+            {% if section.settings.icon_2_text != blank %}
+              <span class="material-symbols-outlined "> {{ section.settings.icon_2_text }}</span>
+            {% else %}
+              {% render 'icon_number_2' %}
+            {% endif %}
+          {% endif %}
+          {{ section.settings.point_2_text }}
+        </li>
+        <li>
+          {% if section.settings.icon_3 != blank %}
+            <img src="{{ section.settings.icon_3 | img_url: '24x24' }}" alt="Icon 3">
+          {% else %}
+            {% if section.settings.icon_3_text != blank %}
+              <span class="material-symbols-outlined">{{ section.settings.icon_3_text }}</span>
+            {% else %}
+              {% render 'icon_number_3' %}
+            {% endif %}
+          {% endif %}
+          {{ section.settings.point_3_text }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+{% schema %}
+{
+  "name": "Product points",
+  
+  "class": "product-points",
+  "settings": [
+    
+    
+    {
+      "type": "header",
+      "content": "Icons Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_1",
+      "label": "Icon Image For Point 1"
+    },
+    {
+      "type": "text",
+      "id": "icon_1_text",
+      "label": "Icon Symbol For Point 1"
+    },
+    {
+      "type": "text",
+      "id": "point_1_text",
+      "label": "Text For Point 1",
+      "default": "Perfect for gym, yoga & sunday strolls"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_2",
+      "label": "Icon Image For Point 2"
+    },
+    {
+      "type": "text",
+      "id": "icon_2_text",
+      "label": "Icon Symbol For Point 2"
+    },
+    {
+      "type": "text",
+      "id": "point_2_text",
+      "label": "Text for Point 2",
+      "default": "Perfect for gym, yoga & sunday strolls"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_3",
+      "label": "Icon Image For Point 3"
+    },
+    {
+      "type": "text",
+      "id": "icon_3_text",
+      "label": "Icon Symbol For Point 3"
+    },
+    {
+      "type": "text",
+      "id": "point_3_text",
+      "label": "Text For Point 3",
+      "default": "Perfect for gym, yoga & sunday strolls"
+    }
+    ,
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Font color",
+      "default": "#000"
+    }
+  
+
+  ],
+  "presets": [
+    {
+      "name": "Product Points",
+      "category": "Product Sections"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,478 @@
+<!-- 1. Inline CSS в секции (динамические правила и всё, где есть Liquid) -->
+<style>
+  {% comment %} Custom fonts connection {% endcomment %}
+  {% if section.settings.font_variant == 'custom' %}
+    {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+    {{ section.settings.title_font | font_face: font_display: 'swap' }}
+    {{ body_font_bold | font_face: font_display: 'swap' }}
+    {{ body_font_italic | font_face: font_display: 'swap' }}
+    {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+    {{ settings.type_header_font | font_face: font_display: 'swap' }}
+    #shopify-section-{{section.id}} * {
+      font-family: {{ section.settings.title_font.family }};
+    }
+  {% endif %}
+
+  /* Wrapper */
+  #shopify-section-{{ section.id }} .content-wrapper {
+    margin: auto;
+    display: block;
+    position: relative;
+    text-align: center;
+  }
+
+  {% comment %} What device display section {% endcomment %}
+  #shopify-section-{{ section.id }} {
+    display:
+      {% case section.settings.display_on %}
+        {% when 'all' %}block;
+        {% when 'mobile_only' %}none;
+        {% when 'desktop_only' %}block;
+      {% endcase %};
+  }
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      display:
+        {% case section.settings.display_on %}
+          {% when 'all' %}block;
+          {% when 'mobile_only' %}block;
+          {% when 'desktop_only' %}none;
+        {% endcase %};
+    }
+  }
+
+  {% comment %} BG color and padding {% endcomment %}
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+    padding: {{ section.settings.padding_y_desk }}px {{ section.settings.padding_x_desk }}px;
+    margin: 0 auto;
+    color: {{ section.settings.text_color }};
+    position: relative;
+    overflow: hidden;
+  }
+
+  {% comment %} Full width or contained {% endcomment %}
+  #shopify-section-{{ section.id }} .content-wrapper {
+    max-width:
+      {% if section.settings.section_width == 'full' %}
+        100%
+      {% else %}
+        {{ settings.page_width }}px
+      {% endif %};
+    margin: 0 auto;
+  }
+
+  {% comment %} Title font size, Typography and color {% endcomment %}
+  #shopify-section-{{ section.id }} .title h1,
+  #shopify-section-{{ section.id }} .title h2,
+  #shopify-section-{{ section.id }} .title h3,
+  #shopify-section-{{ section.id }} .title p {
+    font-size:
+      {% case section.settings.heading_size %}
+        {% when 'small' %}36px
+        {% when 'medium' %}45px
+        {% when 'large' %}60px
+      {% endcase %};
+    text-transform: {{ section.settings.headline_typography }};
+    color: {{ section.settings.text_color }};
+    margin: 0;
+    text-align:
+      {% case section.settings.heading_align %}
+        {% when 'left' %}left;
+        {% when 'center' %}center;
+        {% when 'right' %}right;
+      {% endcase %};
+    line-height: 110%;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .subtitle h1,
+  #shopify-section-{{ section.id }} .subtitle h2,
+  #shopify-section-{{ section.id }} .subtitle h3,
+  #shopify-section-{{ section.id }} .subtitle p {
+    color: {{ section.settings.subtitle_color }};
+    font-size: 20px;
+    font-weight: 400;
+    text-align:
+      {% case section.settings.heading_align %}
+        {% when 'left' %}left;
+        {% when 'center' %}center;
+        {% when 'right' %}right;
+      {% endcase %};
+  }
+
+  #shopify-section-{{ section.id }} .heading {
+    margin-bottom: 64px;
+  }
+
+  #shopify-section-{{ section.id }} .wrapp_icon {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 40px;
+    border-radius: 16px;
+    padding: 0;
+    width: 50%;
+    text-align: left;
+  }
+
+  #shopify-section-{{ section.id }} .wrap_image {
+    width: 60%;
+  }
+  #shopify-section-{{ section.id }} .wrap_image * {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: {{ section.settings.image_round }}px;
+  }
+
+  #shopify-section-{{ section.id }} .icon_item {
+    max-width: 275px;
+    width: calc(50% - 20px);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  #shopify-section-{{ section.id }} .icon_item-img {
+    max-width: 90px;
+    width: 100%;
+    margin: 0 auto 0 0;
+  }
+  #shopify-section-{{ section.id }} .icon_item-img * {
+    width: 100%;
+    height: auto;
+  }
+
+  #shopify-section-{{ section.id }} .icon_item h4 {
+    color: {{ section.settings.icon_color }};
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 26.82px;
+    letter-spacing: 0;
+    margin: 0 0 16px;
+  }
+
+  #shopify-section-{{ section.id }} p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0;
+    margin: 0;
+    color: {{ section.settings.icon_color }};
+  }
+
+  #shopify-section-{{ section.id }} .icon-content-wrapper {
+    display: flex;
+    gap: 88px;
+  }
+
+  @media (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .wrapp_icon {
+      width: 65%;
+    }
+  }
+  @media (max-width: 968px) {
+    #shopify-section-{{ section.id }} .wrapp_icon {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+    #shopify-section-{{ section.id }} .icon-content-wrapper {
+      flex-wrap: wrap;
+      gap: 33px;
+      justify-content: center;
+    }
+    #shopify-section-{{ section.id }} .wrap_image {
+      max-width: 420px;
+    }
+    #shopify-section-{{ section.id }} .icon_item-img {
+      margin: 0 auto;
+    }
+  }
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      padding: {{ section.settings.padding_y_mob }}px {{ section.settings.padding_x_mob }}px;
+    }
+    #shopify-section-{{ section.id }} .title h1,
+    #shopify-section-{{ section.id }} .title h2,
+    #shopify-section-{{ section.id }} .title h3,
+    #shopify-section-{{ section.id }} .title p {
+      font-size:
+        {% case section.settings.heading_size %}
+          {% when 'small' %}20px
+          {% when 'medium' %}28px
+          {% when 'large' %}36px
+        {% endcase %};
+      line-height: 100%;
+    }
+    #shopify-section-{{ section.id }} .wrapp_icon {
+      gap: 44px;
+      padding: 25px 0;
+    }
+    #shopify-section-{{ section.id }} .icon_item {
+      max-width: 100%;
+      width: 100%;
+      gap: 24px;
+    }
+    #shopify-section-{{ section.id }} .icon_item-info {
+      text-align: center;
+    }
+    #shopify-section-{{ section.id }} .wrap_image {
+      width: 100%;
+    }
+    #shopify-section-{{ section.id }} .icon_item-img {
+      max-width: 70px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    #shopify-section-{{ section.id }} .icon_item h4 {
+      font-size: 18px;
+      line-height: 21.94px;
+    }
+    #shopify-section-{{ section.id }} p {
+      font-size: 14px;
+      line-height: 17.07px;
+    }
+  }
+</style>
+
+
+<div class="content-wrapper">
+    {%- if section.settings.title != blank or section.settings.under_title_text != blank -%}
+      <div class="heading">
+       
+        <div class="title">
+          {%- if section.settings.title != blank -%}
+            {{ section.settings.title }}
+          {%- endif  -%}
+        </div>
+        <div class="subtitle">
+          {%- if section.settings.subtitle != blank -%}
+            {{ section.settings.subtitle }}
+          {%- endif -%}
+        </div>
+        
+      </div>
+    {%- endif -%}
+    <div class="icon-content-wrapper">
+      <div class="wrap_image">
+        {% if section.settings.image == blank%}
+          {% render 'icon_blank_image' %}
+        {% else %}
+          <img src="{{ section.settings.image | img_url: 'master' }}" alt="{{ section.settings.image.alt }}">
+        {% endif %}
+      </div>
+      <div class="wrapp_icon">
+        {% for block in section.blocks %}
+          <div class="icon_item">
+            <div class="icon_item-img">
+              {%- if block.settings.image != blank -%}
+              <img src="{{ block.settings.image | img_url: '180x' }}" alt="icon">
+              {%- else -%}
+                {% render 'icon-with-content-svg' %}
+              {%- endif -%}
+            </div>
+            <div class="icon_item-info">
+              <h4>{{ block.settings.title }}</h4>
+              <p>{{ block.settings.text }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+</div>
+
+{% schema %}
+{
+  "name": "icons with content image",
+  "tag": "section",
+  "class": "section icons_with_content-image",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<h2>lorem ipsum dolor</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<h3>Lorem ipsum dolor sit amet consecteur adipiscing</h3>"
+    },
+      {
+      "type": "header",
+      "content": "General Settings"
+    },
+     { "type": "color", 
+       "id": "background_color", 
+       "label": "Background color", 
+       "default": "transparent" 
+     },
+     { "type": "select", 
+       "id": "heading_size", 
+       "label": "Heading Size", 
+       "options": [{ "value": "small", "label": "Small" }, { "value": "medium", "label": "Medium" }, { "value": "large", "label": "Large" }], "default": "medium" 
+     },
+   { "type": "select", "id": "headline_typography", "label": "Headline Typography", "options": [{ "value": "uppercase", "label": "AA" }, { "value": "capitalize", "label": "Aa" }, { "value": "lowercase", "label": "aa" }], "default": "capitalize" },
+
+    {
+      "type": "select",
+      "id": "font_variant",
+      "label": "Font Family",
+      "options": [
+        { "value": "default", "label": "Default by theme" },
+        { "value": "custom", "label": "Own choice" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "font_picker",
+      "label": "Regular Font",
+      "id": "title_font",
+      "default": "montserrat_n4"
+    },
+   
+    { "type": "color", "id": "text_color", "label": "Title Color", "default": "#000000" },
+    
+     { "type": "select", 
+       "id": "heading_align", 
+       "label": "Heading Alignment", 
+       "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }], "default": "center" 
+     },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "full", "label": "Full Width" },
+        { "value": "contained", "label": "Contained" }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "range",
+      "id": "padding_x_desk",
+      "label": "Horizontal Padding",
+      "info": "for desktop",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+       {
+      "type": "range",
+      "id": "padding_y_desk",
+      "label": "Vertical Padding",
+      "info": "for desktop",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_x_mob",
+      "label": "Horizontal Padding",
+      "info": "for mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_y_mob",
+      "label": "Vertical Padding",
+      "info": "for mobile",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    { "type": "select", "id": "display_on", "label": "Display On", "options": [{ "value": "all", "label": "All Devices" }, { "value": "mobile_only", "label": "Mobile Only" }, { "value": "desktop_only", "label": "Desktop Only" }], "default": "all" },
+    {
+      "type": "header",
+      "content": "icon secting"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "icon Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+     "type": "range",
+      "id": "image_round",
+      "label": "Image Round Corner",
+      "min": 0, "max": 50, "step": 5, "default": 10 
+    },
+  ],
+  "blocks": [
+    {
+      "type": "icon_block",
+      "name": "icon block",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title For Block"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icon"
+        }
+      ]
+    }
+  ],
+   "presets": [
+    {
+      "name": "icons with content image",
+      "category": "Icons",
+      "blocks": [
+        {
+          "type": "icon_block", "settings": {"title":"Fast Delivery","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+        },
+        {
+          "type": "icon_block", "settings": {"title":"Fast Delivery","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+        },
+        {
+          "type": "icon_block", "settings": {"title":"Fast Delivery","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+        },
+        {
+          "type": "icon_block", "settings": {"title":"Fast Delivery","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+        }
+        
+      ]
+    }
+  ]
+}
+{% endschema %}

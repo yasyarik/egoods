@@ -1,0 +1,434 @@
+<style>
+{% if section.settings.font_variant == 'custom' %}
+  {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+    {{ section.settings.title_font | font_face: font_display: 'swap' }}
+    {{ body_font_bold | font_face: font_display: 'swap' }}
+    {{ body_font_italic | font_face: font_display: 'swap' }}
+    {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+    {{ settings.type_header_font | font_face: font_display: 'swap' }}
+    #shopify-section-{{section.id}} * {
+      font-family: {{ section.settings.title_font.family }};
+    }
+{% endif %}
+
+#shopify-section-{{section.id}} {
+  display: {% case section.settings.display_on %}
+               {% when 'all' %}block;
+               {% when 'mobile_only' %}none;
+               {% when 'desktop_only' %}block;
+             {% endcase %}
+  padding: {{ section.settings.padding_tb_desk }}px {{ section.settings.padding_lr_desk }}px;
+  background-color: {{ section.settings.background_color }};
+  color: {{ section.settings.text_color }};
+}
+
+@media (max-width: 768px) {
+  #shopify-section-{{section.id}} {
+    display: {% case section.settings.display_on %}
+                 {% when 'all' %}block;
+                 {% when 'mobile_only' %}block;
+                 {% when 'desktop_only' %}none;
+               {% endcase %};
+  }
+}
+
+#shopify-section-{{section.id}} .faq-container {
+  max-width: {% if section.settings.section_width == 'full' %}100%{% else %}{{ settings.page_width }}px{% endif %};
+  margin: 0 auto;
+}
+
+#shopify-section-{{section.id}} .faq-header-w {
+  margin-bottom: 64px;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 24px;
+  line-height: 100%;
+}
+
+#shopify-section-{{ section.id }} .faq-header h2,
+#shopify-section-{{ section.id }} .faq-header h1,
+#shopify-section-{{ section.id }} .faq-header h3,
+#shopify-section-{{ section.id }} .faq-header p,
+#shopify-section-{{section.id}} .faq-header {
+  font-size: {% case section.settings.heading_size %}
+               {% when 'small' %}36px
+               {% when 'medium' %}45px
+               {% when 'large' %}60px
+             {% endcase %};
+  font-weight: 700;
+  text-transform: {{ section.settings.headline_typography }};
+  color: {{ section.settings.text_color }};
+  line-height: 100%;
+}
+#shopify-section-{{ section.id }} .faq-subtitle h2,
+#shopify-section-{{ section.id }} .faq-subtitle h1,
+#shopify-section-{{ section.id }} .faq-subtitle h3,
+#shopify-section-{{ section.id }} .faq-subtitle p,
+#shopify-section-{{section.id}} .faq-subtitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: {{ section.settings.subtitle_color }};
+}
+
+#shopify-section-{{section.id}} .faq-item:first-child {
+  margin-top: 0;
+}
+
+#shopify-section-{{section.id}} .faq-item {
+  background: {{ section.settings.faq_background_color }};
+  border: 1px solid {{ section.settings.faq_border_color }};
+  border-radius: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+#shopify-section-{{section.id}} .faq-question {
+  padding: 20px;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: {{ section.settings.title_color_block }};
+}
+
+#shopify-section-{{section.id}} .faq-answer {
+  padding: 0 20px 20px;
+  font-size: 16px;
+  color: {{ section.settings.text_color_block }};
+}
+
+#shopify-section-{{section.id}} .faq-item-s.faq-item-showvideo {
+  flex-direction: {% if section.settings.video_aligment == 'right' %}row-reverse{% else %}row{% endif %};
+}
+
+#shopify-section-{{section.id}} .faq-item-s.faq-item-showvideo video {
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+#shopify-section-{{section.id}}  .faq-header {
+    font-size: {% case section.settings.heading_size %}
+                 {% when 'small' %}20px
+                 {% when 'medium' %}28px
+                 {% when 'large' %}36px
+               {% endcase %};
+    line-height: 100%;
+  }
+#shopify-section-{{section.id}}  .faq-section {
+    padding: {{ section.settings.padding_tb_mob }}px {{ section.settings.padding_lr_mob }}px;
+  }
+  #shopify-section-{{section.id}} .faq-item-s.faq-item-showvideo {
+    flex-direction: {% if section.settings.video_aligment == 'right' %}column-reverse{% else %}column{% endif %};
+  }
+}
+
+  
+</style>
+{{ 'faq.css' | asset_url | stylesheet_tag }}
+
+<div class="faq-container">
+  {%- if section.settings.title != blank or section.settings.under_title_text != blank -%}
+  <div class="faq-header-w">
+    {%- if section.settings.title != blank -%}
+    <div class="faq-header">{{ section.settings.title }}</div>
+    {%- endif -%}
+    {%- if section.settings.under_title_text != blank -%}
+    <div class="faq-subtitle">{{ section.settings.under_title_text }}</div>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+  <div class="faq-item-s {% if section.settings.show_video == true %}faq-item-showvideo{% endif %}">
+    {% if section.settings.show_video == true %}
+    <div class="faq-item-video">
+      {{ section.settings.video | video_tag: controls: true, image_size: '1200x', class: 'faq-item-video-desk' }}
+      {% if section.settings.video_mob == blank %}
+        {{ section.settings.video | video_tag: controls: true, image_size: '800x', class: 'faq-item-video-mob' }}
+      {% else %}
+        {{ section.settings.video_mob | video_tag: controls: true, image_size: '800x', class: 'faq-item-video-mob' }}
+      {% endif %}
+    </div>
+    {% endif %}
+    <div class="faq-item-w">
+    {% for block in section.blocks %}
+      <div class="faq-item {% if forloop.first %}open{% endif %}">
+        <div class="faq-question">{{ block.settings.title }} <span class="arrow">{% render 'faq_arrow_icon' %}</span></div>
+        <div class="faq-answer">{{ block.settings.text }}</div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('#shopify-section-{{section.id}} .faq-question').forEach(item => {
+    item.addEventListener('click', () => {
+      const parent = item.parentNode;
+      document.querySelectorAll('#shopify-section-{{section.id}} .faq-item').forEach(faq => {
+        if (faq !== parent) {
+          faq.classList.remove('open');
+        }
+      });
+      parent.classList.toggle('open');
+    });
+  });
+</script>
+{% schema %}
+{
+  "name": "FAQ Section",
+  "class": "faq-section",
+  "settings": [
+     {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<h2>FREQUENTLY ASKED QUESTIONS</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "under_title_text",
+      "label": "Subtitle",
+      "default": "<h3>Got questions about our services? Find your answers here.</h3>"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+      {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+     {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "headline_typography",
+      "label": "Headline Typography",
+      "options": [
+        { "value": "uppercase", "label": "AA" },
+        { "value": "capitalize", "label": "Aa" },
+        { "value": "lowercase", "label": "aa" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "select",
+      "id": "font_variant",
+      "label": "Font Family",
+      "options": [
+         { "value": "default", "label": "Default by theme" },
+        { "value": "custom", "label": "Own choice" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "font_picker",
+      "label": "Regular font",
+      "id": "title_font",
+      "default": "montserrat_n4"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "full", "label": "Full Width" },
+        { "value": "contained", "label": "Contained" }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_desk",
+      "label": "Horizontal Padding",
+      "info": "for desktop",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+       {
+      "type": "range",
+      "id": "padding_tb_desk",
+      "label": "Vertical Padding",
+      "info": "for desktop",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_mob",
+      "label": "Horizontal Padding",
+      "info": "for mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+       {
+      "type": "range",
+      "id": "padding_tb_mob",
+      "label": "Vertical Padding",
+      "info": "for mobile",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#696969"
+    },
+    {
+      "type": "select",
+      "id": "display_on",
+      "label": "Display On",
+      "options": [
+        { "value": "all", "label": "All Devices" },
+        { "value": "mobile_only", "label": "Mobile Only" },
+        { "value": "desktop_only", "label": "Desktop Only" }
+      ],
+      "default": "all"
+    },
+   
+    {
+      "type": "header",
+      "content": "Video Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_video",
+      "label": "Show Video",
+      "default": false
+    },
+    {
+      "type": "radio",
+      "id": "video_aligment",
+      "label": "Video Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "video",
+      "id": "video_mob",
+      "label": "Video mobile"
+    },
+    {
+      "type": "header",
+      "content": "Blocks Settings"
+    },
+    {
+      "type": "color",
+      "id": "faq_background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "faq_border_color",
+      "label": "Border Color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "title_color_block",
+      "label": "Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color_block",
+      "label": "Text Color",
+      "default": "#696969"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_block",
+      "name": "faq block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title For Block"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text For Block"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Section",
+      "category": "Info",
+      "blocks": [
+        {
+          "type": "faq_block", "settings": {"title":"LOREM IPSUM DOLOR SIT AMET?","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "}
+        },
+        {
+          "type": "faq_block", "settings": {"title":"LOREM IPSUM DOLOR SIT AMET?","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "}
+        },
+        {
+          "type": "faq_block", "settings": {"title":"LOREM IPSUM DOLOR SIT AMET?","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "}
+        },
+        {
+          "type": "faq_block", "settings": {"title":"LOREM IPSUM DOLOR SIT AMET?","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "}
+        },
+        {
+          "type": "faq_block", "settings": {"title":"LOREM IPSUM DOLOR SIT AMET?","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "}
+        },
+        {
+          "type": "faq_block", "settings": {"title":"LOREM IPSUM DOLOR SIT AMET?","text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "}
+        },
+      ],
+    }
+  ]
+}
+{% endschema %}

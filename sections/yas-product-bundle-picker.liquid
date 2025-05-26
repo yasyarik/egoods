@@ -1,0 +1,200 @@
+<div class="content-section pack-options-section" data-section-type="content">
+  <style>
+    .pack-options-section .pack{
+      border-radius: {{ section.settings.container_radius }}px;
+      box-shadow: {% if section.settings.container_styling == "shadow" %}{{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_blur }}px {{ section.settings.box_shadow_spread }}px {{ section.settings.box_shadow_color }}{% else %}none{% endif %};
+      border: {% if section.settings.container_styling == "card" %} {{ section.settings.card_border }}px solid {{ section.settings.card_border_color }}{% else %}none{% endif %};
+    }
+    .pack-options-section .pack.active,
+    .pack-options-section .pack:hover{
+      border-color: {{ section.settings.card_border_color_active }};
+    }
+    .pack-options-section .pack.active:after{
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      content: '';
+      opacity: 0.1;
+      background: {{ section.settings.card_border_color_active }};
+    }
+    .product-info-section .rating .rating-star{
+      color: {{ section.settings.star_color }};
+    }
+    .product-info-section .rating .rating-text{
+      color: {{ section.settings.review_color }};
+    }
+    .pack-options-section .discount-label{
+      color: {{ section.settings.discount_color }};
+      background-color: {{ section.settings.discount_color_bg }}
+    }
+    .pack-options-section .pack-quantity{
+      color: {{ section.settings.price_color }};
+      background-color: {{ section.settings.price_color_bg }}
+    }
+  </style>
+  <pac-section class="packs">
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        <div class="pack {% if forloop.first %}active{% endif %}" data-pack-id="{{ block.id }}">
+          <!-- Discount label -->
+          {% if block.settings.discount_label != blank %}
+            <span class="discount-label">{{ block.settings.discount_label }}</span>
+          {% endif %}
+
+          <!-- Pack image -->
+          <div class="pack-image">
+            {% if block.settings.pack_image %}
+              <img src="{{ block.settings.pack_image | img_url: '200x200' }}" alt="{{ block.settings.pack_title | escape }}">
+            {% else %}
+              <div class="placeholder-image"></div>
+            {% endif %}
+          </div>
+
+          <!-- Pack title -->
+          <h4 class="pack-title">{{ block.settings.pack_title | default: "Pack Option" }}</h4>
+
+          <!-- Pack quantity -->
+          <div class="pack-quantity" data-packquntity="{{ block.settings.pack_quantity }}">{{ block.settings.pack_quantity_text | default: "1 Pack" }}</div>
+          <div class="pack-shipping" style="color: {{ section.settings.pack_shipping_txt }}; background: {{ section.settings.pack_shipping_bg }};">{{ block.settings.pack_shipping }}</div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No pack options available. Add some in the customizer.</p>
+    {% endif %}
+  </pac-section>
+</div>
+
+{% schema %}
+{
+  "name": "Pack Options",
+  "settings": [
+
+        {
+        "type": "header",
+          "content": "Cards Settings"
+        },
+        { "type": "select", "id": "container_styling", "label": "Container Styling", "options": [{ "value": "no_card", "label": "No Card" }, { "value": "card", "label": "Card" }, { "value": "shadow", "label": "Shadow" }], "default": "card" },
+        {
+          "type": "range",
+          "id": "box_shadow_offset",
+          "label": "Box shadow offset",  
+          "min": -10,
+          "max": 10,
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "box_shadow_blur",
+          "label": "Box shadow blur",  
+          "min": 0,
+          "max": 15,
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "box_shadow_spread",
+          "label": "Box shadow spread",  
+          "min": 0,
+          "max": 15,
+          "default": 1
+        },
+        { "type": "color", "id": "box_shadow_color", "label": "Box shadow color", "default": "#000000" },   
+        {
+          "type": "range",
+          "id": "card_border",
+          "label": "Card border",
+          "info": "Container Styling Card",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 1
+        },
+        { "type": "color", "id": "card_border_color", "label": "Card border color", "default": "#000" },
+        { "type": "range", "id": "container_radius", "label": "Container Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 },
+        { "type": "color", "id": "pack_shipping_bg", "label": "Pack Shipping Background", "default": "#c4c4c4" },
+        { "type": "color", "id": "pack_shipping_txt", "label": "Pack Shipping Text ", "default": "#000" },
+        { "type": "color", "id": "card_border_color_active", "label": "Card border color active", "default": "#3eed53" },
+        {
+          "type": "color", 
+          "id": "discount_color", 
+          "label": "Discount Label Color", 
+          "default": "#fff" 
+        },
+        {
+          "type": "color", 
+          "id": "discount_color_bg", 
+          "label": "Discount Label Color Bg", 
+          "default": "#000000" 
+        },
+        {
+          "type": "color", 
+          "id": "price_color", 
+          "label": "Price Label Color", 
+          "default": "#fff" 
+        },
+        {
+          "type": "color", 
+          "id": "price_color_bg", 
+          "label": "Price Label Color Bg", 
+          "default": "#000000" 
+        }   
+  ],
+  "blocks": [
+    {
+      "type": "pack_option",
+      "name": "Product Pack Options",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "pack_image",
+          "label": "Pack Image",
+          "info": "Recommended size: 200x200px"
+        },
+        {
+          "type": "text",
+          "id": "pack_title",
+          "label": "Pack Title",
+          "default": "1 Pack"
+        },
+        {
+          "type": "text",
+          "id": "pack_quantity_text",
+          "label": "Pack Quantity text",
+          "default": "1 Pack"
+        },
+        {
+          "type": "number",
+          "id": "pack_quantity",
+          "label": "Pack Quantity",
+          "default": 1
+        },
+        {
+          "type": "text",
+          "id": "discount_label",
+          "label": "Discount Label",
+          "info": "Leave blank to hide. Example: 'Most Popular', 'Best Value'"
+        },
+        {
+          "type": "text",
+          "id": "pack_shipping",
+          "label": "Pack Shipping",
+          "default": "Paid shipping"
+        },
+          
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Pack Options",
+      "category": "Products Sections",
+      "blocks": []
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

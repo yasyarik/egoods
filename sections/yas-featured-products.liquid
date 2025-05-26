@@ -1,0 +1,414 @@
+<!-- 1. Inline CSS in your section -->
+<style>
+  /* Custom font-face if using a custom font variant */
+  {% if section.settings.font_variant == 'custom' %}
+    {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+    {{ section.settings.title_font | font_face: font_display: 'swap' }}
+    {{ body_font_bold | font_face: font_display: 'swap' }}
+    {{ body_font_italic | font_face: font_display: 'swap' }}
+    {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+    {{ settings.type_header_font | font_face: font_display: 'swap' }}
+    #shopify-section-{{section.id}} * {
+      font-family: {{ section.settings.title_font.family }};
+    }
+  {% endif %}
+
+  /* Section display, background, padding, text color */
+  #shopify-section-{{ section.id }} {
+    display:
+      {% case section.settings.display_on %}
+        {% when 'all' %}block
+        {% when 'mobile_only' %}none
+        {% when 'desktop_only' %}block
+      {% endcase %};
+    background-color: {{ section.settings.background_color }};
+    padding: {{ section.settings.padding_tb_desk }}px {{ section.settings.padding_lr_desk }}px;
+    color: {{ section.settings.text_color }};
+  }
+
+  /* Mobile: display and padding, grid columns */
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      display:
+        {% case section.settings.display_on %}
+          {% when 'all' %}block
+          {% when 'mobile_only' %}block
+          {% when 'desktop_only' %}none
+        {% endcase %};
+      padding: {{ section.settings.padding_tb_mob }}px {{ section.settings.padding_lr_mob }}px;
+    }
+    #shopify-section-{{ section.id }} .products-grid {
+      grid-template-columns: repeat(auto-fit, minmax(calc((100% / {{ section.settings.column_prod_mob }}) - 20px), 1fr));
+    }
+  }
+
+  /* Inner wrapper max-width */
+  #shopify-section-{{ section.id }} .featured-products-section {
+    max-width:
+      {% if section.settings.section_width == 'full' %}
+        100%;
+      {% else %}
+        {{ settings.page_width }}px;
+          margin: 0 auto;
+      {% endif %};
+  }
+
+  /* Section title typography */
+  #shopify-section-{{ section.id }} .section-title {
+    font-size:
+      {% case section.settings.heading_size %}
+        {% when 'small' %}36px
+        {% when 'medium' %}45px
+        {% when 'large' %}60px
+      {% endcase %};
+    text-transform: {{ section.settings.headline_typography }};
+    color: {{ section.settings.text_color }};
+  }
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} .section-title {
+      font-size:
+        {% case section.settings.heading_size %}
+          {% when 'small' %}20px
+          {% when 'medium' %}28px
+          {% when 'large' %}36px
+        {% endcase %};
+    }
+  }
+
+  /* Section subtitle colors & font */
+  #shopify-section-{{ section.id }} .section-subtitle {
+    color: {{ section.settings.subtitle_color }};
+    font-family: {{ section.settings.title_font.family }};
+  }
+
+  /* Product-item dynamic styling */
+  #shopify-section-{{ section.id }} .product-item {
+    border-radius: {{ section.settings.container_radius }}px;
+    {% if section.settings.container_styling == 'shadow' %}
+    box-shadow: {{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_offset }}px {{ section.settings.box_shadow_blur }}px {{ section.settings.box_shadow_spread }}px {{ section.settings.box_shadow_color }};
+    {% endif %}
+    {% if section.settings.container_styling == 'card' %}
+    border: {{ section.settings.card_border }}px solid {{ section.settings.card_border_color }};
+    {% endif %}
+    background-color: {{ section.settings.card_background }};
+  }
+
+  /* Product-info order & padding */
+  #shopify-section-{{ section.id }} .product-info {
+    order:
+      {% if section.settings.mobile_layout == 'image_first' %}
+        2
+      {% else %}
+        1
+      {% endif %};
+    padding: {{ section.settings.card_padding }}px;
+  }
+
+  /* Button colors & radius */
+  #shopify-section-{{ section.id }} .btn {
+    border-radius: {{ section.settings.button_radius }}px;
+    color: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+    background-color: {% if section.settings.button_color != 'transparent' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
+  }
+  #shopify-section-{{ section.id }} .btn svg path {
+    fill: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+  }
+
+  /* Product-title dynamic clamp */
+  #shopify-section-{{ section.id }} .product-title {
+    text-transform: {{ section.settings.card_title_typography }};
+    {% if section.settings.card_title_line %}
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    {% endif %}
+  }
+</style>
+
+
+
+<section class="featured-products-section">
+  <div class="content-wrapper">
+    {%- if section.settings.title != blank or section.settings.under_title_text != blank -%}
+    <div class="featured-header-w">
+      {%- if section.settings.title != blank -%}
+      <div class="section-title">{{ section.settings.title }}</div>
+      {%- endif -%}
+      {%- if section.settings.under_title_text != blank -%}
+      <div class="section-subtitle">{{ section.settings.under_title_text }}</div>
+      {%- endif -%}
+    </div>
+    {%- endif -%}
+
+    <div class="products-grid">
+      {% for block in section.blocks %}
+        {% assign product = block.settings.product %}
+        {% if product != blank %}
+          <div class="product-item" {% if section.settings.card_clickable == true %} onclick="location.href='{{ product.url }}'"{% endif %}>
+            <div class="product-image-wrapper {% if section.settings.secondary_image_highlight and product.images[1] %}has_second-img{% endif %}">
+              <img class="primary-image" src="{{ product.featured_image | img_url: '600x' }}" alt="{{ product.title }}">
+              {% if section.settings.secondary_image_highlight and product.images[1] %}
+                <img class="secondary-image" src="{{ product.images[1] | img_url: '600x' }}" alt="Secondary image">
+              {% endif %}
+            </div>
+            <div class="product-info">
+              {% if section.settings.show_reviews %}
+                <div class="product-reviews">
+                  <span>{% for i in (1..block.settings.star_count) -%}{% render 'review-stars' %}{%- endfor -%}</span> {{ block.settings.review_text }}
+                </div>
+              {% endif %}
+              <h3 class="product-title">{{ product.title }}</h3>
+              <p>
+                {% if product.compare_at_price > product.price %}
+                  <span class="product-compare-price">{{ product.compare_at_price | money }}</span>
+                {% endif %}
+                <span class="product-price">{{ product.price | money }}</span>
+              </p>
+              
+              {% if section.settings.show_cta %}
+                <button class="btn" onclick="location.href='{{ product.url }}'">{{ section.settings.text_btn_card }} {% if section.settings.show_arrow == true %}{% render 'icon_arrow_submit2' %}{% endif %}</button>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% if section.settings.view_more_url != blank or section.settings.view_more_btn != blank %}
+    <div class="viewmore_btn-w">
+      <a href="{{ section.settings.view_more_url }}" class="viewmore_btn">{{ section.settings.view_more_btn }}</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Products Section",
+  "class": "featured-product-grid",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<h2>Featured Products</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "under_title_text",
+      "label": "Subtitle",
+      "default": "<h3>Irresistible Charm with Axe's Exquisite Range of Unbeatable Products!</h3>"
+    },
+    
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+     { "type": "color", 
+       "id": "background_color", 
+       "label": "Background color", 
+       "default": "transparent" 
+     },
+     { "type": "select", 
+       "id": "heading_size", 
+       "label": "Heading Size", 
+       "options": [{ "value": "small", "label": "Small" }, { "value": "medium", "label": "Medium" }, { "value": "large", "label": "Large" }], "default": "medium" 
+     },
+   { "type": "select", "id": "headline_typography", "label": "Headline Typography", "options": [{ "value": "uppercase", "label": "AA" }, { "value": "capitalize", "label": "Aa" }, { "value": "lowercase", "label": "aa" }], "default": "capitalize" },
+
+    {
+      "type": "select",
+      "id": "font_variant",
+      "label": "Font Family",
+      "options": [
+        { "value": "default", "label": "Default by theme" },
+        { "value": "custom", "label": "Own choice" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "font_picker",
+      "label": "Regular Font",
+      "id": "title_font",
+      "default": "montserrat_n4"
+    },
+
+    { "type": "color", "id": "text_color", "label": "Title Color", "default": "#000000" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "full", "label": "Full Width" },
+        { "value": "contained", "label": "Contained" }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_desk",
+      "label": "Horizontal Padding",
+      "info": "for desktop",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+       {
+      "type": "range",
+      "id": "padding_tb_desk",
+      "label": "Vertical Padding",
+      "info": "for desktop",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_mob",
+      "label": "Horizontal Padding",
+      "info": "for mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_tb_mob",
+      "label": "Vertical Padding",
+      "info": "for mobile",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    { "type": "select", "id": "display_on", "label": "Display On", "options": [{ "value": "all", "label": "All Devices" }, { "value": "mobile_only", "label": "Mobile Only" }, { "value": "desktop_only", "label": "Desktop Only" }], "default": "all" },
+      {
+      "type": "header",
+      "content": "Product Cards Settings"
+    },
+    { "type": "checkbox", "id": "secondary_image_highlight", "label": "Secondary Image On Hover", "default": false },
+    { "type": "checkbox", "id": "show_reviews", "label": "Show Review Stars", "default": true },
+    { "type": "checkbox", "id": "card_title_line", "label": "Card title two line", "default": true },
+    { "type": "select", "id": "card_title_typography", "label": "Card title Typography", "options": [{ "value": "uppercase", "label": "AA" }, { "value": "capitalize", "label": "Aa" }, { "value": "lowercase", "label": "aa" }], "default": "capitalize" },
+    { "type": "checkbox", "id": "card_clickable", "label": "Card clickable", "default": true },
+    { "type": "select", "id": "container_styling", "label": "Container Styling", "options": [{ "value": "no_card", "label": "No Card" }, { "value": "card", "label": "Card" }, { "value": "shadow", "label": "Shadow" }], "default": "card" },
+    {
+      "type": "range",
+      "id": "box_shadow_offset",
+      "label": "Box shadow offset",  
+      "min": -10,
+      "max": 10,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "box_shadow_blur",
+      "label": "Box shadow blur",  
+      "min": 0,
+      "max": 15,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "box_shadow_spread",
+      "label": "Box shadow spread",  
+      "min": 0,
+      "max": 15,
+      "default": 1
+    },
+    { "type": "color", "id": "box_shadow_color", "label": "Box shadow color", "default": "#000000" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "transparent" },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Padding card info",
+      "min": 0,
+      "max": 25,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_border",
+      "label": "Card border",
+      "info": "Container Styling Card",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 0
+    },
+    { "type": "color", "id": "card_border_color", "label": "Card border color", "default": "#000" },
+    { "type": "range", "id": "container_radius", "label": "Container Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 },
+    { "type": "select", "id": "column_prod_mob", "label": "one column or two in mobile", "options": [{ "value": "1", "label": "One" }, { "value": "2", "label": "Two" }], "default": "2" },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    { "type": "checkbox", "id": "show_cta", "label": "Show CTA Button", "default": true },  
+    { "type": "checkbox", "id": "show_arrow", "label": "Show arrow Button", "default": true }, 
+    { "type": "range", "id": "button_radius", "label": "Button Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 },
+    { "type": "color", "id": "button_color", "label": "Button Color", "default": "transparent" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "transparent" },
+ 
+    {
+      "type": "text",
+      "id": "text_btn_card",
+      "label": "Text For Card Buttons",
+      "default": "SHOP NOW"
+    },
+   
+    {
+      "type": "text",
+      "id": "view_more_btn",
+      "label": "Text For View More link",
+      "default": "View More"
+    },
+    {
+      "type": "url",
+      "id": "view_more_url",
+      "label": "View More Url"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        { "type": "range", "id": "star_count", "label": "Star count", "min": 1, "max": 5, "step": 1, "default": 5 },
+        {
+          "type": "text",
+          "id": "review_text",
+          "label": "Review text",
+          "default": "10 reviews"
+        },
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products",
+      "category": "Product",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" }
+      ]
+    }
+  ]
+}
+{% endschema %}

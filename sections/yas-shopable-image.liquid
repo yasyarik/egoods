@@ -1,0 +1,899 @@
+<style>
+  /* Font overrides */
+  {% if section.settings.font_variant == 'custom' %}
+    {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+    {{ section.settings.title_font | font_face: font_display: 'swap' }}
+    {{ body_font_bold | font_face: font_display: 'swap' }}
+    {{ body_font_italic | font_face: font_display: 'swap' }}
+    {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+    {{ settings.type_header_font | font_face: font_display: 'swap' }}
+    #shopify-section-{{section.id}} * {
+      font-family: {{ section.settings.title_font.family }};
+    }
+  {% endif %}
+
+  /* Section wrapper */
+  #shopify-section-{{section.id}} {
+    display: {% case section.settings.display_on %}
+              {% when 'all' %} block;
+              {% when 'mobile_only' %} none;
+              {% when 'desktop_only' %} block;
+            {% endcase %};
+    padding: {{ section.settings.padding_y_desk }}px {{ section.settings.padding_x_desk }}px;
+    background-color: {{ section.settings.background_color }};
+    text-align: {{ section.settings.heading_align }};
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    width: 100%;
+    text-decoration: none;
+  }
+
+  #shopify-section-{{section.id}} .content-wrapper {
+    height: 100%;
+    margin: 0 auto;
+    max-width: {% if section.settings.section_width == 'full' %} 100%; {% else %} {{ settings.page_width }}px; {% endif %}
+    {% if section.settings.heading_type == 'top' %}
+    display: block;
+    position: relative;
+      {% else %}
+      display: flex;
+      flex-wrap: wrap;
+      gap:25px;
+    {% endif %}
+    text-align: {{ section.settings.heading_align }};
+    padding: 20px 0;
+  }
+
+  #shopify-section-{{section.id}} .heading {
+    {% if section.settings.section_width == 'full' %}
+    margin: 0 0;
+    {% endif %}
+    {% if section.settings.heading_type == 'top' %}
+    {% else %}
+    max-width: 440px;
+    align-content: center;
+    {% endif %}
+  }
+
+  #shopify-section-{{section.id}} .title *,
+  #shopify-section-{{section.id}} .subtitle *,
+  #shopify-section-{{section.id}} .uppertitle * {
+    margin: 0;
+  }
+
+  #shopify-section-{{section.id}} .title h2, 
+  #shopify-section-{{section.id}} .title h1, 
+  #shopify-section-{{section.id}} .title h3, 
+  #shopify-section-{{section.id}} .title p {
+    font-size: {% case section.settings.heading_size %}
+                 {% when 'small' %}36px
+                 {% when 'medium' %}45px
+                 {% when 'large' %}60px
+               {% endcase %};
+    text-transform: {{ section.settings.headline_typography }};
+    color: {{ section.settings.text_color }};
+    text-align: {% case section.settings.heading_align %}
+                  {% when 'left' %}left;
+                  {% when 'center' %}center;
+                  {% when 'right' %}right;
+                {% endcase %};
+    line-height: 110%;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  #shopify-section-{{section.id}} .subtitle h2, 
+  #shopify-section-{{section.id}} .subtitle h3, 
+  #shopify-section-{{section.id}} .subtitle p {
+     color: {{ section.settings.text_color }};
+    font-size: 20px;
+    font-weight: 400;
+    text-align: {% case section.settings.heading_align %}
+                  {% when 'left' %} left;
+                  {% when 'center' %} center;
+                  {% when 'right' %} right;
+                {% endcase %};
+    line-height: 150%;
+    margin-bottom: 20px;
+  }
+
+  #shopify-section-{{section.id}} .uppertitle {
+    display: flex;
+    justify-content: {% case section.settings.heading_align %}
+                      {% when 'left' %} left;
+                      {% when 'center' %} center;
+                      {% when 'right' %} right;
+                    {% endcase %};
+    align-items: center;
+    margin-bottom: 14.5px;
+  }
+
+  #shopify-section-{{section.id}} .uppertitle svg {
+    margin-bottom: 5px;
+    margin-left: 5px;
+  }
+
+  #shopify-section-{{section.id}} .uppertitle h2, 
+  #shopify-section-{{section.id}} .uppertitle h3, 
+  #shopify-section-{{section.id}} .uppertitle p {
+    color: {{ section.settings.text_color }};
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 150%;
+    order: 5;
+    margin-left: 11px;
+  }
+
+
+  .shopable-point .tooltip::after {
+        content: '';
+        position: absolute;
+ transform: translateX(-50%);
+    bottom: -12px;
+ 
+
+  }
+  .shopable-image-section {
+    position: relative;
+    text-align: center;
+    width: 100%;
+  }
+
+  .shopable-image-wrapper {
+    position: relative;
+    display: block;
+    max-width: 100%;
+    max-height: 600px;
+  }
+
+  .shopable-image {
+    width: 100%;
+    max-height: 600px;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: {{section.settings.image_round}}px;
+  }
+
+  .shopable-point {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .shopable-point::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    border: 2px solid {{section.settings.marker_color}};
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 2s infinite;
+    opacity: 0.6;
+  }
+
+  .shopable-point::before {
+    content: '+';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 48px;
+    height: 48px;
+    background: {{section.settings.marker_color}};
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    color: {{section.settings.marker_symbol}};
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .shopable-point .tooltip {
+    position: absolute;
+   
+    transform: translateX(-50%);
+    background: {{section.settings.tooltip_color}};
+    color: {{section.settings.ptext}};
+    padding: 20px;
+    border-radius: {{section.settings.ttip_round}}px;
+    font-size: 16px;
+    line-height: 24px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+ 
+ 
+    z-ndex: 999;
+  }
+{% for i in (1..50) %}
+   .prod{{i}} {
+     width: 372px;
+      height: 127px;
+      bottom: 70px;
+      
+    }
+  
+
+ 
+.noprod{{i}}
+  {
+   bottom: 70px;
+    width: 536px;
+    
+  }
+  
+  .shopable-point .tooltip-{{i}}::after
+  {
+  
+    content: '';
+    position: absolute;
+    transform: translateX(-50%);
+    bottom: -12px;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid {{section.settings.tooltip_color}};
+  }
+ {% endfor %}
+
+
+
+  
+  .tooltip2 {
+    position: absolute;
+    background: green;
+    color: {{section.settings.ptext}};
+    padding: 12px;
+    border-radius: {{section.settings.ttip_round}}px;
+    font-size: 14px;
+    line-height: 20px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: 999;
+    width: 100%;
+    height: 127px;
+    align-items: center;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(100% + 30px);
+    display: none;
+  }
+
+  .tooltip2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -10px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid green;
+  }
+
+  /* Desktop tooltip behavior */
+  @media (min-width: 769px) {
+    .shopable-point.shopable-point--open .tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+    .shopable-point:hover .tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+    .tooltip2 {
+      display: none;
+    }
+  }
+
+  /* Mobile tooltip behavior */
+  @media (max-width: 768px) {
+    .shopable-point .tooltip {
+      display: none;
+    }
+    .shopable-point[data-product="false"]:hover .tooltip {
+      opacity: 1;
+      visibility: visible;
+      display: block;
+     bottom: 54px;
+        left: -15px;
+        width: 187px;
+        position: absolute;
+    }
+    .shopable-point[data-product="false"].shopable-point--open .tooltip {
+      opacity: 1;
+      visibility: visible;
+      display: block;
+     bottom: 54px;
+        left: -15px;
+        width: 187px;
+        position: absolute;
+    }
+  }
+
+  .tooltip .product, 
+  .tooltip2 .product {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 31px;
+    height: 100%;
+  }
+
+  .tooltip .pinfo, 
+  .tooltip2 .pinfo {
+    width: calc(100% - 116px);
+    text-align: left;
+    align-content: center;
+  }
+
+  .tooltip .ptitle, 
+  .tooltip2 .ptitle {
+    font-size: 16px;
+    line-height: 150%;
+    font-weight: 600;
+    color: {{section.settings.ptitle}};
+  }
+
+  .tooltip .pprice, 
+  .tooltip2 .pprice {
+    font-size: 16px;
+    line-height: 150%;
+    font-weight: 600;
+    color: {{section.settings.pprice}};
+  }
+
+  .tooltip .pdescription, 
+  .tooltip2 .pdescription {
+    font-size: 14px;
+    line-height: 150%;
+    font-weight: 400;
+    color: {{section.settings.ptext}};
+    align-content: center;
+  }
+
+  .temp-marker {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: {{section.settings.marker_color}};
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+  }
+
+  .temp-marker::before {
+    content: '+';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: {{section.settings.tooltip_text}};
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  @keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    70% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+  }
+
+  @media (max-width: 768px) {
+    #shopify-section-{{section.id}} {
+      display: {% case section.settings.display_on %}
+                {% when 'all' %} block;
+                {% when 'mobile_only' %} block;
+                {% when 'desktop_only' %} none;
+              {% endcase %};
+      padding: {{ section.settings.padding_y_mob }}px {{ section.settings.padding_x_mob }}px;
+    }
+
+    #shopify-section-{{section.id}} .content-wrapper {
+      
+    }
+
+    #shopify-section-{{section.id}} .heading {
+      margin: 0;
+      padding: 0;
+      {% if section.settings.heading_type == 'top' %}{% else %}
+      width: 100%;
+      {% endif %}
+    }
+
+    #shopify-section-{{section.id}} .title h2, 
+    #shopify-section-{{section.id}} .title h1, 
+    #shopify-section-{{section.id}} .title h3, 
+    #shopify-section-{{section.id}} .title p {
+      font-size: {% case section.settings.heading_size %}
+                  {% when 'small' %}20px
+                  {% when 'medium' %}28px
+                  {% when 'large' %}36px
+                {% endcase %};
+      line-height: 100%;
+      margin-bottom: 16px;
+    }
+
+    #shopify-section-{{section.id}} .subtitle h2, 
+    #shopify-section-{{section.id}} .subtitle h3, 
+    #shopify-section-{{section.id}} .subtitle p {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    #shopify-section-{{section.id}} .uppertitle h2, 
+    #shopify-section-{{section.id}} .uppertitle h3, 
+    #shopify-section-{{section.id}} .uppertitle p {
+      font-size: 12px;
+      line-height: 16px;
+      margin-left: 3px;
+    }
+
+    #shopify-section-{{section.id}} .uppertitle {
+      margin-bottom: 16px;
+    }
+
+    #shopify-section-{{section.id}} .uppertitle svg {
+      max-width: 12px;
+      margin-left: 0px;
+      margin-bottom: 3px;
+    }
+
+    .shopable-image-wrapper {
+      margin-bottom: 25px;
+    }
+
+    .shopable-point {
+      width: 45px;
+      height: 45px;
+    }
+
+    .shopable-point::before {
+      width: 36px;
+      height: 36px;
+      font-size: 14px;
+    }
+
+    .shopable-point::after {
+      width: 45px;
+      height: 45px;
+    }
+
+    .temp-marker {
+      width: 15px;
+      height: 15px;
+    }
+
+    .temp-marker::before {
+      font-size: 10px;
+    }
+    .product
+    {
+      height: 100%;
+    }
+    .tooltip2{
+      transform: unset;
+      left: 0px;
+      position: relative;
+    }
+  }
+</style>
+
+
+
+<div class="content-wrapper">
+  {%- if section.settings.uppertitle != blank or section.settings.subtitle or section.settings.title != blank -%}
+    <div class="heading">
+      <div class="title">
+        {%- if section.settings.title != blank -%}
+          {{ section.settings.title }}
+        {%- endif -%}
+      </div>
+      <div class="subtitle">
+        {%- if section.settings.subtitle != blank -%}
+          {{ section.settings.subtitle }}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="shopable-image-section">
+    <div class="shopable-image-wrapper">
+      {% if section.settings.image %}
+        <img src="{{ section.settings.image | img_url: 'master' }}" alt="Shopable Image" class="shopable-image" id="shopable-image">
+      {% else %}
+        <p>Please select an image in the customizer.</p>
+      {% endif %}
+  
+      {% for block in section.blocks %}
+              {% assign product = block.settings.product %}
+  
+      
+      
+          {% if block.settings.x_coord < 15 %}
+         
+            {% if block.settings.product != blank %}
+           <style>
+           .shopable-point .tooltip-{{ forloop.index }}::after {left: 30%;}
+          .prod{{forloop.index}}{left: 100px;}      </style>
+              {% else %}
+           
+      <style>    .shopable-point .tooltip-{{ forloop.index }}::after {left: 13%;}
+               .noprod{{forloop.index}} {left:228px;}
+        @media (max-width: 768px) {
+               .shopable-point[data-product="false"]:hover .tooltip-{{ forloop.index }} {left:92px;}
+          }
+      </style>
+              {%endif%}
+           
+        
+    {% else %}
+      
+       {% if block.settings.product != blank %}
+          <style>
+        .shopable-point .tooltip-{{ forloop.index }}::after {left: 63%}
+      .prod{{forloop.index}}{left: -18px;}</style>
+         {% else %}
+       
+          <style> .shopable-point .tooltip-{{ forloop.index }}::after {left: 78%;}
+               .noprod{{forloop.index}} {left:-116px;}
+          
+          </style>
+              {%endif%}
+
+    {% endif %}
+    
+
+                <div class="shopable-point" 
+                     style="left: {{ block.settings.x_coord }}%; top: {{ block.settings.y_coord }}%; z-index: 1;" 
+                     data-block-id="{{ block.id }}"
+                     data-product="{% if block.settings.product == blank %}false{% else %}true{% endif %}">
+
+                  
+              
+                  <span class="tooltip {% if block.settings.product !=blank %}prod{{ forloop.index }}{% else %}noprod{{ forloop.index }}{% endif %} tooltip-{{ forloop.index }}">
+                    {% if product == blank %}
+                      {{ block.settings.tooltip_text }}
+                    {% else %}
+                      <div class="product" onclick="window.location.href='{{ product.url }}'">
+                        <div class="pimage">
+                          <img src="{{ product.featured_image | img_url: '85x85' }}" alt="{{ product.title }}"/>
+                        </div>
+                        <div class="pinfo">
+                          <div class="ptitle">{{ product.title | truncate: 20}}</div>
+                          <div class="pprice">{{ product.price | money_with_currency }}</div>
+                          <div class="pdescription">{{ product.description | truncate: 37}}</div>
+                        </div>
+                      </div>
+                    {% endif %}
+                  </span>
+               
+                
+                </div>
+         
+      {% endfor %}
+    </div>
+
+  
+    <span class="tooltip2" id="tooltip2">
+      <div class="product"  onclick="window.location.href='{{ product.url }}'">
+        <div class="pimage" id="tooltip2-image"></div>
+        <div class="pinfo">
+          <div class="ptitle" id="tooltip2-title"></div>
+          <div class="pprice" id="tooltip2-price"></div>
+          <div class="pdescription" id="tooltip2-description"></div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const pointsToll = document.querySelectorAll(".shopable-point");
+  const tooltip2 = document.getElementById("tooltip2");
+  let activePoint = null;
+
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+ 
+  pointsToll.forEach((point) => {
+    point.addEventListener("click", function (e) {
+    
+      if (e.target.closest(".tooltip") || e.target.closest("#tooltip2")) return;
+
+      const isOpen = this.classList.contains("shopable-point--open");
+
+      
+      pointsToll.forEach((p) => p.classList.remove("shopable-point--open"));
+
+         if (!isOpen) {
+        this.classList.add("shopable-point--open");
+      }
+
+     
+      if (isMobile()) {
+        const hasProduct = point.getAttribute('data-product') === 'true';
+
+      
+        if (activePoint === point) {
+          tooltip2.style.opacity = '0';
+          tooltip2.style.visibility = 'hidden';
+          tooltip2.style.display = 'none';
+          activePoint = null;
+          return;
+        }
+
+          if (hasProduct) {
+          const productData = point.querySelector('.tooltip .product');
+          if (productData) {
+            const image = productData.querySelector('.pimage img')?.src || '';
+            const title = productData.querySelector('.ptitle')?.textContent || '';
+            const price = productData.querySelector('.pprice')?.textContent || '';
+            const description = productData.querySelector('.pdescription')?.textContent || '';
+
+           
+            const originalOnClick = productData.getAttribute('onclick');
+            let productLink = '';
+            if (originalOnClick && originalOnClick.includes("window.location.href")) {
+              const match = originalOnClick.match(/window\.location\.href\s*=\s*['"](.+?)['"]/);
+              if (match && match[1]) {
+                productLink = match[1];
+              }
+            }
+
+         
+            document.getElementById('tooltip2-image').innerHTML = image ? `<img src="${image}" alt="${title}"/>` : '';
+            document.getElementById('tooltip2-title').textContent = title;
+            document.getElementById('tooltip2-price').textContent = price;
+            document.getElementById('tooltip2-description').textContent = description;
+
+            
+            const tooltip2Product = tooltip2.querySelector('.product');
+            if (tooltip2Product && productLink) {
+              tooltip2Product.setAttribute('onclick', `window.location.href='${productLink}'`);
+            }
+
+            tooltip2.style.opacity = '1';
+            tooltip2.style.visibility = 'visible';
+            tooltip2.style.display = 'block';
+            activePoint = point;
+          }
+        }
+      }
+    });
+  });
+
+ 
+  document.addEventListener("click", function (e) {
+    const clickedInsidePoint = e.target.closest(".shopable-point");
+    const clickedInsideTooltip2 = e.target.closest("#tooltip2");
+
+    if (!clickedInsidePoint && !clickedInsideTooltip2) {
+      pointsToll.forEach((p) => p.classList.remove("shopable-point--open"));
+
+      if (isMobile()) {
+        tooltip2.style.opacity = '0';
+        tooltip2.style.visibility = 'hidden';
+        tooltip2.style.display = 'none';
+        activePoint = null;
+      }
+    }
+  });
+
+
+  if (window.Shopify && Shopify.designMode) {
+    const image = document.getElementById('shopable-image');
+    if (image) {
+      image.addEventListener('click', function (e) {
+        e.preventDefault();
+        const rect = image.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
+        const xCoord = Math.round(xPercent * 100) / 100;
+        const yCoord = Math.round(yPercent * 100) / 100;
+
+        const tempMarker = document.createElement('div');
+        tempMarker.className = 'temp-marker';
+        tempMarker.style.left = `${xCoord}%`;
+        tempMarker.style.top = `${yCoord}%`;
+        image.parentElement.appendChild(tempMarker);
+
+        setTimeout(() => {
+          tempMarker.remove();
+        }, 3000);
+
+        const points = document.querySelectorAll('.shopable-point');
+        let targetBlockId = null;
+
+        if (points.length > 0) {
+          targetBlockId = points[points.length - 1].getAttribute('data-block-id');
+        }
+
+        if (targetBlockId) {
+          Shopify.designMode.postMessage({
+            type: 'updateBlock',
+            blockId: targetBlockId,
+            data: {
+              x_coord: xCoord,
+              y_coord: yCoord
+            }
+          });
+        } else {
+          alert('Please add a "Point" block in the customizer first, then click the image to set coordinates.');
+        }
+      });
+    }
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Shopable Image",
+  "class": "shopable",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    { 
+      "type": "select", 
+      "id": "heading_type", 
+      "label": "Heading Type", 
+      "options": [{ "value": "side", "label": "Side" }, { "value": "top", "label": "Top" }], 
+      "default": "top" 
+    },
+    { 
+      "type": "select", 
+      "id": "heading_size", 
+      "label": "Heading Size", 
+      "options": [{ "value": "small", "label": "Small" }, { "value": "medium", "label": "Medium" }, { "value": "large", "label": "Large" }], 
+      "default": "medium" 
+    },
+    {
+      "type": "select", 
+      "id": "headline_typography", 
+      "label": "Headline Typography", 
+      "options": [
+        { "value": "uppercase", "label": "AA" }, 
+        { "value": "capitalize", "label": "Aa" }, 
+        { "value": "lowercase", "label": "aa" }
+      ], 
+      "default": "capitalize" 
+    },
+    {
+      "type": "color", 
+      "id": "text_color", 
+      "label": "Title Color", 
+      "default": "#000000" 
+    },    
+    { 
+      "type": "select", 
+      "id": "heading_align", 
+      "label": "Heading Alignment", 
+      "options": [
+        { "value": "left", "label": "Left" }, 
+        { "value": "center", "label": "Center" }, 
+        { "value": "right", "label": "Right" }
+      ], 
+      "default": "left" 
+    }, 
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "transparent" },
+    { "type": "select", "id": "font_variant", "label": "Font Family", "options": [{ "value": "default", "label": "Default by theme" }, { "value": "custom", "label": "Own choice" }], "default": "default" },
+    { "type": "font_picker", "label": "Regular Font", "id": "title_font", "default": "montserrat_n4" },
+  
+    { "type": "select", "id": "section_width", "label": "Section Width", "options": [{ "value": "full", "label": "Full Width" }, { "value": "contained", "label": "Contained" }], "default": "contained" },
+    { "type": "range", "id": "padding_x_desk", "label": "Horizontal Padding", "info": "for desktop", "min": 0, "max": 100, "step": 5, "default": 70 },
+    { "type": "range", "id": "padding_y_desk", "label": "Vertical Padding", "info": "for desktop", "min": 0, "max": 100, "default": 10 },
+    { "type": "range", "id": "padding_x_mob", "label": "Horizontal Padding", "info": "for mobile", "min": 0, "max": 100, "step": 5, "default": 15 },
+    { "type": "range", "id": "padding_y_mob", "label": "Vertical Padding", "info": "for mobile", "min": 0, "max": 50, "default": 7 },
+    { "type": "select", "id": "display_on", "label": "Display On", "options": [{ "value": "all", "label": "All Devices" }, { "value": "mobile_only", "label": "Mobile Only" }, { "value": "desktop_only", "label": "Desktop Only" }], "default": "all" },
+    { "type": "range", "id": "image_round", "label": "Image Round Corner", "min": 0, "max": 50, "step": 1, "default": 16 },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<h2>Value Proposition featuring benifit</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<h3>Ut enim ad minima veniam, quis nostrum exercitati onem ullam corporis suscipit laboriosam, commodi </h3>"
+    },
+    {
+      "type": "richtext",
+      "id": "uppertitle",
+      "label": "Uppertitle",
+      "default": "<h3>Reviewed by +100 Happy Customers </h3>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Tooltips Settings"
+    },
+    { "type": "color", "id": "marker_color", "label": "Marker Color", "default": "#000" },
+    { "type": "color", "id": "marker_symbol", "label": "Marker Plus Color", "default": "#fff" },
+    { "type": "color", "id": "tooltip_color", "label": "Tooltip Background", "default": "#E5E5E5" },
+    { "type": "color", "id": "tooltip_text", "label": "Tooltip Font Color", "default": "#000" },
+    { "type": "color", "id": "ptitle", "label": "Title Color", "default": "#fff" },
+    { "type": "color", "id": "ptext", "label": "Description/Text Color", "default": "#fff" },
+    { "type": "color", "id": "pprice", "label": "Price Color", "default": "#fff" },
+    { "type": "range", "id": "ttip_round", "label": "Tooltip Round Corner", "min": 0, "max": 50, "step": 1, "default": 16 }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tooltip_text",
+          "label": "Tooltip Text",
+          "default": "Product Name"
+        },
+        {
+          "type": "number",
+          "id": "x_coord",
+          "label": "X Coordinate (%)",
+          "default": 50,
+          "info": "Click on the image in the customizer to set coordinates."
+        },
+        {
+          "type": "number",
+          "id": "y_coord",
+          "label": "Y Coordinate (%)",
+          "default": 50,
+          "info": "Click on the image in the customizer to set coordinates."
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shopable Image",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

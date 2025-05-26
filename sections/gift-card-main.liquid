@@ -1,0 +1,314 @@
+{% assign current_variant = product.selected_or_first_available_variant%}
+<section class="gift-card pt-15 pb-35 py-lg-80">
+    <div class="container">
+        <div class="pure-g justify-content-md-between">
+            <div class="pure-u-1 pure-u-lg-1-2 pure-u-xl-1-2">
+                {% if product.featured_image.src != blank %}
+                    <div class="gift-card__img ratio16by9 mb-25 mb-lg-40">
+                        <img data-src="{{ product.featured_image.src | img_url: 'master' }}" class="pure-img lazyload" alt=""/>
+                    </div>
+                {% endif %}
+                {% assign productReviews = false %}
+                {% if section.blocks.size > 0 %}
+                    {% for block in section.blocks %}
+                        {% if block.type == "product-reviews" %}
+                            {% if block.settings.testimonial_image != blank and block.settings.description != blank %}
+                                {% assign productReviews = true %}
+                                {% break %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if productReviews %}
+                        <div class="testimonial testimonial--style-2 d-none d-lg-block">
+                            <div class="testimonial__slider arrow-md-none" data-flickity='{ "cellAlign": "left", "contain": true, "pageDots": false, "lazyLoad": 3 }'>
+                                {% for block in section.blocks %}
+                                    {% if block.type == "product-reviews" %}
+                                        {% if block.settings.testimonial_image != blank and block.settings.description != blank %}
+                                            <div class="testimonial__slider-item">
+                                                <div class="testimonial__author-thumbnail img-rounded">
+                                                    <img data-flickity-lazyload="{{ block.settings.testimonial_image | img_url: '148x' }}" class="pure-img" alt="" />
+                                                </div>
+                                                <div class="testimonial__slider-body">
+                                                    {% if block.settings.title != blank %}
+                                                        <h4 class="text-5 fw-400 text-dark d-block d-md-none">{{block.settings.title}}</h4>
+                                                    {% endif %}
+                                                    <div class="testimonial__info text-2">
+                                                        {{block.settings.description}}
+                                                    </div>
+                                                    {% if block.settings.name != blank %}
+                                                        <div class="testimonial__author text-1">
+                                                            <p>{{block.settings.name}}</p>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if block.settings.reviews_ratings != blank %}
+                                                        <div class="rating">
+                                                            <span class="rating__star">
+                                                                <img src="{{ block.settings.reviews_ratings | img_url: 'master' }}" alt="" loading="lazy" />
+                                                            </span>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="pure-u-1 pure-u-lg-1-2 pure-u-xl-5-12">
+                <div class="gift-card__content">
+                    {% if section.settings.show_reviews != blank %}
+                        <div class="rating">
+                            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                        </div>
+                    {% endif %}
+                    <h1 class="title">{{product.title}}</h1>
+                    <div class="product__meta" data-from-text="{{section.settings.from_only_text}}">
+                        <div class="gift-card__price">
+                            {{section.settings.from_only_text}} <span class="product__price-original"><b>{{current_variant.price | money}}</b></span>
+                            {%- if current_variant.compare_at_price > current_variant.price -%}
+                                <span class="product__price-sale">{{current_variant.compare_at_price | money }}</span>
+                            {%- endif -%}
+                        </div>
+                    </div>
+                    {% if product.description != blank %}
+                        <div class="product__desc">
+                            {{product.description}}
+                        </div>
+                    {% endif %}
+                    {% capture "form_classes" -%}
+                        gift-card__form product-form {%- if current_variant.available == false %} product-form--variant-sold-out {%- endif -%}
+                    {%- endcapture %}
+                    {% form 'product', product, class:form_classes, novalidate: 'novalidate', data-product-form: '' %}
+                        {% if product.has_only_default_variant %}
+                            <input type="hidden" name= "id" value="{{current_variant.id}}" class="single_variant_id" />
+                        {% else %}
+                            <div class="form-row">
+                                {% for option in product.options_with_values %}
+                                    <div class="product__{{optionName}} product__options product_gift_card_options">
+                                        <label class="form-label fw-700">{{section.settings.choose_text}} {{option.name}}</label>
+                                        <div class="radio-product-options">
+                                            {% for value in option.values %}
+                                                {% assign optionValue = value | downcase | handleize %}
+                                                {% assign optionId = optionName | append: "-option-" | append: optionValue %}
+                                                <div class="custom-radio">
+                                                    <input type="radio" id="{{optionId}}" class="option-radio" name="option-{{optionName}}" value="{{value}}" {% if option.selected_value == value %}checked="checked"{% endif %} />
+                                                    <label for="{{optionId}}">
+                                                        <span class="option-value-name">{{value}}</span>
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class="select" style="display: none !important;">
+                                  <select name="id" id="ProductSelect-{{ product.id }}" class="product-form__variants no-js">
+                                    {% for variant in product.variants %}
+                                      <option value="{{variant.id}}" 
+                                        data-availability="{% unless variant.available %}false{% else %}true{% endunless %}" 
+                                        data-available="{% if variant.available %}true{% else %}false{% endif %}" 
+                                        {% if current_variant.id == variant.id %}
+                                        selected="selected"
+                                        {% endif %}
+                                        {% if variant.inventory_quantity < 1 %}
+                                        data-available = false
+                                        {% else %}
+                                        data-available = true
+                                        {% endif %}
+                                        data-option1="{{variant.option1 }}"
+                                        data-option2="{{variant.option2 }}"
+                                        data-option3="{{variant.option3 }}" 
+                                        data-match="{{variant.title }}"
+                                        data-inventory="{{variant.inventory_quantity}}"
+                                        data-is-sale-price="{% if variant.compare_at_price > variant.price %}true{% else %}false{% endif %}"
+                                        data-sale-price="{{variant.price}}"
+                                        data-old-price="{% if variant.compare_at_price > variant.price %}{{variant.compare_at_price}}{% endif %}"
+                                        data-original-image="{{variant.image.src | img_url : 'master'}}" 
+                                      data-image-name="{{variant.image.src}}">{{variant.title}}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="form-row">
+                            <div class="gift-card__counter product__counter form-counter">
+                                <i class="form-counter__decrement">-</i>
+                                <input type="number" name="quantity" class="form-counter__output" min="1" value='1'>
+                                <i class="form-counter__increment">+</i> 
+                            </div>
+                            <div class="gift-card__button product__button">
+                                {%- if current_variant.available -%}
+                                    <button type="submit" class="btn btn--icon-hand product_atc_button" data-atc-text="{{ 'products.product.add_to_cart' | t }}" data-oos-text="{{ 'products.product.sold_out' | t }}">{{ 'products.product.add_to_cart' | t }}</button>
+                                {%- else -%}
+                                    <button type="submit" disabled="disabled" class="btn btn--icon-hand product_atc_button" data-atc-text="{{ 'products.product.add_to_cart' | t }}" data-oos-text="{{ 'products.product.sold_out' | t }}">{{ 'products.product.sold_out' | t }}</button>
+                                {%- endif -%}
+                                
+                                {%- if section.settings.show_dynamic_checkout -%}
+                                    <div class="dynamic_buttons_wrapper">
+                                        {{ form | payment_button }}
+                                    </div>
+                                {%- endif -%}
+                            </div>
+                        </div>
+                    {% endform %}
+                    {% if section.settings.enable_payment_icons %}
+                      {% if shop.enabled_payment_types != blank %}
+                        <div class="payment__ssl">
+                            <ul class="list list__payment">
+                                {% for type in shop.enabled_payment_types %}
+                                  <li class="icon--payment">
+                                    {{ type | payment_type_svg_tag: class:'icon icon--full-color' }}
+                                  </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                      {% else %}
+                        <div class="payment__ssl">
+                          {% if settings.payment_icon_1 != blank or settings.payment_icon_2 != blank or settings.payment_icon_3 != blank or settings.payment_icon_4 != blank or settings.payment_icon_5 != blank or settings.payment_icon_6 != blank %}
+                            <ul class="list list__payment">
+                              {% if settings.payment_icon_1 != blank %}
+                                <li><img data-src="{{ settings.payment_icon_1 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                              {% endif %}
+                              {% if settings.payment_icon_2 != blank %}
+                                <li><img data-src="{{ settings.payment_icon_2 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                              {% endif %}
+                              {% if settings.payment_icon_3 != blank %}
+                                <li><img data-src="{{ settings.payment_icon_3 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                              {% endif %}
+                              {% if settings.payment_icon_4 != blank %}
+                                <li><img data-src="{{ settings.payment_icon_4 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                              {% endif %}
+                              {% if settings.payment_icon_5 != blank %}
+                                <li><img data-src="{{ settings.payment_icon_5 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                              {% endif %}
+                              {% if settings.payment_icon_6 != blank %}
+                                <li><img data-src="{{ settings.payment_icon_6 | img_url: 'master'}}" class="pure-img lazyload" alt=""/></li>
+                              {% endif %}
+                            </ul>
+                          {% endif %}
+                          {% if section.settings.ssl_checkout_icon_image != blank %}
+                            <img data-src="{{ section.settings.ssl_checkout_icon_image | img_url: 'master' }}" class="pure-img lazyload ssl-img" alt="" />
+                          {% endif %}
+                        </div>
+                      {% endif %}
+                    {% endif %}
+                </div>
+                {% if productReviews %}
+                    <div class="testimonial testimonial--style-2 d-block d-lg-none">
+                        <div class="testimonial__slider arrow-md-none" data-flickity='{ "cellAlign": "left", "contain": true, "pageDots": false, "lazyLoad": 3 }'>
+                            {% for block in section.blocks %}
+                                {% if block.type == "product-reviews" %}
+                                    {% if block.settings.testimonial_image != blank and block.settings.description != blank %}
+                                        <div class="testimonial__slider-item">
+                                            <div class="testimonial__author-thumbnail img-rounded">
+                                                <img data-flickity-lazyload="{{ block.settings.testimonial_image | file_url }}" class="pure-img" alt="" />
+                                            </div>
+                                            <div class="testimonial__slider-body">
+                                                {% if block.settings.title != blank %}
+                                                    <h4 class="text-5 fw-400 text-dark d-block d-md-none">{{block.settings.title}}</h4>
+                                                {% endif %}
+                                                <div class="testimonial__info text-2">
+                                                    {{block.settings.description}}
+                                                </div>
+                                                {% if block.settings.name != blank %}
+                                                    <div class="testimonial__author text-1">
+                                                        <p>{{block.settings.name}}</p>
+                                                    </div>
+                                                {% endif %}
+                                                {% if block.settings.reviews_ratings != blank %}
+                                                    <div class="rating">
+                                                        <span class="rating__star">
+                                                            <img src="{{ block.settings.reviews_ratings | img_url: 'master' }}" alt="" loading="lazy" />
+                                                        </span>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% schema %}
+{
+  "name": "Gift card details",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show Flash",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "from_only_text",
+      "label": "From only text",
+      "default": "From only"
+    },
+    {
+      "type": "text",
+      "id": "choose_text",
+      "label": "Choose text",
+      "default": "Choose"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "default": true,
+      "label": "t:sections.main-product.blocks.buy_buttons.settings.show_dynamic_checkout.label",
+      "info": "t:sections.main-product.blocks.buy_buttons.settings.show_dynamic_checkout.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_payment_icons",
+      "label": "Enable payment icons",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "ssl_checkout_icon_image",
+      "label": "SSL Checkout icons image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product-reviews",
+      "name": "Product Flash",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "testimonial_image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "reviews_ratings",
+          "label": "Flash image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

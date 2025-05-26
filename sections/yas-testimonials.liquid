@@ -1,0 +1,479 @@
+
+<style>
+  {% if section.settings.font_variant == 'custom' %}
+  {%- liquid
+      assign body_font_bold = section.settings.title_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = section.settings.title_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+    {{ section.settings.title_font | font_face: font_display: 'swap' }}
+    {{ body_font_bold | font_face: font_display: 'swap' }}
+    {{ body_font_italic | font_face: font_display: 'swap' }}
+    {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+    {{ settings.type_header_font | font_face: font_display: 'swap' }}
+    #shopify-section-{{section.id}} * {
+      font-family: {{ section.settings.title_font.family }};
+    }
+  {% endif %}
+  #shopify-section-{{section.id}} *{
+    box-sizing: border-box;
+  }
+  
+  .testimonials-title-section *{
+    margin: 0;
+  }
+  .testimonials-title-section h2{
+    font-weight: 700;
+    font-size: {% case section.settings.heading_size %}
+                 {% when 'small' %}36px
+                 {% when 'medium' %}45px
+                 {% when 'large' %}60px
+               {% endcase %};
+    line-height: normal;
+    text-transform: {{ section.settings.title_format }};
+    color: {{ section.settings.title_color }};
+  }
+  .testimonials-title-section p{
+    font-weight: 500;
+    font-size: 20px;
+    line-height: normal;
+    letter-spacing: 0;
+    color: {{ section.settings.subtitle_color }};
+  }
+  .testimonials-section {
+    margin: auto;
+    padding: {{ section.settings.padding_tb_desk }}px {{ section.settings.padding_lr_desk }}px;
+    color: {{ section.settings.text_color }};
+    text-align: center;
+    {% if section.settings.display_on == 'mobile_only' %}display: none;{% endif %}
+    background: {{ section.settings.background_color }};
+    position: relative;
+  }
+  .testimonials-section:after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 387px;
+    background: {{ section.settings.background_top }};
+    display: block;
+    width: 100%;
+    z-index: 0;
+  }
+  @media (min-width: 769px) {
+    {% if section.settings.display_on == 'desktop_only' %}.testimonials-section { display: block; }{% endif %}
+  }
+  @media (max-width: 768px) {
+    {% if section.settings.display_on == 'desktop_only' %}.testimonials-section { display: none; }{% endif %}
+    {% if section.settings.display_on == 'mobile_only' %}.testimonials-section { display: block; }{% endif %}
+  }
+  .testimonials-container {
+    max-width: {% if section.settings.section_width == 'full' %}100%{% else %}{{ settings.page_width }}px;{% endif %};
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .testimonials-title-section p.testimonials-subtitle {
+    font-size: 20px;
+    color: {{ section.settings.subtitle_color }};
+      font-family: {{ section.settings.title_font.family }};
+   
+  }
+  .testimonial-info-cont *{
+    color: {{ section.settings.text_color_info }};
+  }
+  #shopify-section-{{section.id}} .testimonial-text{
+    color: {{ section.settings.text_color }};
+  }
+  #shopify-section-{{section.id}} .carousel-button{
+    border-radius: {{ section.settings.button_radius }}px;
+    border: 3px solid {{ section.settings.button_text_color }};
+    outline: none;
+    background: {{ section.settings.button_color }};
+    cursor: pointer;
+    padding: 16px 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    color: {{ section.settings.button_text_color }};
+  }
+  @media (max-width: 768px) {
+    .testimonials-section{
+      padding: {{ section.settings.padding_tb_mob }}px {{ section.settings.padding_lr_mob }}px;
+    }
+     .testimonials-title-section h2{
+  
+      font-size: {% case section.settings.heading_size %}
+                 {% when 'small' %}20px
+                 {% when 'medium' %}28px
+                 {% when 'large' %}36px
+               {% endcase %};
+       line-height: 100%;
+    }
+  }
+</style>
+{{ 'testimonials.css' | asset_url | stylesheet_tag }}
+
+<div class="testimonials-container">
+  <div class="testimonials-title-section">
+    {% if section.settings.reviewd_text != blank %}
+      <div>{{ section.settings.reviewd_text }} {% for i in (1..5) %}{% render 'star_comparison' %}{% endfor %}</div>
+    {% endif %}
+    {% if section.settings.heading != blank %}
+      {{ section.settings.heading }}
+    {% endif %}
+    {% if section.settings.subtitle != blank %}
+      <div class="testimonials-subtitle">{{ section.settings.subtitle }}</div>
+    {% endif %}
+  </div>
+  
+
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide testimonial-card">
+          {% if section.settings.show_image == true %}
+          <div class="testimonial-photo">
+            {% if block.settings.photo_review != blank %}
+              <img src="{{ block.settings.photo_review | img_url: '600x' }}" alt="{{ block.settings.photo_review.alt }}">
+            {% else %}
+              {% render 'blank_image' %}
+            {% endif %}
+          </div>
+          {% endif %}
+          <div class="testimonial-info">
+            <div class="testimonial-info-body">
+              <div class="testimonial-info-img">
+                 {% if block.settings.photo != blank %}
+                  <img src="{{ block.settings.photo | img_url: '130x' }}" alt="{{ block.settings.name }}">
+                {% else %}
+                  <img src="{{ 'leslie_customer.jpg' | asset_url }}" alt="user">
+                {% endif %}
+              </div>
+              <div class="testimonial-info-cont">
+                <p class="testimonial-name">{{ block.settings.name }}</p>
+                {% if block.settings.verified_text != blank %}<p class="testimonial-verified">{% render 'icon-verifed' %}{{ block.settings.verified_text }}</p>{% endif %}
+                <p class="testimonial-rating">{% for i in (1..block.settings.rating) %}⭐{% endfor %}</p>
+              </div>
+            </div>
+            <p class="testimonial-text">{{ block.settings.testimonial_text }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-pagination-w">
+    <div class="swiper-b-prev">{% render 'swiper-arrow-left' %}</div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-b-next">{% render 'swiper-arrow-right' %}</div>
+    </div>
+  </div>
+  {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+  <button class="carousel-button" onclick="location.href='{{ section.settings.button_link }}'" >{{ section.settings.button_text }}</button>
+  {% endif %}
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let swiper = new Swiper("#shopify-section-{{section.id}} .swiper-container", {
+      loop: false,
+      navigation: {
+        nextEl: "#shopify-section-{{section.id}} .swiper-b-next",
+        prevEl: "#shopify-section-{{section.id}} .swiper-b-prev",
+      },
+      pagination: {
+        el: "#shopify-section-{{section.id}} .swiper-pagination",
+        clickable: true,
+        dynamicBullets: true
+      },
+      slidesPerView: 1,
+      spaceBetween: 24,
+      breakpoints: {
+        240: {
+          slidesPerView: 1,
+        },
+        768: {
+          slidesPerView: 3,
+        },
+        1024: {
+          slidesPerView: 4,
+        }
+      },
+      grabCursor: true,
+      on: {
+        init: function () {
+          if(document.querySelector('#shopify-section-{{section.id}} .swiper-pagination').classList.contains('swiper-pagination-lock')){
+            document.querySelector('#shopify-section-{{section.id}} .swiper-pagination-w').classList.add('pagination-lock');
+          }
+          
+        },
+      }
+    });
+
+
+    swiper.on('paginationUpdate', function () {
+      if(document.querySelector('#shopify-section-{{section.id}} .swiper-pagination').classList.contains('swiper-pagination-lock')){
+            document.querySelector('#shopify-section-{{section.id}} .swiper-pagination-w').classList.add('pagination-lock');
+      }else{
+        if(document.querySelector('#shopify-section-{{section.id}} .swiper-pagination-w').classList.contains('pagination-lock')){
+          document.querySelector('#shopify-section-{{section.id}} .swiper-pagination-w').classList.remove('pagination-lock')
+        }
+      }
+    });
+    
+  });
+</script>
+ 
+{% schema %}
+{
+  "name": "Testimonials",
+  "class": "testimonials-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Title",
+      "default": "<h2>Don’t take our words for it</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<h3>XXX people have said how good annex</h3>"
+    },
+    {
+      "type": "richtext",
+      "id": "reviewd_text",
+      "label": "Uppertitle"
+    },
+      {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color and review color",
+      "default": "#696969"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "color_background",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "linear-gradient(to bottom, #E5E7EB  0%, transparent 100%)"
+    },
+    
+    {
+      "type": "color",
+      "id": "background_top",
+      "label": "Header Background Color",
+      "default": "#898989"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "title_format",
+      "label": "Headline Typography",
+      "options": [
+        { "value": "uppercase", "label": "AA" },
+        { "value": "capitalize", "label": "Aa" },
+        { "value": "lowercase", "label": "aa" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "select",
+      "id": "font_variant",
+      "label": "Font Family",
+      "options": [
+       { "value": "default", "label": "Default by theme" },
+        { "value": "custom", "label": "Own choice" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "font_picker",
+      "label": "Regular Font",
+      "id": "title_font",
+      "default": "montserrat_n4"
+    },
+    
+    
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        { "value": "full", "label": "Full Width" },
+        { "value": "contained", "label": "Contained" }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_desk",
+      "label": "Horizontal Padding",
+      "info": "for desktop",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+       {
+      "type": "range",
+      "id": "padding_tb_desk",
+      "label": "Vertical Padding",
+      "info": "for desktop",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_lr_mob",
+      "label": "Horizontal Padding",
+      "info": "for mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+       {
+      "type": "range",
+      "id": "padding_tb_mob",
+      "label": "Vertical Padding",
+      "info": "for mobile",   
+      "min": 0,
+      "max": 100,
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "display_on",
+      "label": "Display On",
+      "options": [
+        { "value": "all", "label": "All Devices" },
+        { "value": "mobile_only", "label": "Mobile Only" },
+        { "value": "desktop_only", "label": "Desktop Only" }
+      ],
+      "default": "all"
+    },
+     {
+      "type": "header",
+      "content": "Testimonials Cards Settings"
+    }, 
+    {
+      "type": "color",
+      "id": "text_color_info",
+      "label": "Title Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#52525b"
+    },  
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show image",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "CHECK ALL XX REVIEWS"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    { "type": "range", "id": "button_radius", "label": "Button Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 },
+    { "type": "color", "id": "button_color", "label": "Button background", "default": "transparent" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#000" },
+    
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "photo_review",
+          "label": "Photo review"
+        },
+        {
+          "type": "image_picker",
+          "id": "photo",
+          "label": "Customer Photo"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Customer Name",
+          "default": "Leslie Alexander"
+        },
+        {
+          "type": "text",
+          "id": "verified_text",
+          "label": "Verification Text",
+          "default": "Verified Customer"
+        },
+        {
+          "type": "textarea",
+          "id": "testimonial_text",
+          "label": "Testimonial Text",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "category": "Reviews"
+    }
+  ]
+}
+{% endschema %}
