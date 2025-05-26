@@ -1,24 +1,20 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "wrapper": "div.page__error",
   "sections": {
-    "featured-box": {
-      "type": "01-featured-box",
-      "settings": {}
-    },
     "main": {
       "type": "main-404",
-      "settings": {
-        "sub_title": "Sorry, the page you requested does not exist."
-      }
-    },
-    "1635332558b2d7efe2": {
-      "type": "12-featured-box-bottom",
       "settings": {}
     }
   },
   "order": [
-    "featured-box",
-    "main",
-    "1635332558b2d7efe2"
+    "main"
   ]
 }

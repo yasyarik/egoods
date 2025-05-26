@@ -1,0 +1,51 @@
+.product-livbooking-form {
+  display: flex;
+}
+
+.product-livbooking-form #livbooking-date {
+  width: 25%;
+  height: 50px;
+  margin: auto auto auto 0;
+}
+
+.product-livbooking-form .product-livbooking-timepicker  {
+  width: 50%;
+}
+
+.product-livbooking-downform {
+  max-width: 30rem;
+  margin: auto;
+}
+
+.product-livbooking-timepicker .product-livbooking-timelabel {
+  border: var(--variant-pills-border-width) solid rgba(var(--color-foreground),var(--variant-pills-border-opacity));
+  background-color: rgb(var(--color-background));
+  color: rgba(var(--color-foreground));
+  border-radius: var(--variant-pills-radius);
+  color: rgb(var(--color-foreground));
+  display: inline-block;
+  margin: .7rem .5rem .2rem 0;
+  padding: 1rem 2rem;
+  font-size: 1.4rem;
+  letter-spacing: .1rem;
+  line-height: 1;
+  text-align: center;
+  transition: border var(--duration-short) ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.product-livbooking-timeradio:checked + .product-livbooking-timelabel {
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+.product-livbooking-timeradio:disabled + .product-livbooking-timelabel {
+  background-color: transparent;
+  border-color: rgba(var(--color-foreground),.1);
+  color: rgba(var(--color-foreground),.6);
+}
+
+.product-livbooking-timepicker .product-livbooking-timeradio {
+  display: none;
+}

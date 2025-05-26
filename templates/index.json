@@ -1,1 +1,84 @@
-{"sections":{"yas_comparison_section_qhiK8k":{"type":"yas-comparison-section","blocks":{"company_9cLkY6":{"type":"company","settings":{"title":"Ease of Use","def_icon_1":"check","def_icon_2":"check","def_icon_3":"cross","def_icon_4":"check","def_icon_5":"cross","def_icon_6":"check"}},"company_Wx7BNt":{"type":"company","settings":{"title":"Customizability","def_icon_1":"check","def_icon_2":"check","def_icon_3":"check","def_icon_4":"cross","def_icon_5":"check","def_icon_6":"cross"}},"company_AJJnqD":{"type":"company","settings":{"title":"Speed & Hosting","def_icon_1":"check","def_icon_2":"cross","def_icon_3":"cross","def_icon_4":"check","def_icon_5":"check","def_icon_6":"cross"}}},"block_order":["company_9cLkY6","company_Wx7BNt","company_AJJnqD"],"name":"Comparison Table","settings":{"background_color":"rgba(0,0,0,0)","heading_size":"medium","headline_typography":"capitalize","font_variant":"default","title_font":"montserrat_n4","title_color":"#020b1e","body_color":"#020b1e","heading_align":"center","section_width":"full","padding_x_desk":0,"padding_y_desk":0,"padding_x_mob":0,"padding_y_mob":0,"display_on":"all","mainc_bg":"#000000","sec_bg":"#ffffff","uppertitle":"<h3>Over 1,000 customers compared us<\/h3>","title":"<h2>How We Stack Up<\/h2>","subtitle":"<h3>Compare features, performance, and trust<\/h3>","company_name1":"Shopify","company_name2":"BigCommerce","company_name3":"WooCommerce","company_name4":"Squarespace","company_name5":"Magento","company_name6":"Wix"}},"yas_product_block_kDJAgH":{"type":"yas-product-block","blocks":{"price_rFUcAT":{"type":"price","settings":{"instock_text":"In Stock.","outstock_text":"Sorry, but Product Out Of Stock now.","intstock_color":"","outstock_color":""}},"description_xMXNVQ":{"type":"description","settings":{"text_color":"#000000"}},"points_9gnwic":{"type":"points","settings":{"icon_1_text":"","point_1_text":"Perfect for gym, yoga & sunday strolls","icon_2_text":"","point_2_text":"Perfect for gym, yoga & sunday strolls","icon_3_text":"","point_3_text":"Perfect for gym, yoga & sunday strolls","color":"#000000"}},"trust_icons_q3P96W":{"type":"trust-icons","settings":{"background_item":"#d9d9d9","icon_item":"#ffffff","txt_align":"bottom","icon_type1":"google_icon","google_icon_name1":"science","icon_symbol1":"🔬","text1":"<p><strong>Lab Tested<\/strong><br>For Safety<\/p>","icon_type2":"google_icon","google_icon_name2":"science","icon_symbol2":"🔬","text2":"<p><strong>Lab Tested<\/strong><br>For Safety<\/p>","icon_type3":"google_icon","google_icon_name3":"science","icon_symbol3":"🔬","text3":"<p><strong>Lab Tested<\/strong><br>For Safety<\/p>"}},"addon_DR9nXQ":{"type":"addon","settings":{"title":"Addon","container_styling":"card","box_shadow_offset":1,"box_shadow_blur":1,"box_shadow_spread":1,"box_shadow_color":"#000000","card_border":1,"card_border_color":"#000000","container_radius":10,"padding_x_desk":20,"padding_y_desk":0,"padding_x_mob":0,"padding_y_mob":0,"product1":"","custom_title1":"","product2":"","custom_title2":"","product3":"","custom_title3":""}},"gifts_VzRHBW":{"type":"gifts","settings":{"title":"Unlock Gifts","container_styling":"card","box_shadow_offset":1,"box_shadow_blur":1,"box_shadow_spread":1,"box_shadow_color":"#000000","card_border":1,"card_border_color":"#000000","container_radius":10,"gift_title1":"Gift","gift_product1":"","gift_area1":"local","gift_rulle_option1":"quntity","gift_title2":"Gift","gift_product2":"","gift_area2":"local","gift_rulle_option2":"quntity","gift_title3":"Gift","gift_product3":"","gift_area3":"local","gift_rulle_option3":"quntity"}},"size_8JhzKY":{"type":"size","settings":{"background_color":"rgba(0,0,0,0)","title_size":"medium","title_format":"uppercase","text_color":"#000000","icon_1_text":"","title":"Size Chart."}},"add_tdpkjL":{"type":"add","settings":{"show_payment_icons":true,"qty_align":"left","button_radius":10,"button_color":"rgba(0,0,0,0)","button_text_color":"rgba(0,0,0,0)","icon_alt":"shopping_bag"}},"timeline_47NDV9":{"type":"timeline","settings":{"icon_1_alt":"Icon 1","icon_2_alt":"Icon 2","icon_3_alt":"Icon 3","text_1":"Lab Tested\nFor Safety","text_2":"Lab Tested\nFor Safety","text_3":"Lab Tested\nFor Safety","stroke_item":"#c4c4c4","background_item":"#d9d9d9","icon_item":"#ffffff","delivery_timeline_enabled":false,"days_to_step_2":2,"days_to_step_3":4,"step_1_label":"Order Received","step_2_label":"Processing","step_3_label":"Estimated Delivery"}},"media_bdnhAR":{"type":"media","settings":{}},"video_ehiknd":{"type":"video","settings":{"video_type":"file","youtube_url":""}},"testimonial_TaigKb":{"type":"testimonial","settings":{"testimonial":"Have been buying these for years !! Really like the bigger size of the Gummies now ! Appreciate it Joe V. 🙌","name":"Michael","verified":true,"rating":4,"container_styling":"card","box_shadow_offset":1,"box_shadow_blur":1,"box_shadow_spread":1,"box_shadow_color":"#000000","card_border":1,"card_border_color":"#000000","container_radius":10}},"square_icon_HYM87Q":{"type":"square_icon","settings":{"icon_1_alt":"icon 1","icon_2_alt":"icon 2","icon_3_alt":"icon 3","icon_4_alt":"icon 4","text_1":"Lab Tested\nFor Safety","text_2":"Lab Tested\nFor Safety","text_3":"Lab Tested\nFor Safety","text_4":"Lab Tested\nFor Safety","text_title_mob":"Lab Tested For Safety","text_mob":"Some kind of description text could go here over two lines","stroke_item":"#c4c4c4","background_item":"#d9d9d9","icon_item":"#ffffff"}},"pack_options_GW8c43":{"type":"pack_options","settings":{"container_styling":"card","box_shadow_offset":1,"box_shadow_blur":1,"box_shadow_spread":1,"box_shadow_color":"#000000","card_border":1,"card_border_color":"#000000","container_radius":10,"pack_shipping_bg":"#c4c4c4","pack_shipping_txt":"#000000","card_border_color_active":"#3eed53","discount_color":"#ffffff","discount_color_bg":"#000000","price_color":"#ffffff","price_color_bg":"#000000","pack_title":"1 Pack","pack_quantity_text":"1 Pack","pack_quantity":1,"discount_label":"","pack_shipping":"Paid shipping","pack_title_2":"1 Pack","pack_quantity_text_2":"1 Pack","pack_quantity_2":1,"discount_label_2":"","pack_shipping_2":"Paid shipping","pack_title_3":"1 Pack","pack_quantity_text_3":"1 Pack","pack_quantity_3":1,"discount_label_3":"","pack_shipping_3":"Paid shipping"}},"accordion_RdxW4j":{"type":"accordion","settings":{"title_1":"test 1","content_1":"test 1","title_2":"test 2","content_2":"test 2","title_3":"test 3","content_3":"test 3","title_4":"","content_4":"","title_5":"","content_5":"","title_6":"","content_6":"","title_7":"","content_7":"","title_8":"","content_8":"","title_9":"","content_9":"","title_10":"","content_10":""}},"option_4hyQHG":{"type":"option","settings":{"label":"Choose a color","color_style":"drop_color_d","label_size":"Select size","label_defaul":"Choose an option"}}},"block_order":["price_rFUcAT","description_xMXNVQ","points_9gnwic","trust_icons_q3P96W","addon_DR9nXQ","gifts_VzRHBW","size_8JhzKY","add_tdpkjL","timeline_47NDV9","media_bdnhAR","video_ehiknd","testimonial_TaigKb","square_icon_HYM87Q","pack_options_GW8c43","accordion_RdxW4j","option_4hyQHG"],"name":"Product Block","settings":{"product":"creatine-gummies","heading_size":"medium","headline_typography":"capitalize","text_color":"#000000","heading_align":"center","background_color":"rgba(0,0,0,0)","font_variant":"default","title_font":"archivo_narrow_n4","section_width":"contained","padding_x_desk":55,"padding_y_desk":4,"padding_x_mob":30,"padding_y_mob":7,"display_on":"all","uppertitle":"<h3>Reviewed by +100 Happy Customers <\/h3>"}},"yas_featured_products_XREkqH":{"type":"yas-featured-products","blocks":{"product_PfneBG":{"type":"product","settings":{"product":"creatine-gummies","star_count":5,"review_text":"10 reviews"}},"product_pjeAwQ":{"type":"product","settings":{"product":"","star_count":5,"review_text":"10 reviews"}},"product_mDUP9c":{"type":"product","settings":{"product":"","star_count":5,"review_text":"10 reviews"}},"product_CpTeBX":{"type":"product","settings":{"product":"","star_count":5,"review_text":"10 reviews"}}},"block_order":["product_PfneBG","product_pjeAwQ","product_mDUP9c","product_CpTeBX"],"name":"Featured Products","settings":{"title":"<h2>Featured Products<\/h2>","under_title_text":"<h3>Irresistible Charm with Axe's Exquisite Range of Unbeatable Products!<\/h3>","background_color":"rgba(0,0,0,0)","heading_size":"medium","headline_typography":"capitalize","font_variant":"default","title_font":"montserrat_n4","text_color":"#000000","section_width":"contained","padding_lr_desk":20,"padding_tb_desk":20,"padding_lr_mob":20,"padding_tb_mob":20,"display_on":"all","secondary_image_highlight":false,"show_reviews":true,"card_title_line":true,"card_title_typography":"capitalize","card_clickable":true,"container_styling":"card","box_shadow_offset":1,"box_shadow_blur":1,"box_shadow_spread":1,"box_shadow_color":"#000000","card_background":"rgba(0,0,0,0)","card_padding":10,"card_border":0,"card_border_color":"#000000","container_radius":10,"column_prod_mob":"2","show_cta":true,"show_arrow":true,"button_radius":10,"button_color":"rgba(0,0,0,0)","button_text_color":"rgba(0,0,0,0)","text_btn_card":"SHOP NOW","view_more_btn":"View More","view_more_url":""}}},"order":["yas_comparison_section_qhiK8k","yas_product_block_kDJAgH","yas_featured_products_XREkqH"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Browse our latest products",
+            "heading_size": "h0"
+          }
+        },
+        "button": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop all",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "button"
+      ],
+      "settings": {
+        "image_overlay_opacity": 40,
+        "image_height": "large",
+        "desktop_content_position": "bottom-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "inverse",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": false,
+        "show_text_below": false
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Featured products",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "all",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "background-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "image_banner",
+    "featured_collection"
+  ]
+}
