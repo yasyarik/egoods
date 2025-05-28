@@ -1,0 +1,95 @@
+{%- assign key = settings.license_key -%}
+{%- assign api_url  = "https://0088.co.uk/key/license_api.php?code="  | append: key -%}
+{%- assign asset_url = "https://0088.co.uk/key/asset.php?code="       | append: key | append: "&file=" -%}
+
+<script>
+  // English comments per your request
+
+  // Check license once per browser session
+  (function(){
+    const LICENSE_KEY  = "{{ key }}";
+    const API_URL      = "{{ api_url }}";
+    const ASSET_BASE   = "{{ asset_url }}";
+    const sessionKey   = 'theme_license_valid';
+
+    // Helper to show overlay
+    function showOverlay(msg) {
+      const css = `
+        #lic-overlay {
+          position: fixed; inset: 0;
+          background: #fff; color: #333;
+          display: flex; align-items: center; justify-content: center;
+          text-align: center; font-size: 2em; z-index: 99999;
+          padding: 2rem;
+        }
+      `;
+      const style = document.createElement('style');
+      style.innerHTML = css;
+      document.head.appendChild(style);
+
+      const div = document.createElement('div');
+      div.id = 'lic-overlay';
+      div.textContent = msg;
+      document.body.appendChild(div);
+    }
+
+    // Initialize page when license is OK
+    function onLicenseOk() {
+      window.LICENSE_OK   = true;
+      window.ASSET_BASE   = ASSET_BASE;
+      // inject global theme files:
+      const css = document.createElement('link');
+      css.rel  = 'stylesheet';
+      css.href = ASSET_BASE + 'theme.css';
+      document.head.appendChild(css);
+
+      const js = document.createElement('script');
+      js.src  = ASSET_BASE + 'theme.js';
+      document.body.appendChild(js);
+    }
+
+    // Main logic on DOM ready
+    document.addEventListener('DOMContentLoaded', function(){
+      // 1) No key → immediate error
+      if (!LICENSE_KEY) {
+        showOverlay(
+          "LICENSE KEY NOT PROVIDED.\n" +
+          "Please enter it in Theme settings."
+        );
+        return;
+      }
+
+      // 2) Already checked in this session?
+      if (sessionStorage.getItem(sessionKey) === 'true') {
+        onLicenseOk();
+        return;
+      }
+
+      // 3) Fetch validation via CORS
+      fetch(API_URL, {
+        method: 'GET',
+        mode: 'cors'
+      })
+      .then(function(res){
+        return res.json();
+      })
+      .then(function(json){
+        if (json.valid) {
+          sessionStorage.setItem(sessionKey, 'true'); // cache positive result
+          onLicenseOk();
+        } else {
+          showOverlay(
+            "LICENSE INVALID OR INACTIVE.\n" +
+            "Reason: " + (json.reason || 'unknown')
+          );
+        }
+      })
+      .catch(function(){
+        showOverlay(
+          "NETWORK ERROR.\n" +
+          "Unable to validate license."
+        );
+      });
+    });
+  })();
+</script>
