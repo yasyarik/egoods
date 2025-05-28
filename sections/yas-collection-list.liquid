@@ -40,21 +40,20 @@
   color: {{ section.settings.text_color }};
 }
 
-#shopify-section-{{section.id}} .featured-products-section {
-  max-width: {% if section.settings.section_width == 'full' %}100%{% else %}{{ settings.page_width }}px{% endif %};
-  margin: 0 auto;
-}
-
-#shopify-section-{{section.id}} .heading {
-  {% if section.settings.section_width == 'full' %}
-    margin: 0 10%;
-  {% endif %}
-}
 
 #shopify-section-{{section.id}} .content-wrapper {
   height: 100%;
   margin: 0 auto;
-  max-width: {{ settings.page_width }}px;
+  
+    max-width:
+      {% if section.settings.section_width == 'full' %}
+        100%;
+    margin: 0 10%;
+      {% else %}
+        {{ settings.page_width }}px;
+          margin: 0 auto;
+      {% endif %};
+  
   display: block;
   position: relative;
   text-align: {{ section.settings.heading_align }};
@@ -134,11 +133,13 @@
   padding: {{ section.settings.card_padding }}px;
   height: 100%;
 }
-
+#shopify-section-{{section.id}} .product-description {
+min-height: 38px;
+}
 #shopify-section-{{section.id}} .btn {
   border-radius: {{ section.settings.button_radius }}px;
-  color: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
-  background-color: {% if section.settings.button_color != 'transparent' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
+  color: {% if section.settings.button_text_color != 'rgba(0,0,0,0)' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+  background-color: {% if section.settings.button_color != 'rgba(0,0,0,0)' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
   text-decoration: none;
   border: none;
   cursor: pointer;
@@ -154,7 +155,7 @@
 }
 
 #shopify-section-{{section.id}} .btn svg path {
-  fill: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+  fill: {% if section.settings.button_text_color != 'rgba(0,0,0,0)' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
 }
 
 #shopify-section-{{section.id}} .product-title {
@@ -270,11 +271,11 @@
   {%- endif -%}
 
     <div class="products-grid">
-   {% if section.blocks.size > 0 and section.blocks[0].settings.collection != blank %}
+   
      
   {% for block in section.blocks %}
     {% assign collection = block.settings.collection %}
-              <div class="product-item" {% if section.settings.card_clickable == true %} onclick="location.href='{{ collection.url }}'"{% endif %}>
+               <div class="product-item" {% if section.settings.card_clickable == true %} onclick="location.href='{{ collection.url }}'"{% endif %}>
             <div class="product-image-wrapper {% if section.settings.secondary_image_highlight and product.images[1] %}has_second-img{% endif %}">
               <img class="primary-image" src="{{ collection.featured_image | img_url: '600x' }}" alt="{{ product.title }}">
               {% if section.settings.secondary_image_highlight and collection.images[1] %}
@@ -282,42 +283,27 @@
               {% endif %}
             </div>
             <div class="product-info">
-             
+
+              {% if collection.title != blank %}
               <h3 class="product-title">{{ collection.title }}</h3>
-              <span class="product-description">{{ collection.description }}</span>
-             
+              {% else %}
+                    <h3 class="product-title">Title</h3>
+              {% endif %}
+
               
-              {% if section.settings.show_cta %}
+              {% if collection.description !=blank %}
+              <span class="product-description">{{ collection.description }}</span>
+               {% else %}
+               <span class="product-description">Description text</span>
+               {% endif %}
+              
+          
+          {% if section.settings.show_cta %}
                 <button class="btn" onclick="location.href='{{ collection.url }}'">{{ section.settings.text_btn_card }} {% if section.settings.show_arrow == true %}{% render 'icon_arrow_submit2' %}{% endif %}</button>
               {% endif %}
             </div>
-          </div>
-    {% endfor %}
-  {% else %}
-        {% for collection in collections %}
-       
-        {% if collection != blank %}
-          <div class="product-item" {% if section.settings.card_clickable == true %} onclick="location.href='{{ collection.url }}'"{% endif %}>
-            <div class="product-image-wrapper {% if section.settings.secondary_image_highlight and product.images[1] %}has_second-img{% endif %}">
-              <img class="primary-image" src="{{ collection.featured_image | img_url: '600x' }}" alt="{{ product.title }}">
-              {% if section.settings.secondary_image_highlight and collection.images[1] %}
-                <img class="secondary-image" src="{{ collection.images[1] | img_url: '600x' }}" alt="Secondary image">
-              {% endif %}
-            </div>
-            <div class="product-info">
-             
-              <h3 class="product-title">{{ collection.title }}</h3>
-              <span class="product-description">{{ collection.description }}</span>
-             
-              
-              {% if section.settings.show_cta %}
-                <button class="btn" onclick="location.href='{{ collection.url }}'">{{ section.settings.text_btn_card }} {% if section.settings.show_arrow == true %}{% render 'icon_arrow_submit2' %}{% endif %}</button>
-              {% endif %}
-            </div>
-          </div>
-        {% endif %}
-      {% endfor %}
-      {% endif %}
+          </div>    {% endfor %}
+ 
     </div>
   
   </div>

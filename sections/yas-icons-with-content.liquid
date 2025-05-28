@@ -108,8 +108,8 @@
   /* Button dynamic styling */
   #shopify-section-{{ section.id }} .btn {
     border-radius: {{ section.settings.button_radius }}px;
-    color: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
-    background: {% if section.settings.button_color != 'transparent' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
+    color: {% if section.settings.button_text_color != 'rgba(0,0,0,0)' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+    background: {% if section.settings.button_color != 'rgba(0,0,0,0)' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
   }
 
   /* Margin-top dynamic */

@@ -47,7 +47,7 @@
   }
 
   /* Inner wrapper max-width */
-  #shopify-section-{{ section.id }} .featured-products-section {
+  #shopify-section-{{ section.id }} .content-wrapper{
     max-width:
       {% if section.settings.section_width == 'full' %}
         100%;
@@ -111,11 +111,11 @@
   /* Button colors & radius */
   #shopify-section-{{ section.id }} .btn {
     border-radius: {{ section.settings.button_radius }}px;
-    color: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
-    background-color: {% if section.settings.button_color != 'transparent' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
+    color: {% if section.settings.button_text_color != 'rgba(0,0,0,0)' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+    background-color: {% if section.settings.button_color != 'rgba(0,0,0,0)' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
   }
   #shopify-section-{{ section.id }} .btn svg path {
-    fill: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+    fill: {% if section.settings.button_text_color != 'rgba(0,0,0,0)' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
   }
 
   /* Product-title dynamic clamp */
@@ -171,6 +171,31 @@
               
               {% if section.settings.show_cta %}
                 <button class="btn" onclick="location.href='{{ product.url }}'">{{ section.settings.text_btn_card }} {% if section.settings.show_arrow == true %}{% render 'icon_arrow_submit2' %}{% endif %}</button>
+              {% endif %}
+            </div>
+          </div>
+          {% else %}
+             <div class="product-item" {% if section.settings.card_clickable == true %} onclick="location.href='{{ product.url }}'"{% endif %}>
+            <div class="product-image-wrapper {% if section.settings.secondary_image_highlight and product.images[1] %}has_second-img{% endif %}">
+              <img class="primary-image" src="/cdn/shopifycloud/shopify/assets/no-image-2048-5e88c1b20e087fb7bbe9a3771824e743c244f437e4f8ba93bbf7b11b53f7824c_x600.gif">
+              
+            </div>
+            <div class="product-info">
+              {% if section.settings.show_reviews %}
+                <div class="product-reviews">
+                  <span>{% for i in (1..block.settings.star_count) -%}{% render 'review-stars' %}{%- endfor -%}</span> {{ block.settings.review_text }}
+                </div>
+              {% endif %}
+              <h3 class="product-title">Product</h3>
+              <p>
+               
+                  <span class="product-compare-price">100</span>
+              
+                <span class="product-price">50</span>
+              </p>
+              
+              {% if section.settings.show_cta %}
+                <button class="btn" onclick="location.href=''">Button {% if section.settings.show_arrow == true %}{% render 'icon_arrow_submit2' %}{% endif %}</button>
               {% endif %}
             </div>
           </div>

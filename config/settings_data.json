@@ -9,13 +9,16 @@
  */
 {
   "current": {
-    "license_key": "20A6060C",
+    "license_key": "543FB7EB",
     "color_bg_btn": "#ca2323",
     "colors_background_1": "#a1f71a",
-    "color_paginate_active": "#d9d9d9",
-    "color_arrow": "#124aff",
+    "color_paginate": "#FFFFFF",
+    "color_paginate_active": "#ca2323",
+    "color_arrow": "#f256ff",
     "type_header_font": "montserrat_n4",
     "type_body_font": "montserrat_n4",
+    "width_conteiner_all": "on",
+    "width_all_section": "contein",
     "social_twitter_link": "https://twitter.com/",
     "social_facebook_link": "https://facebook.com/",
     "social_instagram_link": "http://instagram.com/",
@@ -32,6 +35,8 @@
     "payment_icon_6": "shopify://shop_images/icon6.svg",
     "payment_icon_7": "shopify://shop_images/icon7.svg",
     "enable_sticky_header": false,
+    "color_paginate_btn": "#a1f71a",
+    "background_paginate_btn": "#aff8ff",
     "cart_notes_enable": false,
     "enable_discount_code": false,
     "enable_payment_icons": false,
@@ -112,6 +117,7 @@
             "type": "review",
             "settings": {
               "testimonial": "Have been buying these for years !! Really like the bigger size of the Gummies now ! Appreciate it Joe V. 🙌",
+              "photo": "shopify://shop_images/No1Creatine.com_-_BFCM_4.jpg",
               "name": "Michael",
               "verified": true,
               "rating": 4,

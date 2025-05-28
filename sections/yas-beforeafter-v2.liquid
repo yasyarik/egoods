@@ -1,45 +1,4 @@
-<script>
-(function(){
- const cssFile = "before-after-v2.css";
-  const jsFile  = "before-after-v2.js";
 
-  function waitForLicense(cb) {
-    if (window.LICENSE_OK && window.ASSET_BASE) {
-      cb();
-    } else {
-      setTimeout(() => waitForLicense(cb), 100);
-    }
-  }
-
-  function injectCSS(file) {
-    const href = window.ASSET_BASE + file;
-    const alreadyLoaded = [...document.styleSheets].some(s => s.href && s.href.includes(file));
-    if (!alreadyLoaded) {
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = href;
-      document.head.appendChild(link);
-      console.log("Injected CSS:", file);
-    }
-  }
-
-  function injectJS(file) {
-    const src = window.ASSET_BASE + file;
-    const alreadyLoaded = [...document.scripts].some(s => s.src && s.src.includes(file));
-    if (!alreadyLoaded) {
-      const script = document.createElement("script");
-      script.src = src;
-      document.body.appendChild(script);
-      console.log("Injected JS:", file);
-    }
-  }
-
-  waitForLicense(() => {
-    injectCSS(cssFile);
-    injectJS(jsFile);
-  });
-})();
-</script>
 <style>
 {% if section.settings.font_variant == 'custom' %}
   {%- liquid
@@ -56,8 +15,18 @@
     font-family: {{ section.settings.title_font.family }};
   }
 {% endif %}  
+    /* Inner wrapper max-width */
+  #shopify-section-{{ section.id }} .content-wrapper{
+    max-width:
+      {% if section.settings.section_width == 'full' %}
+        100%;
+      {% else %}
+        {{ settings.page_width }}px;
+          margin: 0 auto;
+      {% endif %};
+  }
 </style>
-{% comment %}Before After Slider v2 — с CSS-переменными и внешними стилями{% endcomment %}
+
 
 <div class="before-after-v2-section" data-section-id="{{ section.id }}"
      style="
@@ -76,7 +45,7 @@
        --tooltip-text: {{ section.settings.tooltip_text }};
      ">
 
-  <div class="v2-content-wrapper">
+  <div class="content-wrapper">
     <div class="v2-before-after-wrapper">
       <div class="before-after-text">
         {% if section.settings.uppertitle != blank or section.settings.title != blank or section.settings.subtitle != blank %}
@@ -122,7 +91,32 @@
                   </div>
                 </div>
               </div>
+          {% else %}
+             <div class="swiper-slide">
+                <div class="v2-before-after-item">
+                  <div class="v2-before-after-container">
+                    <div class="v2-before-image">
+                                         <img src="/cdn/shopifycloud/shopify/assets/no-image-2048-5e88c1b20e087fb7bbe9a3771824e743c244f437e4f8ba93bbf7b11b53f7824c_x600.gif" alt="After">
+                    </div>
+                    <div class="v2-after-image">
+                                        <img src="/cdn/shopifycloud/shopify/assets/no-image-2048-5e88c1b20e087fb7bbe9a3771824e743c244f437e4f8ba93bbf7b11b53f7824c_x600.gif" alt="After">
+            
+                    </div>
+                    <div class="v2-divider">
+                      <div class="v2-handle">
+                        {% render 'handle-icon' %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="v2-labels">
+                    <span class="v2-before-label">Before</span>
+                    <span class="v2-after-label">After</span>
+                  </div>
+                </div>
+              </div>
+            
             {% endif %}
+            
           {% endfor %}
         </div>
 
@@ -348,7 +342,11 @@
   "presets": [
     {
       "name": "Before After Slider v2",
-      "category": "Custom"
+      "category": "Image",
+      "blocks": [
+        { "type": "slide" },
+      
+      ]
     }
   ]
 }

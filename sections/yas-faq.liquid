@@ -36,7 +36,7 @@
   }
 }
 
-#shopify-section-{{section.id}} .faq-container {
+#shopify-section-{{section.id}} .content-wrapper {
   max-width: {% if section.settings.section_width == 'full' %}100%{% else %}{{ settings.page_width }}px{% endif %};
   margin: 0 auto;
 }
@@ -132,9 +132,9 @@
 
   
 </style>
-{{ 'faq.css' | asset_url | stylesheet_tag }}
 
-<div class="faq-container">
+
+<div class="content-wrapper">
   {%- if section.settings.title != blank or section.settings.under_title_text != blank -%}
   <div class="faq-header-w">
     {%- if section.settings.title != blank -%}

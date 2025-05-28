@@ -9,387 +9,218 @@
  */
 {
   "sections": {
-    "yas_comparison_section_qhiK8k": {
-      "type": "yas-comparison-section",
-      "blocks": {
-        "company_9cLkY6": {
-          "type": "company",
-          "settings": {
-            "title": "Ease of Use",
-            "def_icon_1": "check",
-            "def_icon_2": "check",
-            "def_icon_3": "cross",
-            "def_icon_4": "check",
-            "def_icon_5": "cross",
-            "def_icon_6": "check"
-          }
-        },
-        "company_Wx7BNt": {
-          "type": "company",
-          "settings": {
-            "title": "Customizability",
-            "def_icon_1": "check",
-            "def_icon_2": "check",
-            "def_icon_3": "check",
-            "def_icon_4": "cross",
-            "def_icon_5": "check",
-            "def_icon_6": "cross"
-          }
-        },
-        "company_AJJnqD": {
-          "type": "company",
-          "settings": {
-            "title": "Speed & Hosting",
-            "def_icon_1": "check",
-            "def_icon_2": "cross",
-            "def_icon_3": "cross",
-            "def_icon_4": "check",
-            "def_icon_5": "check",
-            "def_icon_6": "cross"
-          }
-        }
-      },
-      "block_order": [
-        "company_9cLkY6",
-        "company_Wx7BNt",
-        "company_AJJnqD"
-      ],
-      "name": "Comparison Table",
+    "yas_hero_RyxYrh": {
+      "type": "yas-hero",
+      "name": "Hero Banner",
       "settings": {
         "background_color": "rgba(0,0,0,0)",
-        "heading_size": "medium",
-        "headline_typography": "capitalize",
         "font_variant": "default",
         "title_font": "montserrat_n4",
-        "title_color": "#020b1e",
-        "body_color": "#020b1e",
-        "heading_align": "center",
-        "section_width": "full",
-        "padding_x_desk": 0,
-        "padding_y_desk": 0,
-        "padding_x_mob": 0,
-        "padding_y_mob": 0,
+        "section_width": "contained",
+        "size": "big",
+        "padding_x_desk": 120,
+        "padding_y_desk": 75,
+        "padding_x_mob": 20,
+        "padding_y_mob": 20,
         "display_on": "all",
-        "mainc_bg": "#000000",
-        "sec_bg": "#ffffff",
-        "uppertitle": "<h3>Over 1,000 customers compared us</h3>",
-        "title": "<h2>How We Stack Up</h2>",
-        "subtitle": "<h3>Compare features, performance, and trust</h3>",
-        "company_name1": "Shopify",
-        "company_name2": "BigCommerce",
-        "company_name3": "WooCommerce",
-        "company_name4": "Squarespace",
-        "company_name5": "Magento",
-        "company_name6": "Wix"
+        "align_content": "center"
       }
     },
-    "yas_product_block_kDJAgH": {
-      "type": "yas-product-block",
-      "blocks": {
-        "price_rFUcAT": {
-          "type": "price",
-          "settings": {
-            "instock_text": "In Stock.",
-            "outstock_text": "Sorry, but Product Out Of Stock now.",
-            "intstock_color": "",
-            "outstock_color": ""
-          }
-        },
-        "description_xMXNVQ": {
-          "type": "description",
-          "settings": {
-            "text_color": "#000000"
-          }
-        },
-        "points_9gnwic": {
-          "type": "points",
-          "settings": {
-            "icon_1_text": "",
-            "point_1_text": "Perfect for gym, yoga & sunday strolls",
-            "icon_2_text": "",
-            "point_2_text": "Perfect for gym, yoga & sunday strolls",
-            "icon_3_text": "",
-            "point_3_text": "Perfect for gym, yoga & sunday strolls",
-            "color": "#000000"
-          }
-        },
-        "trust_icons_q3P96W": {
-          "type": "trust-icons",
-          "settings": {
-            "background_item": "#d9d9d9",
-            "icon_item": "#ffffff",
-            "txt_align": "bottom",
-            "icon_type1": "google_icon",
-            "google_icon_name1": "science",
-            "icon_symbol1": "🔬",
-            "text1": "<p><strong>Lab Tested</strong><br>For Safety</p>",
-            "icon_type2": "google_icon",
-            "google_icon_name2": "science",
-            "icon_symbol2": "🔬",
-            "text2": "<p><strong>Lab Tested</strong><br>For Safety</p>",
-            "icon_type3": "google_icon",
-            "google_icon_name3": "science",
-            "icon_symbol3": "🔬",
-            "text3": "<p><strong>Lab Tested</strong><br>For Safety</p>"
-          }
-        },
-        "addon_DR9nXQ": {
-          "type": "addon",
-          "settings": {
-            "title": "Addon",
-            "container_styling": "card",
-            "box_shadow_offset": 1,
-            "box_shadow_blur": 1,
-            "box_shadow_spread": 1,
-            "box_shadow_color": "#000000",
-            "card_border": 1,
-            "card_border_color": "#000000",
-            "container_radius": 10,
-            "padding_x_desk": 20,
-            "padding_y_desk": 0,
-            "padding_x_mob": 0,
-            "padding_y_mob": 0,
-            "product1": "",
-            "custom_title1": "",
-            "product2": "",
-            "custom_title2": "",
-            "product3": "",
-            "custom_title3": ""
-          }
-        },
-        "gifts_VzRHBW": {
-          "type": "gifts",
-          "settings": {
-            "title": "Unlock Gifts",
-            "container_styling": "card",
-            "box_shadow_offset": 1,
-            "box_shadow_blur": 1,
-            "box_shadow_spread": 1,
-            "box_shadow_color": "#000000",
-            "card_border": 1,
-            "card_border_color": "#000000",
-            "container_radius": 10,
-            "gift_title1": "Gift",
-            "gift_product1": "",
-            "gift_area1": "local",
-            "gift_rulle_option1": "quntity",
-            "gift_title2": "Gift",
-            "gift_product2": "",
-            "gift_area2": "local",
-            "gift_rulle_option2": "quntity",
-            "gift_title3": "Gift",
-            "gift_product3": "",
-            "gift_area3": "local",
-            "gift_rulle_option3": "quntity"
-          }
-        },
-        "size_8JhzKY": {
-          "type": "size",
-          "settings": {
-            "background_color": "rgba(0,0,0,0)",
-            "title_size": "medium",
-            "title_format": "uppercase",
-            "text_color": "#000000",
-            "icon_1_text": "",
-            "title": "Size Chart."
-          }
-        },
-        "add_tdpkjL": {
-          "type": "add",
-          "settings": {
-            "show_payment_icons": true,
-            "qty_align": "left",
-            "button_radius": 10,
-            "button_color": "rgba(0,0,0,0)",
-            "button_text_color": "rgba(0,0,0,0)",
-            "icon_alt": "shopping_bag"
-          }
-        },
-        "timeline_47NDV9": {
-          "type": "timeline",
-          "settings": {
-            "icon_1_alt": "Icon 1",
-            "icon_2_alt": "Icon 2",
-            "icon_3_alt": "Icon 3",
-            "text_1": "Lab Tested\nFor Safety",
-            "text_2": "Lab Tested\nFor Safety",
-            "text_3": "Lab Tested\nFor Safety",
-            "stroke_item": "#c4c4c4",
-            "background_item": "#d9d9d9",
-            "icon_item": "#ffffff",
-            "delivery_timeline_enabled": false,
-            "days_to_step_2": 2,
-            "days_to_step_3": 4,
-            "step_1_label": "Order Received",
-            "step_2_label": "Processing",
-            "step_3_label": "Estimated Delivery"
-          }
-        },
-        "media_bdnhAR": {
-          "type": "media",
-          "settings": {}
-        },
-        "video_ehiknd": {
-          "type": "video",
-          "settings": {
-            "video_type": "file",
-            "youtube_url": ""
-          }
-        },
-        "testimonial_TaigKb": {
-          "type": "testimonial",
-          "settings": {
-            "testimonial": "Have been buying these for years !! Really like the bigger size of the Gummies now ! Appreciate it Joe V. 🙌",
-            "name": "Michael",
-            "verified": true,
-            "rating": 4,
-            "container_styling": "card",
-            "box_shadow_offset": 1,
-            "box_shadow_blur": 1,
-            "box_shadow_spread": 1,
-            "box_shadow_color": "#000000",
-            "card_border": 1,
-            "card_border_color": "#000000",
-            "container_radius": 10
-          }
-        },
-        "square_icon_HYM87Q": {
-          "type": "square_icon",
-          "settings": {
-            "icon_1_alt": "icon 1",
-            "icon_2_alt": "icon 2",
-            "icon_3_alt": "icon 3",
-            "icon_4_alt": "icon 4",
-            "text_1": "Lab Tested\nFor Safety",
-            "text_2": "Lab Tested\nFor Safety",
-            "text_3": "Lab Tested\nFor Safety",
-            "text_4": "Lab Tested\nFor Safety",
-            "text_title_mob": "Lab Tested For Safety",
-            "text_mob": "Some kind of description text could go here over two lines",
-            "stroke_item": "#c4c4c4",
-            "background_item": "#d9d9d9",
-            "icon_item": "#ffffff"
-          }
-        },
-        "pack_options_GW8c43": {
-          "type": "pack_options",
-          "settings": {
-            "container_styling": "card",
-            "box_shadow_offset": 1,
-            "box_shadow_blur": 1,
-            "box_shadow_spread": 1,
-            "box_shadow_color": "#000000",
-            "card_border": 1,
-            "card_border_color": "#000000",
-            "container_radius": 10,
-            "pack_shipping_bg": "#c4c4c4",
-            "pack_shipping_txt": "#000000",
-            "card_border_color_active": "#3eed53",
-            "discount_color": "#ffffff",
-            "discount_color_bg": "#000000",
-            "price_color": "#ffffff",
-            "price_color_bg": "#000000",
-            "pack_title": "1 Pack",
-            "pack_quantity_text": "1 Pack",
-            "pack_quantity": 1,
-            "discount_label": "",
-            "pack_shipping": "Paid shipping",
-            "pack_title_2": "1 Pack",
-            "pack_quantity_text_2": "1 Pack",
-            "pack_quantity_2": 1,
-            "discount_label_2": "",
-            "pack_shipping_2": "Paid shipping",
-            "pack_title_3": "1 Pack",
-            "pack_quantity_text_3": "1 Pack",
-            "pack_quantity_3": 1,
-            "discount_label_3": "",
-            "pack_shipping_3": "Paid shipping"
-          }
-        },
-        "accordion_RdxW4j": {
-          "type": "accordion",
-          "settings": {
-            "title_1": "test 1",
-            "content_1": "test 1",
-            "title_2": "test 2",
-            "content_2": "test 2",
-            "title_3": "test 3",
-            "content_3": "test 3",
-            "title_4": "",
-            "content_4": "",
-            "title_5": "",
-            "content_5": "",
-            "title_6": "",
-            "content_6": "",
-            "title_7": "",
-            "content_7": "",
-            "title_8": "",
-            "content_8": "",
-            "title_9": "",
-            "content_9": "",
-            "title_10": "",
-            "content_10": ""
-          }
-        },
-        "option_4hyQHG": {
-          "type": "option",
-          "settings": {
-            "label": "Choose a color",
-            "color_style": "drop_color_d",
-            "label_size": "Select size",
-            "label_defaul": "Choose an option"
-          }
-        }
-      },
-      "block_order": [
-        "price_rFUcAT",
-        "description_xMXNVQ",
-        "points_9gnwic",
-        "trust_icons_q3P96W",
-        "addon_DR9nXQ",
-        "gifts_VzRHBW",
-        "size_8JhzKY",
-        "add_tdpkjL",
-        "timeline_47NDV9",
-        "media_bdnhAR",
-        "video_ehiknd",
-        "testimonial_TaigKb",
-        "square_icon_HYM87Q",
-        "pack_options_GW8c43",
-        "accordion_RdxW4j",
-        "option_4hyQHG"
-      ],
-      "name": "Product Block",
+    "yas_email_sign_up_VL7bdB": {
+      "type": "yas-email-sign-up",
+      "name": "Newsletter Signup Bar",
       "settings": {
-        "product": "creatine-gummies",
         "heading_size": "medium",
         "headline_typography": "capitalize",
         "text_color": "#000000",
         "heading_align": "center",
         "background_color": "rgba(0,0,0,0)",
         "font_variant": "default",
-        "title_font": "archivo_narrow_n4",
+        "title_font": "montserrat_n4",
         "section_width": "contained",
-        "padding_x_desk": 55,
-        "padding_y_desk": 4,
-        "padding_x_mob": 30,
+        "padding_x_desk": 70,
+        "padding_y_desk": 10,
+        "padding_x_mob": 15,
         "padding_y_mob": 7,
         "display_on": "all",
-        "uppertitle": "<h3>Reviewed by +100 Happy Customers </h3>"
+        "title": "<h2>Value Proposition featuring benifit</h2>",
+        "subtitle": "<h3>Ut enim ad minima veniam, quis nostrum exercitati onem ullam corporis suscipit laboriosam, commodi </h3>",
+        "uppertitle": "<h3>Reviewed by +100 Happy Customers </h3>",
+        "placeholder_text": "Enter your email address",
+        "privacy_text": "<p>We will never share your information</p>",
+        "show_arrow": true,
+        "button_radius": 25,
+        "button_color": "rgba(0,0,0,0)",
+        "button_text_color": "rgba(0,0,0,0)",
+        "button_text": "GET YOURS NOW"
       }
     },
-    "yas_featured_products_XREkqH": {
+    "yas_transformation_DdDHE7": {
+      "type": "yas-transformation",
+      "blocks": {
+        "card_gytLVU": {
+          "type": "card",
+          "settings": {
+            "card_title": "<h3>Place your order</h3>",
+            "card_text": "<p>Simply add the set to your cart and use our secure checkout</p>",
+            "card_number": "1"
+          }
+        },
+        "card_Nixbkb": {
+          "type": "card",
+          "settings": {
+            "card_title": "<h3>Get Fast Shipping</h3>",
+            "card_text": "<p>Simply add the set to your cart and use our secure checkout</p>",
+            "card_number": "2"
+          }
+        },
+        "card_ezzYC4": {
+          "type": "card",
+          "settings": {
+            "card_title": "<h3>See the Results</h3>",
+            "card_text": "<p>Simply add the set to your cart and use our secure checkout</p>",
+            "card_number": "3"
+          }
+        }
+      },
+      "block_order": [
+        "card_gytLVU",
+        "card_Nixbkb",
+        "card_ezzYC4"
+      ],
+      "name": "Transformation",
+      "settings": {
+        "font_variant": "default",
+        "title_font": "montserrat_n4",
+        "background_color": "rgba(0,0,0,0)",
+        "text_color": "#000000",
+        "subtitle_color": "#666666",
+        "heading_size": "medium",
+        "headline_typography": "uppercase",
+        "heading_align": "center",
+        "section_width": "contained",
+        "padding_x_desk": 0,
+        "padding_y_desk": 50,
+        "padding_x_mob": 0,
+        "padding_y_mob": 10,
+        "display_on": "all",
+        "num_bg": "#000000",
+        "title": "<h2>3 Easy Steps to Transformation Process.</h2>",
+        "subtitle": "",
+        "container_styling": "card",
+        "box_shadow_offset": 1,
+        "box_shadow_blur": 1,
+        "box_shadow_spread": 1,
+        "box_shadow_color": "#000000",
+        "card_border": 1,
+        "card_border_color": "#000000",
+        "container_radius": 10
+      }
+    },
+    "yas_logo_carousel_QgEzfw": {
+      "type": "yas-logo-carousel",
+      "blocks": {
+        "logo_block_e6WXGc": {
+          "type": "logo_block",
+          "settings": {
+            "link": ""
+          }
+        },
+        "logo_block_7tVd4q": {
+          "type": "logo_block",
+          "settings": {
+            "link": ""
+          }
+        },
+        "logo_block_6H7aGa": {
+          "type": "logo_block",
+          "settings": {
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_block_e6WXGc",
+        "logo_block_7tVd4q",
+        "logo_block_6H7aGa"
+      ],
+      "name": "Logo Carousel",
+      "settings": {
+        "title": "<h2>lorem ipsum dolor</h2>",
+        "subtitle": "<h3>Lorem ipsum dolor sit amet consecteur adipiscing</h3>",
+        "background_color": "rgba(0,0,0,0)",
+        "heading_size": "medium",
+        "headline_typography": "capitalize",
+        "text_color": "#000000",
+        "subtitle_color": "#666666",
+        "heading_align": "center",
+        "section_width": "contained",
+        "padding_x_desk": 20,
+        "padding_y_desk": 20,
+        "padding_x_mob": 20,
+        "padding_y_mob": 20,
+        "block_color": "#000000",
+        "scroll_speed": 15,
+        "separator": "🍃",
+        "gap_icon": 30
+      }
+    },
+    "yas_instagram_RgcfPc": {
+      "type": "yas-instagram",
+      "blocks": {
+        "image_89bNWY": {
+          "type": "image",
+          "settings": {}
+        },
+        "image_kEydBX": {
+          "type": "image",
+          "settings": {}
+        },
+        "image_Gt8ydf": {
+          "type": "image",
+          "settings": {}
+        },
+        "image_39UpBH": {
+          "type": "image",
+          "settings": {}
+        },
+        "image_mE8Kh8": {
+          "type": "image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "image_89bNWY",
+        "image_kEydBX",
+        "image_Gt8ydf",
+        "image_39UpBH",
+        "image_mE8Kh8"
+      ],
+      "name": "Instagram stories",
+      "settings": {
+        "font_variant": "default",
+        "title_font": "montserrat_n4",
+        "background_color": "rgba(0,0,0,0)",
+        "text_color": "#000000",
+        "subtitle_color": "#666666",
+        "heading_size": "medium",
+        "headline_typography": "uppercase",
+        "heading_align": "center",
+        "section_width": "contained",
+        "padding_x_desk": 0,
+        "padding_y_desk": 50,
+        "padding_x_mob": 0,
+        "padding_y_mob": 10,
+        "display_on": "all",
+        "title": "<h2>FOLLOW THE JOURNEY</h2>",
+        "subtitle": "<p>@Username</p>",
+        "image_round": 10
+      }
+    },
+    "yas_featured_products_gz69QW": {
       "type": "yas-featured-products",
       "blocks": {
-        "product_PfneBG": {
-          "type": "product",
-          "settings": {
-            "product": "creatine-gummies",
-            "star_count": 5,
-            "review_text": "10 reviews"
-          }
-        },
-        "product_pjeAwQ": {
+        "product_rw7niA": {
           "type": "product",
           "settings": {
             "product": "",
@@ -397,7 +228,7 @@
             "review_text": "10 reviews"
           }
         },
-        "product_mDUP9c": {
+        "product_JiCGWe": {
           "type": "product",
           "settings": {
             "product": "",
@@ -405,7 +236,15 @@
             "review_text": "10 reviews"
           }
         },
-        "product_CpTeBX": {
+        "product_wTDRhd": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "star_count": 5,
+            "review_text": "10 reviews"
+          }
+        },
+        "product_RjYkKb": {
           "type": "product",
           "settings": {
             "product": "",
@@ -415,10 +254,10 @@
         }
       },
       "block_order": [
-        "product_PfneBG",
-        "product_pjeAwQ",
-        "product_mDUP9c",
-        "product_CpTeBX"
+        "product_rw7niA",
+        "product_JiCGWe",
+        "product_wTDRhd",
+        "product_RjYkKb"
       ],
       "name": "Featured Products",
       "settings": {
@@ -461,11 +300,473 @@
         "view_more_btn": "View More",
         "view_more_url": ""
       }
+    },
+    "yas_shopable_image_A7t8dX": {
+      "type": "yas-shopable-image",
+      "blocks": {
+        "point_dYUWYf": {
+          "type": "point",
+          "settings": {
+            "tooltip_text": "Product Name",
+            "x_coord": 50,
+            "y_coord": 50,
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "point_dYUWYf"
+      ],
+      "name": "Shopable Image",
+      "settings": {
+        "heading_type": "top",
+        "heading_size": "medium",
+        "headline_typography": "capitalize",
+        "text_color": "#000000",
+        "heading_align": "left",
+        "background_color": "rgba(0,0,0,0)",
+        "font_variant": "default",
+        "title_font": "montserrat_n4",
+        "section_width": "contained",
+        "padding_x_desk": 70,
+        "padding_y_desk": 10,
+        "padding_x_mob": 15,
+        "padding_y_mob": 7,
+        "display_on": "all",
+        "image_round": 16,
+        "title": "<h2>Value Proposition featuring benifit</h2>",
+        "subtitle": "<h3>Ut enim ad minima veniam, quis nostrum exercitati onem ullam corporis suscipit laboriosam, commodi </h3>",
+        "uppertitle": "<h3>Reviewed by +100 Happy Customers </h3>",
+        "marker_color": "#000000",
+        "marker_symbol": "#ffffff",
+        "tooltip_color": "#e5e5e5",
+        "tooltip_text": "#000000",
+        "ptitle": "#ffffff",
+        "ptext": "#ffffff",
+        "pprice": "#ffffff",
+        "ttip_round": 16
+      }
+    },
+    "yas_benefits_timeline_9mJgYt": {
+      "type": "yas-benefits-timeline",
+      "blocks": {
+        "milestone_nf6hcC": {
+          "type": "milestone",
+          "settings": {
+            "month": "1st Month",
+            "description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+            "icon": ""
+          }
+        },
+        "milestone_Xcpbxg": {
+          "type": "milestone",
+          "settings": {
+            "month": "1st Month",
+            "description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+            "icon": ""
+          }
+        },
+        "milestone_QiGttd": {
+          "type": "milestone",
+          "settings": {
+            "month": "1st Month",
+            "description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+            "icon": ""
+          }
+        },
+        "milestone_pxN3PU": {
+          "type": "milestone",
+          "settings": {
+            "month": "1st Month",
+            "description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+            "icon": ""
+          }
+        }
+      },
+      "block_order": [
+        "milestone_nf6hcC",
+        "milestone_Xcpbxg",
+        "milestone_QiGttd",
+        "milestone_pxN3PU"
+      ],
+      "name": "Benefits Timeline",
+      "settings": {
+        "heading_size": "medium",
+        "headline_typography": "capitalize",
+        "text_color": "#000000",
+        "heading_align": "center",
+        "background_color": "rgba(0,0,0,0)",
+        "font_variant": "default",
+        "title_font": "montserrat_n4",
+        "section_width": "contained",
+        "padding_x_desk": 70,
+        "padding_y_desk": 10,
+        "padding_x_mob": 15,
+        "padding_y_mob": 7,
+        "display_on": "all",
+        "tl_bg": "#e5e5e5",
+        "tl_text": "#000000",
+        "dot_color": "#d9d9d9",
+        "title": "<h2>Value Proposition featuring benifit</h2>",
+        "subtitle": "<h3>Ut enim ad minima veniam, quis nostrum exercitati onem ullam corporis suscipit laboriosam, commodi </h3>",
+        "uppertitle": "<h3>Reviewed by +100 Happy Customers </h3>"
+      }
+    },
+    "yas_comparison_section_Jk6Eic": {
+      "type": "yas-comparison-section",
+      "blocks": {
+        "company_f7Fm9i": {
+          "type": "company",
+          "settings": {
+            "title": "Ease of Use",
+            "def_icon_1": "check",
+            "def_icon_2": "check",
+            "def_icon_3": "cross",
+            "def_icon_4": "check",
+            "def_icon_5": "cross",
+            "def_icon_6": "check"
+          }
+        },
+        "company_Dm3nyW": {
+          "type": "company",
+          "settings": {
+            "title": "Customizability",
+            "def_icon_1": "check",
+            "def_icon_2": "check",
+            "def_icon_3": "check",
+            "def_icon_4": "cross",
+            "def_icon_5": "check",
+            "def_icon_6": "cross"
+          }
+        },
+        "company_zFfpJ7": {
+          "type": "company",
+          "settings": {
+            "title": "Speed & Hosting",
+            "def_icon_1": "check",
+            "def_icon_2": "cross",
+            "def_icon_3": "cross",
+            "def_icon_4": "check",
+            "def_icon_5": "check",
+            "def_icon_6": "cross"
+          }
+        }
+      },
+      "block_order": [
+        "company_f7Fm9i",
+        "company_Dm3nyW",
+        "company_zFfpJ7"
+      ],
+      "name": "Comparison Table",
+      "settings": {
+        "background_color": "rgba(0,0,0,0)",
+        "heading_size": "medium",
+        "headline_typography": "capitalize",
+        "font_variant": "default",
+        "title_font": "montserrat_n4",
+        "title_color": "#020b1e",
+        "body_color": "#020b1e",
+        "heading_align": "center",
+        "section_width": "full",
+        "padding_x_desk": 0,
+        "padding_y_desk": 0,
+        "padding_x_mob": 0,
+        "padding_y_mob": 0,
+        "display_on": "all",
+        "mainc_bg": "#000000",
+        "sec_bg": "#ffffff",
+        "uppertitle": "<h3>Over 1,000 customers compared us</h3>",
+        "title": "<h2>How We Stack Up</h2>",
+        "subtitle": "<h3>Compare features, performance, and trust</h3>",
+        "company_name1": "Shopify",
+        "company_name2": "BigCommerce",
+        "company_name3": "WooCommerce",
+        "company_name4": "Squarespace",
+        "company_name5": "Magento",
+        "company_name6": "Wix"
+      }
+    },
+    "yas_icons_with_content_pH3Wp8": {
+      "type": "yas-icons-with-content",
+      "blocks": {
+        "icon_block_tK7B9j": {
+          "type": "icon_block",
+          "settings": {
+            "title": "Fast Delivery",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          }
+        },
+        "icon_block_rRpiqD": {
+          "type": "icon_block",
+          "settings": {
+            "title": "Fast Delivery",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          }
+        },
+        "icon_block_gryhyU": {
+          "type": "icon_block",
+          "settings": {
+            "title": "Fast Delivery",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          }
+        }
+      },
+      "block_order": [
+        "icon_block_tK7B9j",
+        "icon_block_rRpiqD",
+        "icon_block_gryhyU"
+      ],
+      "name": "icons with content",
+      "settings": {
+        "title": "<h2>lorem ipsum dolor</h2>",
+        "subtitle": "<h3>Lorem ipsum dolor sit amet consecteur adipiscing</h3>",
+        "btn": "Button Name",
+        "btn_url": "",
+        "button_radius": 10,
+        "button_color": "rgba(0,0,0,0)",
+        "button_text_color": "rgba(0,0,0,0)",
+        "background_color": "rgba(0,0,0,0)",
+        "heading_size": "medium",
+        "headline_typography": "capitalize",
+        "font_variant": "default",
+        "title_font": "montserrat_n4",
+        "text_color": "#000000",
+        "heading_align": "center",
+        "section_width": "contained",
+        "padding_x_desk": 20,
+        "padding_y_desk": 20,
+        "padding_x_mob": 20,
+        "padding_y_mob": 20,
+        "display_on": "all",
+        "icon_color": "#000000"
+      }
+    },
+    "yas_results_bKWYaG": {
+      "type": "yas-results",
+      "blocks": {
+        "result_QNhyKw": {
+          "type": "result",
+          "settings": {
+            "percentage": 88,
+            "title": "Lorem ipsum dolor sit amet,",
+            "description": "fsdfsdf",
+            "circle_text": "Lorem ipsum dolor sit amet,"
+          }
+        },
+        "result_DxhVwd": {
+          "type": "result",
+          "settings": {
+            "percentage": 66,
+            "title": "Lorem ipsum dolor sit amet,",
+            "description": "fsdfsdf",
+            "circle_text": "Lorem ipsum dolor sit amet,"
+          }
+        },
+        "result_jM7H87": {
+          "type": "result",
+          "settings": {
+            "percentage": 77,
+            "title": "Lorem ipsum dolor sit amet,",
+            "description": "fsdfsdf",
+            "circle_text": "Lorem ipsum dolor sit amet,"
+          }
+        }
+      },
+      "block_order": [
+        "result_QNhyKw",
+        "result_DxhVwd",
+        "result_jM7H87"
+      ],
+      "name": "Results",
+      "settings": {
+        "background_color": "rgba(0,0,0,0)",
+        "title_color": "#000000",
+        "subtitle_color": "#666666",
+        "body_color": "#000000",
+        "heading_size": "medium",
+        "headline_typography": "uppercase",
+        "heading_align": "center",
+        "section_width": "contained",
+        "padding_x_desk": 70,
+        "padding_y_desk": 10,
+        "padding_x_mob": 15,
+        "padding_y_mob": 7,
+        "display_on": "all",
+        "title": "<h2>LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING</h2>",
+        "subtitle": "<p>* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>",
+        "bottom_text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>",
+        "progress_color": "#4caf50",
+        "enable": "block",
+        "background_color2": "#000000",
+        "scroll_setting": "left",
+        "gap_icon": 10,
+        "block_color": "#ffffff",
+        "separator": "|",
+        "scroll_speed": 15
+      }
+    },
+    "yas_icon_with_content_image_aWewEE": {
+      "type": "yas-icon-with-content-image",
+      "blocks": {
+        "icon_block_eQyErA": {
+          "type": "icon_block",
+          "settings": {
+            "title": "Fast Delivery",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          }
+        },
+        "icon_block_F8nEcy": {
+          "type": "icon_block",
+          "settings": {
+            "title": "Fast Delivery",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          }
+        },
+        "icon_block_8VjFfb": {
+          "type": "icon_block",
+          "settings": {
+            "title": "Fast Delivery",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          }
+        },
+        "icon_block_GAXEGL": {
+          "type": "icon_block",
+          "settings": {
+            "title": "Fast Delivery",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          }
+        }
+      },
+      "block_order": [
+        "icon_block_eQyErA",
+        "icon_block_F8nEcy",
+        "icon_block_8VjFfb",
+        "icon_block_GAXEGL"
+      ],
+      "name": "icons with content image",
+      "settings": {
+        "title": "<h2>lorem ipsum dolor</h2>",
+        "subtitle": "<h3>Lorem ipsum dolor sit amet consecteur adipiscing</h3>",
+        "background_color": "rgba(0,0,0,0)",
+        "heading_size": "medium",
+        "headline_typography": "capitalize",
+        "font_variant": "default",
+        "title_font": "montserrat_n4",
+        "text_color": "#000000",
+        "heading_align": "center",
+        "section_width": "contained",
+        "padding_x_desk": 20,
+        "padding_y_desk": 20,
+        "padding_x_mob": 20,
+        "padding_y_mob": 20,
+        "display_on": "all",
+        "icon_color": "#000000",
+        "image_round": 10
+      }
+    },
+    "yas_hero_6MrUFq": {
+      "type": "yas-hero",
+      "name": "Hero Banner",
+      "settings": {
+        "background_color": "rgba(0,0,0,0)",
+        "font_variant": "default",
+        "title_font": "montserrat_n4",
+        "section_width": "contained",
+        "size": "big",
+        "padding_x_desk": 120,
+        "padding_y_desk": 75,
+        "padding_x_mob": 20,
+        "padding_y_mob": 20,
+        "display_on": "all",
+        "align_content": "center"
+      }
+    },
+    "yas_image_slider_xzdwni": {
+      "type": "yas-image-slider",
+      "blocks": {
+        "photo_slide_tEE3eV": {
+          "type": "photo_slide",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "photo_slide_tEE3eV"
+      ],
+      "name": "Image Slider one",
+      "settings": {
+        "background_color": "rgba(0,0,0,0)",
+        "heading_size": "medium",
+        "headline_typography": "capitalize",
+        "font_variant": "default",
+        "title_font": "montserrat_n4",
+        "title_color": "#000000",
+        "subtitle_color": "#666666",
+        "heading_align": "center",
+        "section_width": "contained",
+        "size": "medium",
+        "padding_x_desk": 70,
+        "padding_y_desk": 10,
+        "padding_x_mob": 15,
+        "padding_y_mob": 7,
+        "display_on": "all",
+        "title": "<h2>Value Proposition featuring benifit</h2>",
+        "subtitle": "<h3>Ut enim ad minima veniam, quis nostrum exercitati onem ullam corporis suscipit laboriosam, commodi </h3>",
+        "container_styling": "card",
+        "box_shadow_offset": 1,
+        "box_shadow_blur": 1,
+        "box_shadow_spread": 1,
+        "box_shadow_color": "#000000",
+        "card_border": 0,
+        "card_border_color": "#000000",
+        "container_radius": 10
+      }
+    },
+    "yas_image_with_text_pKUwWF": {
+      "type": "yas-image-with-text",
+      "name": "Image With Text",
+      "settings": {
+        "heading": "<h2>DUIS AUTE IRURE DOLOR IN REPREHENDERIT IN VOLUPTATE</h2>",
+        "description": "<h3>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</h3>",
+        "background_color": "rgba(0,0,0,0)",
+        "title_size": "medium",
+        "title_format": "uppercase",
+        "text_color": "#000000",
+        "padding_lr_desk": 20,
+        "padding_tb_desk": 20,
+        "padding_lr_mob": 20,
+        "padding_tb_mob": 20,
+        "display_on": "all",
+        "text_color_list": "#696969",
+        "image_position": "left",
+        "icon_1_text": "",
+        "point_1_text": "Perfect for gym, yoga & sunday strolls",
+        "icon_2_text": "",
+        "point_2_text": "Perfect for gym, yoga & sunday strolls",
+        "icon_3_text": "",
+        "point_3_text": "Perfect for gym, yoga & sunday strolls",
+        "button_text": "BUTTON NAME",
+        "button_link": "",
+        "button_radius": 10,
+        "button_color": "rgba(0,0,0,0)",
+        "button_text_color": "rgba(0,0,0,0)"
+      }
     }
   },
   "order": [
-    "yas_comparison_section_qhiK8k",
-    "yas_product_block_kDJAgH",
-    "yas_featured_products_XREkqH"
+    "yas_hero_RyxYrh",
+    "yas_email_sign_up_VL7bdB",
+    "yas_transformation_DdDHE7",
+    "yas_logo_carousel_QgEzfw",
+    "yas_instagram_RgcfPc",
+    "yas_featured_products_gz69QW",
+    "yas_shopable_image_A7t8dX",
+    "yas_benefits_timeline_9mJgYt",
+    "yas_comparison_section_Jk6Eic",
+    "yas_icons_with_content_pH3Wp8",
+    "yas_results_bKWYaG",
+    "yas_icon_with_content_image_aWewEE",
+    "yas_hero_6MrUFq",
+    "yas_image_slider_xzdwni",
+    "yas_image_with_text_pKUwWF"
   ]
 }

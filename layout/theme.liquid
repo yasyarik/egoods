@@ -99,7 +99,6 @@
 
 
 
-
     
     {% if settings.cart_type == "drawer"%}
       {% if template == "cart" %}
@@ -228,7 +227,13 @@
       .swiper .swiper-pagination-bullet-active{
         background-color: var(--bullet-active-color);
       }
-     
+
+      {% if settings.width_conteiner_all == 'on' %}
+        .content-wrapper{
+            max-width: {% if settings.width_all_section == 'full' %}100%{% else %}{{ settings.page_width }}px{% endif %} !important;
+        }
+      {% endif %}
+      
       @media screen and (min-width: 750px) {
         body {
           font-size: 1.6rem;
@@ -249,9 +254,8 @@
       <link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
     {%- endif -%}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>    
-{{ 'theme.css' | asset_url | stylesheet_tag }}
+
 {{ 'yas-product.css' | asset_url | stylesheet_tag }}
-{{ 'theme.js' | asset_url | script_tag }}
     <link href="{{ 'custom-font.css' | asset_url }}" rel="stylesheet" />
     <link href="{{ 'custom-plugins.css' | asset_url }}" rel="stylesheet">
     <link href="{{ 'custom.css' | asset_url }}" rel="stylesheet">

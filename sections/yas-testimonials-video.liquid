@@ -68,12 +68,14 @@
   }
 
   /* Container max-width dynamic */
-  #shopify-section-{{ section.id }} .testimonialsv-container {
+  #shopify-section-{{ section.id }} .content-wrapper {
     max-width: {% if section.settings.section_width == 'full' %}
                   100%
                 {% else %}
                   {{ settings.page_width }}px
                 {% endif %};
+    margin: 0 auto;
+    overflow: hidden;
   }
 
   /* Responsive title font-size & padding */
@@ -99,7 +101,7 @@
 </style>
 
 
-<div class="testimonialsv-container">
+<div class="content-wrapper">
   <div class="testimonialsv-title-section">
     {% if section.settings.reviewd_text != blank %}
       <div>{{ section.settings.reviewd_text }} {% for i in (1..5) %}{% render 'star_comparison' %}{% endfor %}</div>
@@ -350,7 +352,14 @@
   "presets": [
     {
       "name": "Testimonials video",
-      "category": "Reviews"
+      "category": "Reviews",
+       "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+          { "type": "testimonial" }
+      ]
     }
   ]
 }

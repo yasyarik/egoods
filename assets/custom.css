@@ -952,47 +952,7 @@ button {
   background-color: unset; }
 
 /* line 7, ../scss/base/_buttons.scss */
-.btn {
-  line-height: 1;
-  font-size: 18px;
-  font-weight: 700;
-  text-align: center;
-  padding: 14px 20px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-  text-decoration: none;
-  display: inline-block;
-  color: #ffffff;
-  
-  text-transform: capitalize;
-  border: 2px solid #2DC650;
-  background-color: #2DC650;
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out; }
-  /* line 24, ../scss/base/_buttons.scss */
-  .btn:hover {
-    border: 2px solid #28b148;
-    background-color: #28b148; }
-  /* line 29, ../scss/base/_buttons.scss */
-  .btn--large {
-    padding-left: 28px;
-    padding-right: 28px; }
-  /* line 34, ../scss/base/_buttons.scss */
-  .btn--fz-small {
-    font-size: 16px; }
-  /* line 39, ../scss/base/_buttons.scss */
-  .btn--icon-hand:after {
-    content: '👉';
-    font-size: 18px;
-    font-weight: 700;
-    margin-left: 12px;
-    display: inline-block; 
-    vertical-align: top;
-    margin-top: -3px;
-  }
+
   /* line 49, ../scss/base/_buttons.scss */
   .btn--icon-play:after {
     font-size: 18px;

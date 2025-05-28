@@ -39,9 +39,13 @@
     text-decoration: none;
   }
 
-  #shopify-section-{{section.id}} .heading {
+  #shopify-section-{{section.id}} .content-wrapper {
     {% if section.settings.section_width == 'full' %}
       margin: 0 10%;
+      
+  margin: 0 auto;
+    {% else %}
+      max-width: {{ settings.page_width}}px;
     {% endif %}
   }
 
@@ -531,7 +535,7 @@ border-radius: 50px;
                       {% if product.images.size > 0 %}
                         <img src="{{ product.images.first | img_url: 'large' }}" alt="{{ product.title }}" data-index="0">
                       {% else %}
-                        <img src="https://via.placeholder.com/500x500.png?text=Demo+Product+Image" alt="Demo Product Image" data-index="0">
+                        <img src="/cdn/shopifycloud/shopify/assets/no-image-2048-5e88c1b20e087fb7bbe9a3771824e743c244f437e4f8ba93bbf7b11b53f7824c_x600.gif" alt="Demo Product Image" data-index="0">
                       {% endif %}
                     {% endif %}
                   </div>
@@ -542,10 +546,7 @@ border-radius: 50px;
                     {% for image in product.images %}
                       <img src="{{ image.src | img_url: 'thumbnail' }}" alt="{{ image.alt }}" class="thumbnail" data-main-image="{{ image.src | img_url: 'large' }}" data-index="{{ forloop.index0 }}">
                     {% endfor %}
-                  {% else %}
-                    <img src="https://via.placeholder.com/60x60.png?text=Thumb+1" alt="Thumbnail 1" class="thumbnail" data-main-image="https://via.placeholder.com/500x500.png?text=Demo+Product+Image+1" data-index="0">
-                    <img src="https://via.placeholder.com/60x60.png?text=Thumb+2" alt="Thumbnail 2" class="thumbnail" data-main-image="https://via.placeholder.com/500x500.png?text=Demo+Product+Image+2" data-index="1">
-                    <img src="https://via.placeholder.com/60x60.png?text=Thumb+3" alt="Thumbnail 3" class="thumbnail" data-main-image="https://via.placeholder.com/500x500.png?text=Demo+Product+Image+3" data-index="2">
+                  
                   {% endif %}
                 </div>
               </div>
@@ -637,10 +638,14 @@ border-radius: 50px;
       <div class="heading">
         {% if section.settings.uppertitle != blank %}
           <div class="uppertitle">{{ section.settings.uppertitle }} {% for i in (1..5) %}{% render 'star_comparison' %}{% endfor %}</div>
+        {% else %}
+         <div class="uppertitle">   Top Title Text   {% for i in (1..5) %}{% render 'star_comparison' %}{% endfor %}</div>
         {% endif %}
         <div class="title">
           {%- if product.title != blank -%}
            <h2>{{ product.title }}</h2>
+          {% else %}
+             <h2>Main Title Text</h2>
           {%- endif -%}
         </div>
      
@@ -695,7 +700,9 @@ border-radius: 50px;
             </svg>
              <div style="color: {{ block.settings.instock_color }}; align-content: center;" >{{ block.settings.instock_text }}</div>
             {% else %}
+              {% if product != blank %}
               <div style="color: {{ block.settings.outstock_color }};" > {{ block.settings.outstock_text }}</div>
+                {% endif %}
             {% endif %}
       </div>
     </div>

@@ -23,13 +23,28 @@
     text-align: center;
     overflow: hidden;
   }
+    #shopify-section-{{ section.id }} .content-wrapper{
+    max-width:
+      {% if section.settings.section_width == 'full' %}
+        100%;
+      {% else %}
+        {{ settings.page_width }}px;
+          margin: 0 auto;
+      {% endif %};
+  }
   #shopify-section-{{section.id}} *{
     box-sizing: border-box;
   }
   
-  .blog-posts-w{
-    max-width: {{ settings.page_width }}px;
-    margin: auto;
+  /* Inner wrapper max-width */
+  #shopify-section-{{ section.id }} .content-wrapper{
+    max-width:
+      {% if section.settings.section_width == 'full' %}
+        100%;
+      {% else %}
+        {{ settings.page_width }}px;
+          margin: 0 auto;
+      {% endif %};
   }
   #shopify-section-{{section.id}} .blog-header-w *{
     margin: 0;
@@ -103,6 +118,7 @@
   }
 }
 </style>
+<div class="content-wrapper">
 <div class="blog-posts-w">
   {%- if section.settings.heading != blank or section.settings.subtitle != blank -%}
   <div class="blog-header-w">
@@ -130,7 +146,7 @@
                 {% if article.image != blank %}
                   <img src="{{ article.image | img_url: '600x' }}" alt="{{ article.title }}">
                 {% else %}
-                  {% render 'blank_image' %}
+                  <img src="/cdn/shopifycloud/shopify/assets/no-image-2048-5e88c1b20e087fb7bbe9a3771824e743c244f437e4f8ba93bbf7b11b53f7824c_x600.gif">
                 {% endif %}
               </div>
               <div class="blog-info">
@@ -138,6 +154,26 @@
               <p class="blog-card-title">{{ article.title }}</p>
               {% if section.settings.card_description == true %}
               <p class="blog-card-excerpt">{{ article.excerpt | strip_html | truncatewords: 20 }}</p>
+              {% endif %}
+              <a href="{{ article.url }}" class="read-more">Read more {% render 'icon-arrow-learnmore' %}</a>
+              </div>
+            </div>
+          </div>
+          {% else %}
+           <div class="swiper-slide ">
+            <div class="blog-card" {% if section.settings.card_clickable == true %} onclick="location.href='{{ article.url }}'"{% endif %}>
+              <div class="blog-card-img">
+                {% if article.image != blank %}
+                  <img src="{{ article.image | img_url: '600x' }}" alt="{{ article.title }}">
+                {% else %}
+                  <img src="/cdn/shopifycloud/shopify/assets/no-image-2048-5e88c1b20e087fb7bbe9a3771824e743c244f437e4f8ba93bbf7b11b53f7824c_x600.gif">
+                {% endif %}
+              </div>
+              <div class="blog-info">
+              <p class="blog-card-date">03/03/2022</p>
+              <p class="blog-card-title">Title</p>
+              {% if section.settings.card_description == true %}
+              <p class="blog-card-excerpt">{{ 'Lore Ipsum Content' | strip_html | truncatewords: 20 }}</p>
               {% endif %}
               <a href="{{ article.url }}" class="read-more">Read more {% render 'icon-arrow-learnmore' %}</a>
               </div>
@@ -152,6 +188,7 @@
       <div class="swiper-b-next">{% render 'swiper-arrow-right-n' %}</div>
     </div>
   </div>
+</div>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -424,7 +461,13 @@
   "presets": [
     {
       "name": "Blog Posts",
-      "category": "Custom"
+      "category": "Blog",
+        "blocks": [
+        { "type": "blog_post" },
+        { "type": "blog_post" },
+        { "type": "blog_post" },
+        { "type": "blog_post" }
+      ]
     }
   ]
 }

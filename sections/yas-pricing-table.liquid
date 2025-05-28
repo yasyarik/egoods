@@ -315,7 +315,7 @@
   "presets": [
     {
       "name": "Pricing Table",
-      "category": "Info",
+      "category": "Product",
       "blocks": [
         {
           "type": "pricing_block"
@@ -363,17 +363,17 @@
           {% endif %}
           {{ block.settings.plan_name }}
         </div>
-        <div class="block-content"  style="color: {{ block.settings.content_color }};">
-          <div style="display:flex; flex-wrap: nowrap;">
+        <div class="block-content"  style="color: {{ block.settings.content_color }}; ">
+          <div style="display:flex; flex-wrap: nowrap; justify-content: center;">
             <div class="price" style="color: {{ block.settings.content_color }};">{{ block.settings.price }}</div>
             <div class="period"  style="color: {{ block.settings.content_color }};">{{ block.settings.period }}</div> 
           </div>
-          <div class="included"  style="color: {{ block.settings.content_color }};">What's included</div>
+          <div class="included"  style="color: {{ block.settings.content_color }}; text-align: center;">What's included</div>
          {{ block.settings.features}}
          {% assign prod = block.settings.selected_product %}
           {% assign var = prod.variants.first %}
         
-          <a href="{% if block.settings.btn_type=='add' %}/cart/add?id={{var.id}}&quantity=1{% else %}{{ block.settings.startlink }}{% endif %}" class="get-started-btn" style="  background: {% if block.settings.btn_bg != 'transparent' %}{{block.settings.btn_bg}}{% else %}var(--color-bg-btn){% endif %}; color: {% if block.settings.btn_color != 'transparent' %}{{block.settings.btn_color}}{% else %}var(--color-text-btn){% endif %};">{{ block.settings.btn }}</a>
+          <a href="{% if block.settings.btn_type=='add' %}/cart/add?id={{var.id}}&quantity=1{% else %}{{ block.settings.startlink }}{% endif %}" class="get-started-btn" style="  background: {% if block.settings.btn_bg != 'rgba(0,0,0,0)' %}{{block.settings.btn_bg}}{% else %}var(--color-bg-btn){% endif %}; color: {% if block.settings.btn_color != 'rgba(0,0,0,0)' %}{{block.settings.btn_color}}{% else %}var(--color-text-btn){% endif %};">{{ block.settings.btn }}</a>
         </div>
       </div>
     {% endfor %}

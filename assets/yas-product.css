@@ -803,8 +803,7 @@ margin: 0 25px;
 /* Main container for two-column layout */
 .product-page-layout {
   display: flex;
-  max-width: 1200px;
-  margin: 0 auto;
+
   gap: 20px;
 }
 

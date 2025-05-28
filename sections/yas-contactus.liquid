@@ -16,7 +16,15 @@
       font-family: {{ section.settings.title_font.family }};
     }
   {% endif %}
-
+  #shopify-section-{{ section.id }} .content-wrapper{
+    max-width:
+      {% if section.settings.section_width == 'full' %}
+        100%;
+      {% else %}
+        {{ settings.page_width }}px;
+          margin: 0 auto;
+      {% endif %};
+  }
   /* Section title typography */
   .contact-section .section-title {
     font-size:
@@ -62,11 +70,6 @@
     line-height: 100%;
   }
 
-  /* Inner max-width wrapper */
-  .contact-section .contact-section-container {
-    max-width: {% if section.settings.section_width == 'full' %}100%{% else %}{{ settings.page_width }}px{% endif %};
-    margin: 0 auto;
-  }
 
   /* Contact header title */
   .contact-section .contact-header .title * {
@@ -83,8 +86,8 @@
 
   /* Submit button styles */
   .contact-section .submit-button {
-    color: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
-    background: {% if section.settings.button_color != 'transparent' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
+    color: {% if section.settings.button_text_color != 'rgba(0,0,0,0)' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+    background: {% if section.settings.button_color != 'rgba(0,0,0,0)' %}{{section.settings.button_color}}{% else %}var(--color-bg-btn){% endif %};
     border: none;
     border-radius: {{ section.settings.button_radius }}px;
     cursor: pointer;
@@ -97,7 +100,7 @@
     gap: 16px;
   }
   .contact-section .submit-button svg path {
-    fill: {% if section.settings.button_text_color != 'transparent' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
+    fill: {% if section.settings.button_text_color != 'rgba(0,0,0,0)' %}{{section.settings.button_text_color}}{% else %}var(--color-text-btn){% endif %};
   }
 
   /* Form field text & border colors */
@@ -138,8 +141,8 @@
   }
 </style>
 
-
-<div class="contact-section-container">
+  <div class="content-wrapper">
+    <div class="contact-section-container">
     <div class="contact-header">
       {% if section.settings.title != blank or section.settings.before_title != blank %}
       <div class="contact-header-w">
@@ -201,14 +204,13 @@
             <input type="tel" placeholder="Phone Number (optional)"  name="contact[phone]">
         </div>
         <textarea placeholder="Message"  name="contact[message]"></textarea>
-        <button class="submit-button">{{ section.settings.btn_text }} {% render 'icon-arrow-submit' %}</button>
+        <button class="submit-button">{{ section.settings.button_text }}{% if section.settings.show_arrow == true %}{% render 'icon_arrow_submit2' %}{% endif %}</button>
       {%- endif -%}
        
      
     {%- endform -%}
 </div>
-
-
+  </div>
 
 {% schema %}
 {
@@ -374,35 +376,11 @@
       "type": "header",
       "content": "Button Settings"
     },
-    {
-      "type": "color",
-      "id": "button_text_color",
-      "label": "Button Text Color",
-      "default": "transparent"
-    },
-    {
-      "type": "color",
-      "id": "button_color",
-      "label": "Button Color",
-      "default": "transparent"
-    },
-    {
-      "type": "text",
-      "id": "btn_text",
-      "label": "Button text",
-      "default": "LEAVE US A MESSAGE"
-    },
-    {
-      "type": "range",
-      "id": "button_radius",
-      "label": "Button Corner Radius",
-      "min": 0,
-      "max": 50,
-      "step": 1,
-      "default": 5
-    },
-  
-   
+    { "type": "checkbox", "id": "show_arrow", "label": "Show arrow Button", "default": true }, 
+    { "type": "range", "id": "button_radius", "label": "Button Corner Radius", "min": 0, "max": 50, "step": 5, "default": 10 },
+    { "type": "color", "id": "button_color", "label": "Button Color", "default": "transparent" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "transparent" },
+    { "type": "text", "id": "button_text", "label": "Button Text", "default": "SUBMIT" },
    {
       "type": "header",
       "content": "Icons Settings"
@@ -441,7 +419,7 @@
   "presets": [
     {
       "name": "Contact Us",
-      "category": "Info"
+      "category": "Contact"
     }
   ]
 }
