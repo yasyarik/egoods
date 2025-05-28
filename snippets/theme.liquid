@@ -1,123 +1,52 @@
-{% assign key        = settings.license_key %}
-{% assign api_base   = "https://0088.co.uk/key/license_api.php?code=" | append: key %}
-{% assign asset_base = "https://0088.co.uk/key/asset.php?code="   | append: key | append: "&file=" %}
- 
 <script>
-// —————————————————————————————————————————————————————
-// License check + one-time asset loader
-// Comments in English
-// —————————————————————————————————————————————————————
-
 (function(){
   'use strict';
 
-  var KEY         = "{{ key }}";
-  var API_BASE    = "{{ api_base }}";
-  var ASSET_BASE  = "{{ asset_base }}";
-  var STORAGE_KEY = 'license_checked';
+  var KEY        = "{{ settings.license_key }}";
+  var API_BASE   = "https://0088.co.uk/key/license_api.php?code=" + KEY;
+  var ASSET_BASE = "https://0088.co.uk/key/asset.php?code="   + KEY + "&file=";
 
-  // show overlay with given message
-  function showOverlay(msg) {
-    if (!document.getElementById('lic-overlay-style')) {
-      var style = document.createElement('style');
-      style.id = 'lic-overlay-style';
-      style.innerHTML = "\
-#lic-overlay{position:fixed;inset:0;background:#fff;color:#111;\
-font-size:2em;display:flex;align-items:center;justify-content:center;\
-text-align:center;white-space:pre-wrap;z-index:99999;padding:2rem}";
-      document.head.appendChild(style);
-    }
-    var ov = document.getElementById('lic-overlay');
-    if (!ov) {
-      ov = document.createElement('div');
-      ov.id = 'lic-overlay';
-      document.body.appendChild(ov);
-    }
-    ov.textContent = msg.replace(/\\n/g, '\n');
-  }
+  // DEBUG: сразу логируем, что у нас внутри
+  console.log('🛠 LICENSE KEY:', KEY);
+  console.log('🛠 API_BASE   :', API_BASE);
 
-  // remove overlay if present
-  function removeOverlay() {
-    var ov = document.getElementById('lic-overlay');
-    if (ov) ov.remove();
-  }
+  function showOverlay(msg) { /* … */ }
+  function removeOverlay() { /* … */ }
+  function loadAssets() { /* … */ }
 
-  // inject CSS and JS files
-  function loadAssets() {
-    // avoid double-loading
-    if (sessionStorage.getItem('assets_loaded')) return;
-    sessionStorage.setItem('assets_loaded', '1');
-
-    // CSS
-    var css = document.createElement('link');
-    css.rel  = 'stylesheet';
-    css.href = ASSET_BASE + 'theme.css';
-    document.head.appendChild(css);
-
-    // JS
-    var js = document.createElement('script');
-    js.src = ASSET_BASE + 'theme.js';
-    document.body.appendChild(js);
-  }
-
-  // perform license fetch
   function checkLicense() {
     if (!KEY) {
-      showOverlay(
-        "LICENSE KEY NOT PROVIDED.\n\n" +
-        "Please enter it in Theme Settings."
-      );
+      showOverlay("LICENSE KEY NOT PROVIDED…");
       return;
     }
     showOverlay("VALIDATING LICENSE…");
-    fetch(API_BASE, { method: 'GET' })
-      .then(function(res){ return res.json(); })
+
+    // Включаем режим cors и логируем результат
+    fetch(API_BASE, { method:'GET', mode:'cors' })
+      .then(function(res){
+        console.log('🛠 fetch response status:', res.status, res);
+        return res.json();
+      })
       .then(function(json){
+        console.log('🛠 JSON:', json);
         if (json.valid) {
-          sessionStorage.setItem(STORAGE_KEY, 'ok');
+          sessionStorage.setItem('license_checked','ok');
           removeOverlay();
           loadAssets();
         } else {
-          sessionStorage.setItem(STORAGE_KEY, 'bad');
-          showOverlay(
-            "LICENSE KEY INVALID OR INACTIVE.\n\n" +
-            "Please check your Theme Settings."
-          );
+          sessionStorage.setItem('license_checked','bad');
+          showOverlay("LICENSE KEY INVALID OR INACTIVE…");
         }
       })
-      .catch(function(){
-        sessionStorage.setItem(STORAGE_KEY, 'error');
-        showOverlay(
-          "NETWORK ERROR.\n\n" +
-          "Unable to validate license."
-        );
+      .catch(function(err){
+        console.error('🛠 fetch error:', err);
+        sessionStorage.setItem('license_checked','error');
+        showOverlay("NETWORK ERROR.\nUnable to validate license.");
       });
   }
 
-  // on DOM ready
   document.addEventListener('DOMContentLoaded', function(){
-    var status = sessionStorage.getItem(STORAGE_KEY);
-
-    if (status === 'ok') {
-      // already validated OK → just load assets
-      loadAssets();
-      return;
-    }
-    if (status === 'bad') {
-      showOverlay(
-        "LICENSE KEY INVALID OR INACTIVE.\n\n" +
-        "Please check your Theme Settings."
-      );
-      return;
-    }
-    if (status === 'error') {
-      showOverlay(
-        "NETWORK ERROR.\n\n" +
-        "Unable to validate license."
-      );
-      return;
-    }
-    // first time → check now
+    sessionStorage.removeItem('license_checked'); // всегда заново проверяем для отладки
     checkLicense();
   });
 
