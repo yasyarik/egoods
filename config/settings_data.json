@@ -9,7 +9,7 @@
  */
 {
   "current": {
-    "license_key": "543FB7EB",
+    "license_key": "1064EC3A",
     "color_bg_btn": "#ca2323",
     "colors_background_1": "#a1f71a",
     "color_paginate": "#FFFFFF",
@@ -117,7 +117,6 @@
             "type": "review",
             "settings": {
               "testimonial": "Have been buying these for years !! Really like the bigger size of the Gummies now ! Appreciate it Joe V. 🙌",
-              "photo": "shopify://shop_images/No1Creatine.com_-_BFCM_4.jpg",
               "name": "Michael",
               "verified": true,
               "rating": 4,
