@@ -11,16 +11,56 @@
   "sections": {
     "yas_hero_RyxYrh": {
       "type": "yas-hero",
+      "blocks": {
+        "hero_banner_xkjmFc": {
+          "type": "Hero-Banner",
+          "settings": {
+            "title": "",
+            "subtitle": "",
+            "uppertitle": "",
+            "image": "shopify://shop_images/7d7b1d5a-560a-4f99-ba73-707aa1f99b03_removalai_preview.png",
+            "image_round": 10,
+            "image_position": "left",
+            "image_positionm": "top",
+            "cbackground_color": "rgba(0,0,0,0)",
+            "cpadding_x_desk": 0,
+            "cpadding_y_desk": 0,
+            "cpadding_x_mob": 20,
+            "cpadding_y_mob": 20,
+            "container_radius": 10,
+            "heading_size": "medium",
+            "headline_typography": "capitalize",
+            "text_color": "#000000",
+            "heading_align": "center",
+            "icon_1_text": "",
+            "point_1_text": "Perfect for gym, yoga & sunday strolls",
+            "icon_2_text": "",
+            "point_2_text": "Perfect for gym, yoga & sunday strolls",
+            "icon_3_text": "",
+            "point_3_text": "Perfect for gym, yoga & sunday strolls",
+            "review-title": "",
+            "review-text": "",
+            "button_text": "SHOP NOW",
+            "button_link": "",
+            "button_radius": 10,
+            "button_color": "rgba(0,0,0,0)",
+            "button_text_color": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "hero_banner_xkjmFc"
+      ],
       "settings": {
-        "background_color": "#FFFFFF",
+        "background_color": "rgba(0,0,0,0)",
         "font_variant": "default",
         "title_font": "montserrat_n4",
         "section_width": "contained",
-        "size": "big",
-        "padding_x_desk": 120,
-        "padding_y_desk": 75,
-        "padding_x_mob": 20,
-        "padding_y_mob": 20,
+        "size": "small",
+        "padding_x_desk": 0,
+        "padding_y_desk": 0,
+        "padding_x_mob": 0,
+        "padding_y_mob": 0,
         "display_on": "all",
         "align_content": "center"
       }
