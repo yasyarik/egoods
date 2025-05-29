@@ -11,9 +11,8 @@
   "sections": {
     "yas_hero_RyxYrh": {
       "type": "yas-hero",
-      "name": "Hero Banner",
       "settings": {
-        "background_color": "rgba(0,0,0,0)",
+        "background_color": "#FFFFFF",
         "font_variant": "default",
         "title_font": "montserrat_n4",
         "section_width": "contained",
@@ -28,7 +27,6 @@
     },
     "yas_email_sign_up_VL7bdB": {
       "type": "yas-email-sign-up",
-      "name": "Newsletter Signup Bar",
       "settings": {
         "heading_size": "medium",
         "headline_typography": "capitalize",
@@ -88,7 +86,6 @@
         "card_Nixbkb",
         "card_ezzYC4"
       ],
-      "name": "Transformation",
       "settings": {
         "font_variant": "default",
         "title_font": "montserrat_n4",
@@ -144,7 +141,6 @@
         "logo_block_7tVd4q",
         "logo_block_6H7aGa"
       ],
-      "name": "Logo Carousel",
       "settings": {
         "title": "<h2>lorem ipsum dolor</h2>",
         "subtitle": "<h3>Lorem ipsum dolor sit amet consecteur adipiscing</h3>",
@@ -196,7 +192,6 @@
         "image_39UpBH",
         "image_mE8Kh8"
       ],
-      "name": "Instagram stories",
       "settings": {
         "font_variant": "default",
         "title_font": "montserrat_n4",
@@ -259,7 +254,6 @@
         "product_wTDRhd",
         "product_RjYkKb"
       ],
-      "name": "Featured Products",
       "settings": {
         "title": "<h2>Featured Products</h2>",
         "under_title_text": "<h3>Irresistible Charm with Axe's Exquisite Range of Unbeatable Products!</h3>",
@@ -317,7 +311,6 @@
       "block_order": [
         "point_dYUWYf"
       ],
-      "name": "Shopable Image",
       "settings": {
         "heading_type": "top",
         "heading_size": "medium",
@@ -389,7 +382,6 @@
         "milestone_QiGttd",
         "milestone_pxN3PU"
       ],
-      "name": "Benefits Timeline",
       "settings": {
         "heading_size": "medium",
         "headline_typography": "capitalize",
@@ -457,7 +449,6 @@
         "company_Dm3nyW",
         "company_zFfpJ7"
       ],
-      "name": "Comparison Table",
       "settings": {
         "background_color": "rgba(0,0,0,0)",
         "heading_size": "medium",
@@ -516,7 +507,6 @@
         "icon_block_rRpiqD",
         "icon_block_gryhyU"
       ],
-      "name": "icons with content",
       "settings": {
         "title": "<h2>lorem ipsum dolor</h2>",
         "subtitle": "<h3>Lorem ipsum dolor sit amet consecteur adipiscing</h3>",
@@ -577,7 +567,6 @@
         "result_DxhVwd",
         "result_jM7H87"
       ],
-      "name": "Results",
       "settings": {
         "background_color": "rgba(0,0,0,0)",
         "title_color": "#000000",
@@ -643,7 +632,6 @@
         "icon_block_8VjFfb",
         "icon_block_GAXEGL"
       ],
-      "name": "icons with content image",
       "settings": {
         "title": "<h2>lorem ipsum dolor</h2>",
         "subtitle": "<h3>Lorem ipsum dolor sit amet consecteur adipiscing</h3>",
@@ -666,7 +654,6 @@
     },
     "yas_hero_6MrUFq": {
       "type": "yas-hero",
-      "name": "Hero Banner",
       "settings": {
         "background_color": "rgba(0,0,0,0)",
         "font_variant": "default",
@@ -692,7 +679,6 @@
       "block_order": [
         "photo_slide_tEE3eV"
       ],
-      "name": "Image Slider one",
       "settings": {
         "background_color": "rgba(0,0,0,0)",
         "heading_size": "medium",
@@ -723,7 +709,6 @@
     },
     "yas_image_with_text_pKUwWF": {
       "type": "yas-image-with-text",
-      "name": "Image With Text",
       "settings": {
         "heading": "<h2>DUIS AUTE IRURE DOLOR IN REPREHENDERIT IN VOLUPTATE</h2>",
         "description": "<h3>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</h3>",
