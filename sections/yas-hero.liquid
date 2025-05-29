@@ -2,6 +2,7 @@
   /* Dynamic container max-width based on section setting */
   #shopify-section-{{ section.id }} .swiper-container {
     max-width: {% if section.settings.section_width == 'full' %}100%;{% else %}{{ settings.page_width }}px;{% endif %};
+    margin: 0 auto;
   }
 </style>
 
